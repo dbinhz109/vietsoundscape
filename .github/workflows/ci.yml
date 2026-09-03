@@ -1,0 +1,30 @@
+# CI tối thiểu (spec S0.3): mỗi push và mỗi PR đều chạy bốn bước mà trước đây chỉ
+# ai nhớ mới chạy tay. Không chạy `render:stimuli` — cần ffmpeg và sinh 198 MB.
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      # 433 test đơn vị + tích hợp (vitest, happy-dom). Không cần âm thanh thật.
+      - run: npm test
+
+      # Luật dữ liệu: clips.json, recipes/*.json, liên kết địa điểm, FR-59.
+      - run: npm run validate
+
+      # Bản dựng hai trang. `spike/audio/` không có trong repo nên plugin chép dữ
+      # liệu sẽ cảnh báo và bỏ qua — đó là hành vi mong đợi, không phải lỗi.
+      - run: npm run build
