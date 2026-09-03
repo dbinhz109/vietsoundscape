@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Spike M0 — cổng G0 · VietSoundscape</title>
+    <style>
+      /* Cố tình không thiết kế. Đây là dụng cụ đo, không phải sản phẩm. */
+      body { font: 14px/1.5 system-ui, sans-serif; margin: 0; padding: 1rem; max-width: 60rem; }
+      h1 { font-size: 1.1rem; }
+      h2 { font-size: 0.95rem; margin: 1.25rem 0 0.4rem; }
+      pre { background: #f2f2f2; padding: 0.6rem; overflow-x: auto; white-space: pre; }
+      button { margin: 0 0.3rem 0.3rem 0; padding: 0.4rem 0.7rem; }
+      #log { max-height: 14rem; overflow-y: auto; font-size: 12px; }
+      .note { color: #555; }
+      label { display: inline-block; min-width: 17rem; }
+    </style>
+  </head>
+  <body>
+    <h1>Spike M0 — cổng G0</h1>
+    <p class="note">
+      Chỉ để trả lời hai câu: <strong>(1)</strong> lớp âm nền có lặp liền mạch được không,
+      <strong>(2)</strong> điện thoại tầm trung có tải nổi 5 lớp không. Không có giao diện —
+      giao diện là việc của mốc M2.
+    </p>
+
+    <h2>1. Kiểm bộ nhớ và số lớp đồng thời</h2>
+    <button id="play5">Phát 5 nền + 2 tín hiệu + 1 dấu ấn</button>
+    <button id="play6reverb">Phát 6 nền + bộ vang (nặng nhất)</button>
+    <button id="stop">Dừng và ngắt kết nối</button>
+
+    <h2>2. Nghe A/B chỗ nối loop</h2>
+    <p class="note">
+      Cả ba nút dùng cùng một vật liệu. Nút 1 cắt loop vào điểm cắt không, cửa sổ 2 giây nên
+      chỗ nối lặp lại rất thường xuyên — dễ nghe nhất. Nút 2 dùng tệp có 80 ms im lặng ở cuối
+      (mô phỏng khoảng đệm bộ mã hoá MP3) và loop thô cả tệp, đúng cái xảy ra nếu chỉ đặt
+      <code>source.loop = true</code>. Nút 3 vẫn tệp xấu đó nhưng qua bước tìm điểm loop — để
+      thấy thuật toán tự cắt bỏ được khoảng đệm.
+    </p>
+    <button id="loopGood">1. Loop tốt (nối mỗi 2 giây)</button>
+    <button id="loopBad">2. Tệp xấu + loop thô (có khe hở)</button>
+    <button id="loopFixed">3. Tệp xấu + tìm điểm loop (đã sửa)</button>
+
+    <h2>Số đo</h2>
+    <pre id="metrics">chưa chạy</pre>
+
+    <h2>Thanh trượt theo nhóm nguồn phát (Krause)</h2>
+    <div>
+      <label for="bus-geophony">geophony — gió, nước, mưa</label>
+      <input id="bus-geophony" type="range" min="0" max="1" step="0.01" value="1" />
+    </div>
+    <div>
+      <label for="bus-biophony">biophony — chim, ve, ếch</label>
+      <input id="bus-biophony" type="range" min="0" max="1" step="0.01" value="1" />
+    </div>
+    <div>
+      <label for="bus-anthrophony">anthrophony — giao thông, chợ, tôn giáo</label>
+      <input id="bus-anthrophony" type="range" min="0" max="1" step="0.01" value="1" />
+    </div>
+
+    <h2>Thanh trượt từng lớp</h2>
+    <div id="layers"></div>
+
+    <h2>Nhật ký</h2>
+    <pre id="log"></pre>
+
+    <h2>Nghiệm thu cổng G0 — tự đánh dấu sau khi nghe</h2>
+    <ul>
+      <li>Nghe loop <strong>5 phút liên tục</strong> không phát hiện điểm nối, không tiếng "cụp"</li>
+      <li>Trộn 5 lớp trên <strong>điện thoại thật tầm trung</strong>: không rớt tiếng</li>
+      <li>RAM âm thanh ≤ 150 MB</li>
+      <li>Kéo thanh trượt khi đang phát: không có tiếng rè bậc thang</li>
+    </ul>
+
+    <script type="module" src="spike.js"></script>
+  </body>
+</html>

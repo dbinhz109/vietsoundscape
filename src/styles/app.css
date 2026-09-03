@@ -1,0 +1,261 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Tiêu đề chỉ dành cho trình đọc màn hình: giữ cấu trúc heading đúng mà không
+   chiếm chỗ trên màn hình. Không dùng display:none — trình đọc sẽ bỏ qua. */
+.sr-heading {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink-900);
+  font: var(--text-base) / 1.55 ui-serif, Georgia, 'Times New Roman', serif;
+}
+
+h1,
+h2,
+h3 {
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  line-height: 1.15;
+  margin: 0;
+}
+
+/* Bố cục: cột trái là tư liệu (điều khiển được bằng bàn phím), phải là bản đồ.
+   Trên điện thoại thì xếp dọc, tư liệu lên trước — bản đồ không phải đường vào
+   duy nhất (FR-04). */
+.shell {
+  display: grid;
+  grid-template-columns: minmax(20rem, 27rem) 1fr;
+  min-height: 100vh;
+}
+
+@media (max-width: 60rem) {
+  .shell {
+    grid-template-columns: 1fr;
+  }
+  #map {
+    order: 2;
+    height: 22rem;
+  }
+}
+
+.panel {
+  padding: var(--space-4) var(--space-3);
+  border-right: var(--rule);
+  background: var(--paper-raised);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  overflow-y: auto;
+  max-height: 100vh;
+}
+
+.masthead h1 {
+  font-size: var(--text-hero);
+  letter-spacing: -0.02em;
+}
+
+.masthead p {
+  margin: var(--space-1) 0 0;
+  color: var(--ink-500);
+  font-size: var(--text-small);
+}
+
+#status {
+  padding: var(--space-2);
+  border-left: 3px solid var(--accent);
+  background: var(--paper-sunk);
+  font-size: var(--text-small);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+#status[data-kind='warn'] {
+  border-left-color: var(--warn);
+}
+
+#status[data-kind='error'] {
+  border-left-color: var(--error);
+}
+
+/* Danh sách địa điểm — đường vào không cần bản đồ */
+.location-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.location-list li + li {
+  border-top: var(--rule);
+}
+
+.location-button {
+  width: 100%;
+  display: grid;
+  gap: 2px;
+  padding: var(--space-2) var(--space-2) var(--space-2) 0;
+  background: none;
+  border: 0;
+  border-left: 3px solid transparent;
+  text-align: left;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+  transition: border-color var(--duration-fast) var(--ease-out),
+    padding-left var(--duration-fast) var(--ease-out);
+}
+
+.location-button:hover,
+.location-button:focus-visible {
+  border-left-color: var(--accent);
+  padding-left: var(--space-2);
+}
+
+.location-button[aria-current='true'] {
+  border-left-color: var(--accent-strong);
+  padding-left: var(--space-2);
+  background: var(--paper-sunk);
+}
+
+.location-name {
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-weight: 600;
+}
+
+.location-signature {
+  color: var(--ink-500);
+  font-size: var(--text-small);
+}
+
+/* Phòng nghe */
+#room:empty::after {
+  content: 'Chưa mở phòng nghe nào.';
+  color: var(--ink-300);
+  font-size: var(--text-small);
+}
+
+#room h2 {
+  font-size: var(--text-h2);
+}
+
+#room h3 {
+  font-size: var(--text-h3);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--ink-500);
+  margin: var(--space-3) 0 var(--space-1);
+}
+
+.room-meta {
+  margin: var(--space-1) 0 0;
+  color: var(--ink-500);
+  font-size: var(--text-small);
+}
+
+/* Thanh trượt */
+.slider-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas: 'label readout' 'input input' 'extra extra';
+  align-items: center;
+  gap: var(--space-1) var(--space-2);
+  padding: var(--space-1) 0;
+}
+
+.slider-label {
+  grid-area: label;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: var(--text-small);
+}
+
+.slider-hint {
+  color: var(--ink-300);
+  font-size: 0.72rem;
+  letter-spacing: 0.03em;
+}
+
+.slider-readout {
+  grid-area: readout;
+  font-variant-numeric: tabular-nums;
+  font-size: var(--text-small);
+  color: var(--ink-500);
+}
+
+.slider-input {
+  grid-area: input;
+  width: 100%;
+  accent-color: var(--accent);
+}
+
+.trigger-button,
+.stop-button {
+  grid-area: extra;
+  justify-self: start;
+  font: inherit;
+  font-size: var(--text-small);
+  padding: 0.2rem var(--space-2);
+  border: var(--rule);
+  border-radius: var(--radius-sm);
+  background: var(--paper);
+  color: var(--ink-700);
+  cursor: pointer;
+  transition: background var(--duration-fast) var(--ease-out);
+}
+
+.trigger-button:hover,
+.stop-button:hover,
+.trigger-button:focus-visible,
+.stop-button:focus-visible {
+  background: var(--paper-sunk);
+  color: var(--ink-900);
+}
+
+.stop-button {
+  align-self: start;
+}
+
+.badge {
+  grid-area: extra;
+  justify-self: start;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  padding: 0.1rem 0.4rem;
+  border-radius: var(--radius-sm);
+}
+
+.badge-lost {
+  background: color-mix(in oklch, var(--warn) 22%, transparent);
+  color: var(--ink-700);
+}
+
+#map {
+  min-height: 60vh;
+  height: 100%;
+  background: var(--paper-sunk);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-strong);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition-duration: 0ms !important;
+    animation-duration: 0ms !important;
+  }
+}

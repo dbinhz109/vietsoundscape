@@ -1,0 +1,22 @@
+[
+  {
+    "id": "hanoi-pho-co-sang-som",
+    "location_id": "hanoi-pho-co",
+    "title_vi": "Phố cổ Hà Nội — sáng sớm"
+  },
+  {
+    "id": "cai-rang-rang-sang",
+    "location_id": "cai-rang",
+    "title_vi": "Chợ nổi Cái Răng — rạng sáng"
+  },
+  {
+    "id": "hue-trua-he",
+    "location_id": "hue-thien-mu",
+    "title_vi": "Huế — trưa hè bên chùa Thiên Mụ"
+  },
+  {
+    "id": "buon-e-de-chieu-muon",
+    "location_id": "buon-e-de",
+    "title_vi": "Buôn Ê Đê — chiều muộn"
+  }
+]

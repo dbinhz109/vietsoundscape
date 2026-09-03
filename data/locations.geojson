@@ -1,0 +1,85 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          105.8535,
+          21.0345
+        ]
+      },
+      "properties": {
+        "location_id": "hanoi-pho-co",
+        "name_vi": "Phố cổ Hà Nội",
+        "name_en": "Hanoi Old Quarter",
+        "region": "bac-bo",
+        "detail_vi": "Khu Hàng Bạc – Hàng Bồ – Đồng Xuân",
+        "signature_vi": "Xe máy dày đặc, giọng rao, kim loại gõ nhỏ",
+        "clip_count": 8,
+        "coordinates_verified": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          105.7561,
+          10.0086
+        ]
+      },
+      "properties": {
+        "location_id": "cai-rang",
+        "name_vi": "Chợ nổi Cái Răng",
+        "name_en": "Cai Rang Floating Market",
+        "region": "dbscl",
+        "detail_vi": "Cần Thơ, đông nhất 5–7 giờ sáng",
+        "signature_vi": "Nước vỗ mạn thuyền, máy đuôi tôm, rao vọng trên sông",
+        "clip_count": 8,
+        "coordinates_verified": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          107.545,
+          16.4534
+        ]
+      },
+      "properties": {
+        "location_id": "hue-thien-mu",
+        "name_vi": "Huế — chùa Thiên Mụ và sông Hương",
+        "name_en": "Hue — Thien Mu Pagoda and Perfume River",
+        "region": "trung-bo",
+        "detail_vi": "Sân chùa và mặt sông",
+        "signature_vi": "Chuông lớn vang dài, ve trưa, nước sông tĩnh",
+        "clip_count": 8,
+        "coordinates_verified": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          108.05,
+          12.6667
+        ]
+      },
+      "properties": {
+        "location_id": "buon-e-de",
+        "name_vi": "Buôn Ê Đê, Buôn Ma Thuột",
+        "name_en": "E De village, Buon Ma Thuot",
+        "region": "tay-nguyen",
+        "detail_vi": "Buôn làng và rừng quanh buôn",
+        "signature_vi": "Cồng chiêng, gió rừng, suối, chim rừng",
+        "clip_count": 8,
+        "coordinates_verified": false
+      }
+    }
+  ]
+}

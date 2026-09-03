@@ -1,0 +1,19 @@
+node_modules/
+coverage/
+
+# Âm thử sinh lại được bằng `npm run gen:audio` — không đưa 14 MB nhị phân vào lịch sử.
+spike/audio/
+
+dist/
+
+# Tệp âm đã mã hoá — sinh lại được từ nguồn bằng scripts/process-audio.mjs
+build/
+
+# Playwright MCP
+.playwright-mcp/
+
+*.log
+.DS_Store
+
+# Bộ nhớ của trợ lý — không phải mã nguồn
+.remember/

@@ -1,0 +1,53 @@
+{
+  "id": "buon-e-de-chieu-muon",
+  "location_id": "buon-e-de",
+  "title_vi": "Buôn Ê Đê — chiều muộn",
+  "time_of_day": "evening",
+  "seed": 20260808,
+  "master_slider": 0.85,
+  "reverb_ir": null,
+  "placeholder": true,
+  "placeholder_note": "Âm giả lập tổng hợp — thay bằng vật liệu thật khi có (mốc M1/M3).",
+  "layers": [
+    {
+      "clip_id": "TN-01",
+      "slider": 0.7,
+      "pan": 0,
+      "gain_db": -18,
+      "placeholder_audio": "/spike/audio/bed-wind.wav"
+    },
+    {
+      "clip_id": "TN-03",
+      "slider": 0.7,
+      "pan": -0.32,
+      "gain_db": -18,
+      "placeholder_audio": "/spike/audio/bed-cicada.wav"
+    },
+    {
+      "clip_id": "TN-04",
+      "slider": 0.7,
+      "pan": 0.28,
+      "gain_db": -18,
+      "placeholder_audio": "/spike/audio/bed-market.wav"
+    },
+    {
+      "clip_id": "TN-06",
+      "slider": 0.6,
+      "pan": -0.15,
+      "gain_db": -9,
+      "placeholder_audio": "/spike/audio/signal-bell.wav",
+      "trigger": {
+        "mode": "poisson",
+        "mean_interval_s": 27,
+        "jitter_s": 7
+      }
+    },
+    {
+      "clip_id": "TN-05",
+      "slider": 0.6,
+      "pan": 0.1,
+      "gain_db": -6,
+      "placeholder_audio": "/spike/audio/mark-gong.wav"
+    }
+  ]
+}

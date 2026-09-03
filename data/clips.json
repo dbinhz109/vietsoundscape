@@ -1,0 +1,726 @@
+{
+  "dataset_version": "0.1-planned",
+  "clips": [
+    {
+      "id": "HN-01",
+      "status": "planned",
+      "title_vi": "Rì rầm xe máy trong phố hẹp",
+      "title_en": "Motorbike hum in narrow streets",
+      "location_id": "hanoi-pho-co",
+      "krause_class": "anthrophony",
+      "schafer_role": "keynote",
+      "provenance": "licensed_archive",
+      "endangerment_level": "declining",
+      "must_verify_on_site": false,
+      "location_verified": false,
+      "planning_note": "Kho quốc tế có nhiều",
+      "source_url": null,
+      "source_uploader": null,
+      "downloaded_at": null,
+      "survey": {
+        "archive": "freesound",
+        "search_terms": [
+          "hanoi traffic",
+          "motorbike street ambience",
+          "scooter traffic asia"
+        ],
+        "status": "chua_khao_sat"
+      },
+      "contains_identifiable_voice": false,
+      "consent_status": "not_required"
+    },
+    {
+      "id": "HN-02",
+      "status": "planned",
+      "title_vi": "Nền quán cà phê vỉa hè",
+      "title_en": "Sidewalk cafe ambience",
+      "location_id": "hanoi-pho-co",
+      "krause_class": "anthrophony",
+      "schafer_role": "keynote",
+      "provenance": "licensed_archive",
+      "endangerment_level": "stable",
+      "must_verify_on_site": false,
+      "location_verified": false,
+      "source_url": null,
+      "source_uploader": null,
+      "downloaded_at": null,
+      "survey": {
+        "archive": "freesound",
+        "search_terms": [
+          "outdoor cafe ambience",
+          "street cafe crowd",
+          "sidewalk cafe"
+        ],
+        "status": "chua_khao_sat"
+      },
+      "contains_identifiable_voice": false,
+      "consent_status": "not_required"
+    },
+    {
+      "id": "HN-03",
+      "status": "planned",
+      "title_vi": "Mưa trên mái hiên phố cổ",
+      "title_en": "Rain on old-quarter eaves",
+      "location_id": "hanoi-pho-co",
+      "krause_class": "geophony",
+      "schafer_role": "keynote",
+      "provenance": "licensed_archive",
+      "endangerment_level": "stable",
+      "must_verify_on_site": false,
+      "location_verified": false,
+      "source_url": null,
+      "source_uploader": null,
+      "downloaded_at": null,
+      "survey": {
+        "archive": "freesound",
+        "search_terms": [
+          "rain on tin roof",
+          "rain awning",
+          "rain eaves"
+        ],
+        "status": "chua_khao_sat"
+      },
+      "contains_identifiable_voice": false,
+      "consent_status": "not_required"
+    },
+    {
+      "id": "HN-04",
+      "status": "planned",
+      "title_vi": "Tiếng rao đêm",
+      "title_en": "Night street vendor cry",
+      "location_id": "hanoi-pho-co",
+      "krause_class": "anthrophony",
+      "schafer_role": "signal",
+      "provenance": "field_recording",
+      "endangerment_level": "critical",
+      "must_verify_on_site": true,
+      "location_verified": false,
+      "planning_note": "Giọng người — cần đồng thuận (LG-01)",
+      "contains_identifiable_voice": true,
+      "consent_status": "pending",
+      "sensitive_categories": [
+        "biometric"
+      ]
+    },
+    {
+      "id": "HN-05",
+      "status": "planned",
+      "title_vi": "Tiếng gõ búa thợ bạc phố Hàng Bạc",
+      "title_en": "Silversmith hammering, Hang Bac street",
+      "location_id": "hanoi-pho-co",
+      "krause_class": "anthrophony",
+      "schafer_role": "soundmark",
+      "provenance": "field_recording",
+      "endangerment_level": "critical",
+      "must_verify_on_site": true,
+      "location_verified": false,
+      "planning_note": "Âm của một nghề gắn với một con phố",
+      "contains_identifiable_voice": false,
+      "consent_status": "not_required"
+    },
+    {
+      "id": "HN-06",
+      "status": "planned",
+      "title_vi": "Còi xe và chuông xe đạp",
+      "title_en": "Horns and bicycle bells",
+      "location_id": "hanoi-pho-co",
+      "krause_class": "anthrophony",
+      "schafer_role": "signal",
+      "provenance": "licensed_archive",
+      "endangerment_level": "declining",
+      "must_verify_on_site": false,
+      "location_verified": false,
+      "source_url": null,
+      "source_uploader": null,
+      "downloaded_at": null,
+      "survey": {
+        "archive": "freesound",
+        "search_terms": [
+          "bicycle bell",
+          "car horn traffic",
+          "moped horn"
+        ],
+        "status": "chua_khao_sat"
+      },
+      "contains_identifiable_voice": false,
+      "consent_status": "not_required"
+    },
+    {
+      "id": "HN-07",
+      "status": "planned",
+      "title_vi": "Chim sẻ mái hiên",
+      "title_en": "Sparrows under the eaves",
+      "location_id": "hanoi-pho-co",
+      "krause_class": "biophony",
+      "schafer_role": "signal",
+      "provenance": "field_recording",
+      "endangerment_level": "declining",
+      "must_verify_on_site": false,
+      "location_verified": false,
+      "contains_identifiable_voice": false,
+      "consent_status": "not_required"
+    },
+    {
+      "id": "HN-08",
+      "status": "planned",
+      "title_vi": "Tiếng tàu điện leng keng",
+      "title_en": "Tram bell",
+      "location_id": "hanoi-pho-co",
+      "krause_class": "anthrophony",
+      "schafer_role": "soundmark",
+      "provenance": "licensed_archive",
+      "endangerment_level": "lost",
+      "must_verify_on_site": false,
+      "location_verified": false,
+      "planning_note": "Tàu điện Hà Nội đã ngừng hoạt động — chỉ còn nguồn lưu trữ",
+      "source_url": null,
+      "source_uploader": null,
+      "downloaded_at": null,
+      "survey": {
+        "archive": "freesound + internet archive",
+        "search_terms": [
+          "tram bell",
+          "vintage streetcar bell",
+          "trolley bell"
+        ],
+        "status": "chua_khao_sat"
+      },
+      "contains_identifiable_voice": false,
+      "consent_status": "not_required"
+    },
+    {
+      "id": "CR-01",
+      "status": "planned",
+      "title_vi": "Nước vỗ mạn thuyền",
+      "title_en": "Water lapping against hulls",
+      "location_id": "cai-rang",
+      "krause_class": "geophony",
+      "schafer_role": "keynote",
+      "provenance": "licensed_archive",
+      "endangerment_level": "stable",
+      "must_verify_on_site": false,
+      "location_verified": false,
+      "source_url": null,
+      "source_uploader": null,
+      "downloaded_at": null,
+      "survey": {
+        "archive": "freesound",
+        "search_terms": [
+          "water lapping boat hull",
+          "gentle water boat",
+          "wooden boat water"
+        ],
+        "status": "chua_khao_sat"
+      },
+      "contains_identifiable_voice": false,
+      "consent_status": "not_required"
+    },
+    {
+      "id": "CR-02",
+      "status": "planned",
+      "title_vi": "Nền chợ trên sông, động cơ xa",
+      "title_en": "River market ambience, distant engines",
+      "location_id": "cai-rang",
+      "krause_class": "anthrophony",
+      "schafer_role": "keynote",
+      "provenance": "field_recording",
+      "endangerment_level": "declining",
+      "must_verify_on_site": false,
+      "location_verified": false,
+      "planning_note": "Đặc thù, kho khó có",
+      "contains_identifiable_voice": false,
+      "consent_status": "not_required"
+    },
+    {
+      "id": "CR-03",
+      "status": "planned",
+      "title_vi": "Chim nước buổi sớm",
+      "title_en": "Waterbirds at dawn",
+      "location_id": "cai-rang",
+      "krause_class": "biophony",
+      "schafer_role": "keynote",
+      "provenance": "licensed_archive",
+      "endangerment_level": "declining",
+      "must_verify_on_site": false,
+      "location_verified": false,
+      "source_url": null,
+      "source_uploader": null,
+      "downloaded_at": null,
+      "survey": {
+        "archive": "xeno-canto + freesound",
+        "search_terms": [
+          "waterbirds dawn",
+          "marsh birds morning",
+          "wetland birds"
+        ],
+        "status": "chua_khao_sat"
+      },
+      "contains_identifiable_voice": false,
+      "consent_status": "not_required"
+    },
+    {
+      "id": "CR-04",
+      "status": "planned",
+      "title_vi": "Máy đuôi tôm chạy gần",
+      "title_en": "Long-tail boat engine, close",
+      "location_id": "cai-rang",
+      "krause_class": "anthrophony",
+      "schafer_role": "soundmark",
+      "provenance": "field_recording",
+      "endangerment_level": "declining",
+      "must_verify_on_site": true,
+      "location_verified": false,
+      "planning_note": "Rất đặc trưng ĐBSCL",
+      "contains_identifiable_voice": false,
+      "consent_status": "not_required"
+    },
+    {
+      "id": "CR-05",
+      "status": "planned",
+      "title_vi": "Tiếng rao trên ghe",
+      "title_en": "Vendor cry from a boat",
+      "location_id": "cai-rang",
+      "krause_class": "anthrophony",
+      "schafer_role": "signal",
+      "provenance": "field_recording",
+      "endangerment_level": "critical",
+      "must_verify_on_site": true,
+      "location_verified": false,
+      "planning_note": "Giọng người — cần đồng thuận (LG-01)",
+      "contains_identifiable_voice": true,
+      "consent_status": "pending",
+      "sensitive_categories": [
+        "biometric"
+      ]
+    },
+    {
+      "id": "CR-06",
+      "status": "planned",
+      "title_vi": "Mái chèo và tiếng va mạn thuyền",
+      "title_en": "Oars and hulls knocking",
+      "location_id": "cai-rang",
+      "krause_class": "anthrophony",
+      "schafer_role": "signal",
+      "provenance": "field_recording",
+      "endangerment_level": "rare",
+      "must_verify_on_site": false,
+      "location_verified": false,
+      "contains_identifiable_voice": false,
+      "consent_status": "not_required"
+    },
+    {
+      "id": "CR-07",
+      "status": "planned",
+      "title_vi": "Gà vịt trên ghe",
+      "title_en": "Poultry on boats",
+      "location_id": "cai-rang",
+      "krause_class": "biophony",
+      "schafer_role": "signal",
+      "provenance": "licensed_archive",
+      "endangerment_level": "stable",
+      "must_verify_on_site": false,
+      "location_verified": false,
+      "source_url": null,
+      "source_uploader": null,
+      "downloaded_at": null,
+      "survey": {
+        "archive": "freesound",
+        "search_terms": [
+          "ducks chickens",
+          "poultry farm",
+          "domestic fowl"
+        ],
+        "status": "chua_khao_sat"
+      },
+      "contains_identifiable_voice": false,
+      "consent_status": "not_required"
+    },
+    {
+      "id": "CR-08",
+      "status": "planned",
+      "title_vi": "Mưa rào trên sông",
+      "title_en": "Rain shower on the river",
+      "location_id": "cai-rang",
+      "krause_class": "geophony",
+      "schafer_role": "signal",
+      "provenance": "licensed_archive",
+      "endangerment_level": "stable",
+      "must_verify_on_site": false,
+      "location_verified": false,
+      "source_url": null,
+      "source_uploader": null,
+      "downloaded_at": null,
+      "survey": {
+        "archive": "freesound",
+        "search_terms": [
+          "rain on water",
+          "rain river surface",
+          "rain lake"
+        ],
+        "status": "chua_khao_sat"
+      },
+      "contains_identifiable_voice": false,
+      "consent_status": "not_required"
+    },
+    {
+      "id": "HU-01",
+      "status": "planned",
+      "title_vi": "Ve trưa hè",
+      "title_en": "Midday cicadas",
+      "location_id": "hue-thien-mu",
+      "krause_class": "biophony",
+      "schafer_role": "keynote",
+      "provenance": "field_recording",
+      "endangerment_level": "stable",
+      "must_verify_on_site": false,
+      "location_verified": false,
+      "planning_note": "Loài ve khác nhau cho phổ khác nhau — nên tự thu",
+      "contains_identifiable_voice": false,
+      "consent_status": "not_required"
+    },
+    {
+      "id": "HU-02",
+      "status": "planned",
+      "title_vi": "Nước sông Hương",
+      "title_en": "Perfume River water",
+      "location_id": "hue-thien-mu",
+      "krause_class": "geophony",
+      "schafer_role": "keynote",
+      "provenance": "licensed_archive",
+      "endangerment_level": "stable",
+      "must_verify_on_site": false,
+      "location_verified": false,
+      "source_url": null,
+      "source_uploader": null,
+      "downloaded_at": null,
+      "survey": {
+        "archive": "freesound",
+        "search_terms": [
+          "calm river flow",
+          "slow river water",
+          "river bank gentle"
+        ],
+        "status": "chua_khao_sat"
+      },
+      "contains_identifiable_voice": false,
+      "consent_status": "not_required"
+    },
+    {
+      "id": "HU-03",
+      "status": "planned",
+      "title_vi": "Nền sân chùa, tụng kinh xa",
+      "title_en": "Pagoda courtyard, distant chanting",
+      "location_id": "hue-thien-mu",
+      "krause_class": "anthrophony",
+      "schafer_role": "keynote",
+      "provenance": "field_recording",
+      "endangerment_level": "stable",
+      "must_verify_on_site": false,
+      "location_verified": false,
+      "contains_identifiable_voice": false,
+      "consent_status": "not_required"
+    },
+    {
+      "id": "HU-04",
+      "status": "planned",
+      "title_vi": "Đại hồng chung chùa Thiên Mụ",
+      "title_en": "Great bell of Thien Mu Pagoda",
+      "location_id": "hue-thien-mu",
+      "krause_class": "anthrophony",
+      "schafer_role": "soundmark",
+      "provenance": "field_recording",
+      "endangerment_level": "stable",
+      "must_verify_on_site": true,
+      "location_verified": false,
+      "planning_note": "Vang rất dài — để đuôi vang tắt hẳn mới ngắt máy",
+      "contains_identifiable_voice": false,
+      "consent_status": "not_required"
+    },
+    {
+      "id": "HU-05",
+      "status": "planned",
+      "title_vi": "Mõ và tụng kinh gần",
+      "title_en": "Wooden bell and close chanting",
+      "location_id": "hue-thien-mu",
+      "krause_class": "anthrophony",
+      "schafer_role": "signal",
+      "provenance": "field_recording",
+      "endangerment_level": "stable",
+      "must_verify_on_site": false,
+      "location_verified": false,
+      "planning_note": "Cần xin phép nhà chùa",
+      "contains_identifiable_voice": true,
+      "consent_status": "pending",
+      "sensitive_categories": [
+        "biometric",
+        "religious_belief"
+      ]
+    },
+    {
+      "id": "HU-06",
+      "status": "planned",
+      "title_vi": "Ca Huế trên sông Hương",
+      "title_en": "Hue chamber music on the river",
+      "location_id": "hue-thien-mu",
+      "krause_class": "anthrophony",
+      "schafer_role": "soundmark",
+      "provenance": "field_recording",
+      "endangerment_level": "critical",
+      "must_verify_on_site": true,
+      "location_verified": false,
+      "planning_note": "Biểu đạt văn hoá của nghệ nhân — LG-02",
+      "cultural_expression": true,
+      "contains_identifiable_voice": true,
+      "consent_status": "pending",
+      "community_credit": "Nhóm nghệ nhân ca Huế (điền tên cụ thể sau khi thoả thuận)",
+      "sensitive_categories": [
+        "biometric"
+      ]
+    },
+    {
+      "id": "HU-07",
+      "status": "planned",
+      "title_vi": "Chim vườn chùa",
+      "title_en": "Birds in the pagoda garden",
+      "location_id": "hue-thien-mu",
+      "krause_class": "biophony",
+      "schafer_role": "signal",
+      "provenance": "licensed_archive",
+      "endangerment_level": "stable",
+      "must_verify_on_site": false,
+      "location_verified": false,
+      "source_url": null,
+      "source_uploader": null,
+      "downloaded_at": null,
+      "survey": {
+        "archive": "xeno-canto + freesound",
+        "search_terms": [
+          "tropical garden birds",
+          "songbirds morning",
+          "temple garden birds"
+        ],
+        "status": "chua_khao_sat"
+      },
+      "contains_identifiable_voice": false,
+      "consent_status": "not_required"
+    },
+    {
+      "id": "HU-08",
+      "status": "planned",
+      "title_vi": "Chuông gió và tiếng lá",
+      "title_en": "Wind chimes and leaves",
+      "location_id": "hue-thien-mu",
+      "krause_class": "geophony",
+      "schafer_role": "signal",
+      "provenance": "licensed_archive",
+      "endangerment_level": "stable",
+      "must_verify_on_site": false,
+      "location_verified": false,
+      "source_url": null,
+      "source_uploader": null,
+      "downloaded_at": null,
+      "survey": {
+        "archive": "freesound",
+        "search_terms": [
+          "wind chimes",
+          "leaves rustling wind",
+          "bamboo wind"
+        ],
+        "status": "chua_khao_sat"
+      },
+      "contains_identifiable_voice": false,
+      "consent_status": "not_required"
+    },
+    {
+      "id": "TN-01",
+      "status": "planned",
+      "title_vi": "Gió qua rừng",
+      "title_en": "Wind through the forest",
+      "location_id": "buon-e-de",
+      "krause_class": "geophony",
+      "schafer_role": "keynote",
+      "provenance": "licensed_archive",
+      "endangerment_level": "declining",
+      "must_verify_on_site": false,
+      "location_verified": false,
+      "source_url": null,
+      "source_uploader": null,
+      "downloaded_at": null,
+      "survey": {
+        "archive": "freesound",
+        "search_terms": [
+          "wind through trees",
+          "forest wind canopy",
+          "highland wind"
+        ],
+        "status": "chua_khao_sat"
+      },
+      "contains_identifiable_voice": false,
+      "consent_status": "not_required"
+    },
+    {
+      "id": "TN-02",
+      "status": "planned",
+      "title_vi": "Suối chảy",
+      "title_en": "Flowing stream",
+      "location_id": "buon-e-de",
+      "krause_class": "geophony",
+      "schafer_role": "keynote",
+      "provenance": "licensed_archive",
+      "endangerment_level": "stable",
+      "must_verify_on_site": false,
+      "location_verified": false,
+      "source_url": null,
+      "source_uploader": null,
+      "downloaded_at": null,
+      "survey": {
+        "archive": "freesound",
+        "search_terms": [
+          "forest stream",
+          "mountain creek",
+          "small waterfall"
+        ],
+        "status": "chua_khao_sat"
+      },
+      "contains_identifiable_voice": false,
+      "consent_status": "not_required"
+    },
+    {
+      "id": "TN-03",
+      "status": "planned",
+      "title_vi": "Ve rừng và chim rừng",
+      "title_en": "Forest cicadas and birds",
+      "location_id": "buon-e-de",
+      "krause_class": "biophony",
+      "schafer_role": "keynote",
+      "provenance": "licensed_archive",
+      "endangerment_level": "declining",
+      "must_verify_on_site": false,
+      "location_verified": false,
+      "source_url": null,
+      "source_uploader": null,
+      "downloaded_at": null,
+      "survey": {
+        "archive": "freesound + xeno-canto",
+        "search_terms": [
+          "jungle cicadas",
+          "tropical forest insects night",
+          "forest frogs night"
+        ],
+        "status": "chua_khao_sat"
+      },
+      "contains_identifiable_voice": false,
+      "consent_status": "not_required"
+    },
+    {
+      "id": "TN-04",
+      "status": "planned",
+      "title_vi": "Nền sinh hoạt buôn làng",
+      "title_en": "Village daily-life ambience",
+      "location_id": "buon-e-de",
+      "krause_class": "anthrophony",
+      "schafer_role": "keynote",
+      "provenance": "field_recording",
+      "endangerment_level": "declining",
+      "must_verify_on_site": false,
+      "location_verified": false,
+      "contains_identifiable_voice": false,
+      "consent_status": "not_required"
+    },
+    {
+      "id": "TN-05",
+      "status": "planned",
+      "title_vi": "Cồng chiêng",
+      "title_en": "Gong ensemble",
+      "location_id": "buon-e-de",
+      "krause_class": "anthrophony",
+      "schafer_role": "soundmark",
+      "provenance": "field_recording",
+      "endangerment_level": "critical",
+      "must_verify_on_site": true,
+      "location_verified": false,
+      "planning_note": "Di sản của cộng đồng — LG-02, phải ghi công cộng đồng",
+      "cultural_expression": true,
+      "contains_identifiable_voice": false,
+      "consent_status": "pending",
+      "community_credit": "Đội cồng chiêng buôn … (điền tên buôn sau khi thoả thuận)",
+      "sensitive_categories": [
+        "ethnic_origin"
+      ]
+    },
+    {
+      "id": "TN-06",
+      "status": "planned",
+      "title_vi": "Đàn t'rưng",
+      "title_en": "T'rung bamboo xylophone",
+      "location_id": "buon-e-de",
+      "krause_class": "anthrophony",
+      "schafer_role": "signal",
+      "provenance": "field_recording",
+      "endangerment_level": "critical",
+      "must_verify_on_site": true,
+      "location_verified": false,
+      "cultural_expression": true,
+      "contains_identifiable_voice": false,
+      "consent_status": "pending",
+      "community_credit": "Nghệ nhân đàn t'rưng buôn … (điền tên sau khi thoả thuận)",
+      "sensitive_categories": [
+        "ethnic_origin"
+      ]
+    },
+    {
+      "id": "TN-07",
+      "status": "planned",
+      "title_vi": "Gia cầm gia súc buôn làng",
+      "title_en": "Village livestock",
+      "location_id": "buon-e-de",
+      "krause_class": "biophony",
+      "schafer_role": "signal",
+      "provenance": "licensed_archive",
+      "endangerment_level": "stable",
+      "must_verify_on_site": false,
+      "location_verified": false,
+      "source_url": null,
+      "source_uploader": null,
+      "downloaded_at": null,
+      "survey": {
+        "archive": "freesound",
+        "search_terms": [
+          "village livestock",
+          "rural farm animals",
+          "goats chickens village"
+        ],
+        "status": "chua_khao_sat"
+      },
+      "contains_identifiable_voice": false,
+      "consent_status": "not_required"
+    },
+    {
+      "id": "TN-08",
+      "status": "planned",
+      "title_vi": "Mưa rừng",
+      "title_en": "Forest rain",
+      "location_id": "buon-e-de",
+      "krause_class": "geophony",
+      "schafer_role": "signal",
+      "provenance": "licensed_archive",
+      "endangerment_level": "stable",
+      "must_verify_on_site": false,
+      "location_verified": false,
+      "source_url": null,
+      "source_uploader": null,
+      "downloaded_at": null,
+      "survey": {
+        "archive": "freesound",
+        "search_terms": [
+          "jungle rain",
+          "rain forest canopy",
+          "tropical downpour"
+        ],
+        "status": "chua_khao_sat"
+      },
+      "contains_identifiable_voice": false,
+      "consent_status": "not_required"
+    }
+  ]
+}

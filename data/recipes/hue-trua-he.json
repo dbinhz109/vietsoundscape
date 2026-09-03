@@ -1,0 +1,53 @@
+{
+  "id": "hue-trua-he",
+  "location_id": "hue-thien-mu",
+  "title_vi": "Huế — trưa hè bên chùa Thiên Mụ",
+  "time_of_day": "midday",
+  "seed": 20260807,
+  "master_slider": 0.85,
+  "reverb_ir": null,
+  "placeholder": true,
+  "placeholder_note": "Âm giả lập tổng hợp — thay bằng vật liệu thật khi có (mốc M1/M3).",
+  "layers": [
+    {
+      "clip_id": "HU-01",
+      "slider": 0.7,
+      "pan": 0,
+      "gain_db": -18,
+      "placeholder_audio": "/spike/audio/bed-cicada.wav"
+    },
+    {
+      "clip_id": "HU-02",
+      "slider": 0.7,
+      "pan": -0.32,
+      "gain_db": -18,
+      "placeholder_audio": "/spike/audio/bed-water.wav"
+    },
+    {
+      "clip_id": "HU-03",
+      "slider": 0.7,
+      "pan": 0.28,
+      "gain_db": -18,
+      "placeholder_audio": "/spike/audio/bed-temple.wav"
+    },
+    {
+      "clip_id": "HU-05",
+      "slider": 0.6,
+      "pan": -0.15,
+      "gain_db": -9,
+      "placeholder_audio": "/spike/audio/signal-bell.wav",
+      "trigger": {
+        "mode": "poisson",
+        "mean_interval_s": 27,
+        "jitter_s": 7
+      }
+    },
+    {
+      "clip_id": "HU-04",
+      "slider": 0.6,
+      "pan": 0.1,
+      "gain_db": -6,
+      "placeholder_audio": "/spike/audio/mark-gong.wav"
+    }
+  ]
+}

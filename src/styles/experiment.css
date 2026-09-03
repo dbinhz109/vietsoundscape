@@ -1,0 +1,208 @@
+/*
+ * Trang phiên nghe. Cố ý **trống trải**: mỗi thứ trên màn hình đều là một thứ có
+ * thể gợi ý đáp án hoặc kéo chú ý khỏi âm thanh. Không hình ảnh vùng miền, không
+ * màu gợi không khí, không thanh tiến độ chạy mượt — chỉ chữ và ô chọn.
+ */
+
+.experiment-body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  background: var(--paper-sunk);
+  color: var(--ink-900);
+  font-family: var(--font-body, system-ui, sans-serif);
+  font-size: var(--text-base);
+  line-height: 1.6;
+}
+
+.experiment-panel {
+  width: min(38rem, 100%);
+  padding: var(--space-4) var(--space-3) var(--space-5);
+  background: var(--paper);
+}
+
+.experiment-masthead {
+  padding-bottom: var(--space-3);
+  border-bottom: var(--rule);
+  margin-bottom: var(--space-4);
+}
+
+.experiment-masthead h1 {
+  margin: 0;
+  font-size: var(--text-h2);
+  letter-spacing: -0.01em;
+}
+
+.experiment-masthead p {
+  margin: var(--space-1) 0 0;
+  color: var(--ink-500);
+  font-size: var(--text-small);
+}
+
+#experiment h2 {
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-h2);
+}
+
+#experiment fieldset {
+  margin: 0 0 var(--space-4);
+  padding: var(--space-3);
+  border: var(--rule);
+  border-radius: var(--radius-md);
+  background: var(--paper-raised);
+}
+
+#experiment legend {
+  padding: 0 var(--space-1);
+  font-size: var(--text-h3);
+  font-weight: 600;
+}
+
+#experiment audio {
+  display: block;
+  width: 100%;
+  margin: var(--space-3) 0 var(--space-4);
+}
+
+.choice {
+  display: flex;
+  gap: var(--space-2);
+  align-items: baseline;
+  padding: var(--space-1) 0;
+}
+
+/* Vùng bấm rộng cả dòng — người tham gia trả lời 4 lượt liên tiếp, mỗi lần trượt
+   tay là một lượt phải làm lại. */
+.choice label {
+  flex: 1;
+  cursor: pointer;
+}
+
+.choice input {
+  width: 1.05rem;
+  height: 1.05rem;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+/* Chú giải thang, hiện MỘT lần trên đầu nhóm. Lặp đủ chữ ở cả 40 ô thì bảng dài
+   gấp năm và mắt phải đọc lại cùng một chuỗi 40 lần; trình đọc màn hình vẫn nghe
+   đủ nhờ `aria-label` trên từng ô, nên `aria-hidden` ở đây không giấu mất gì. */
+.scale-key {
+  margin: 0 0 var(--space-3);
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-3);
+  color: var(--ink-500);
+  font-size: var(--text-small);
+}
+
+#experiment .attribute {
+  margin: 0;
+  padding: var(--space-2) 0;
+  border: 0;
+  border-top: var(--rule);
+  background: none;
+  border-radius: 0;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+#experiment .attribute legend {
+  /* `legend` không nhận được ô lưới, nên cho nó chạy như phần tử lưới bình thường. */
+  float: left;
+  padding: 0;
+  font-size: var(--text-base);
+  font-weight: 500;
+}
+
+.scale-row {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.scale-point {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.scale-point label {
+  color: var(--ink-500);
+  font-size: var(--text-small);
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+}
+
+.scale-point input {
+  width: 1.15rem;
+  height: 1.15rem;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+@media (width <= 34rem) {
+  #experiment .attribute {
+    grid-template-columns: 1fr;
+  }
+}
+
+#experiment button {
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--accent-strong);
+  border-radius: var(--radius-sm);
+  background: var(--accent-strong);
+  color: var(--paper);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--duration-fast) var(--ease-out);
+}
+
+#experiment button:hover:not([disabled]) {
+  background: var(--accent);
+}
+
+/* Khoá là trạng thái bình thường, không phải lỗi — nên nhạt đi chứ không báo đỏ.
+   Chữ giải thích nằm ngay trên nút. */
+#experiment button[disabled] {
+  border-color: var(--ink-300);
+  background: var(--paper-sunk);
+  color: var(--ink-500);
+  cursor: not-allowed;
+}
+
+#experiment button:focus-visible,
+.choice input:focus-visible,
+.scale-point input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+[data-region='progress'] {
+  color: var(--ink-500);
+  font-size: var(--text-small);
+  font-variant-numeric: tabular-nums;
+}
+
+#experiment-error {
+  margin-top: var(--space-4);
+  padding: var(--space-3);
+  border-left: 3px solid var(--error);
+  background: var(--paper-sunk);
+  color: var(--ink-700);
+  font-size: var(--text-small);
+  white-space: pre-wrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #experiment button {
+    transition: none;
+  }
+}
