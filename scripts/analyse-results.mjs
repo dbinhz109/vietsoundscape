@@ -3,7 +3,8 @@
  * Chạy kiểm định H1 và H2 trên log lượt nghe (việc M6).
  *
  *   npm run analyse -- data/results/pilot.json
- *   npm run analyse -- --demo          — sinh dữ liệu GIẢ LẬP để xem format log
+ *   npm run analyse -- --demo                     — sinh dữ liệu GIẢ LẬP để xem format log
+ *   npm run analyse -- --demo --save mau-log.json — ghi log giả lập ra tệp (để đối chiếu R)
  *
  * Script này định nghĩa luôn **format log mà chế độ thực nghiệm phải ghi**. Đây là
  * chiều phụ thuộc có chủ ý: kiểm định quyết định cần ghi gì, chứ không phải ghi
@@ -28,7 +29,7 @@
  * tin hơn thì đoán đúng hơn".
  */
 
-import { readFileSync, readdirSync } from 'node:fs';
+import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { mcnemarTest, pairResponses, wilcoxonSignedRankTest } from '../src/research/statistics.js';
 import { mcnemarEffect, wilcoxonEffect } from '../src/research/effect-size.js';
@@ -42,7 +43,9 @@ import { composeAnswerOptions } from '../src/research/answer-options.js';
 
 const args = process.argv.slice(2);
 const demo = args.includes('--demo');
-const path = args.find((a) => !a.startsWith('--'));
+const saveIndex = args.indexOf('--save');
+const savePath = saveIndex >= 0 ? args[saveIndex + 1] : null;
+const path = args.find((a, i) => !a.startsWith('--') && (saveIndex < 0 || i !== saveIndex + 1));
 
 /**
  * Sinh log giả lập để xem format và kiểm đường ống. KHÔNG phải kết quả nghiên cứu.
@@ -136,6 +139,12 @@ function fakeRatings(condition, rng, personalBias) {
 let data;
 if (demo) {
   data = demoData();
+  if (savePath) {
+    // Cùng một tệp cho `npm run analyse` và `nghien-cuu/doi-chieu.R` — đối chiếu
+    // hai bản cài đặt độc lập trên đúng một đầu vào (spec S4.2).
+    writeFileSync(savePath, `${JSON.stringify(data, null, 2)}\n`);
+    console.log(`Đã ghi log giả lập ra ${savePath}\n`);
+  }
   console.log(
     '╔══════════════════════════════════════════════════════════════════════╗\n' +
       '║  DỮ LIỆU GIẢ LẬP — sinh bằng số ngẫu nhiên có seed.                  ║\n' +

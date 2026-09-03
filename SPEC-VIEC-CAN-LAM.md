@@ -4,6 +4,19 @@
 **Nguồn:** hai lần đánh giá lại dự án, kiểm bằng `stat`, `grep`, `npm test`, không dựa trí nhớ
 **Quan hệ với lộ trình:** tệp này **không thay** `LO-TRINH-VietSoundscape.md`. Nó liệt kê những việc mà lộ trình **thiếu, đánh dấu sai, hoặc xếp sai thứ tự** — làm xong thì hợp nhất ngược vào lộ trình.
 
+## Trạng thái (cập nhật 03/09 theo đồng hồ hệ thống)
+
+| Nhóm | Xong | Còn lại | Ai |
+|---|---|---|---|
+| S0 hạ tầng | S0.1 git · S0.2 README · S0.3 CI · S0.4 lộ trình | **S0.5** xác nhận ngày thật | NC |
+| S1 phép đo | **S1.1** phương án nhiễu · **S1.2** cỡ mẫu tính lại (96 giữ) | **S1.3** quyết vang · **S1.4** ký + tag | NC |
+| S2 cổng G0 | — | S2.1–S2.4: cần một bản thu thật và một điện thoại thật | ÂT + PM |
+| S3 đường găng | — | S3.1 kho âm · S3.2 ba thư pháp lý · S3.3 lịch thực địa | ÂT + VH + NC |
+| S4 dọn tài liệu | **S4.1** tách BA → sổ quyết định · **S4.2** script R | — | |
+
+Mọi việc máy làm được một mình đã xong (13/18). Năm việc còn lại đều cần **người thật**
+hoặc **vật liệu thật**; không việc nào trong số đó có thể làm bằng cách viết thêm mã.
+
 ## Cách đọc
 
 Mỗi việc có bốn phần cố định: **Vì sao** (một câu, kèm bằng chứng), **Làm gì**, **Đạt khi** (điều kiện đo được — không có thì chưa xong), **Vai / Công / Chặn bởi**.
@@ -245,9 +258,9 @@ Thứ tự ưu tiên **không phải** thứ tự giá trị. Nó là thứ tự
 **Làm gì:** giữ `BA-VietSoundscape.md` là **yêu cầu hiện hành** (FR/NFR, mô hình dữ liệu, sơ đồ đã sửa); chuyển các khối `>` sang `nghien-cuu/so-quyet-dinh.md`, mỗi khối một mục có ngày, có "Quyết định / Vì sao / Bằng chứng / Ảnh hưởng tới FR nào".
 
 **Đạt khi:**
-- [ ] BA còn < 20 dòng blockquote, tất cả là chú thích ngắn trỏ sang sổ
-- [ ] Sổ quyết định có ≥ 15 mục, mỗi mục ≤ 30 dòng
-- [ ] Không mất thông tin: `wc -w` tổng hai tệp ≥ 95% BA cũ
+- [x] BA còn < 20 dòng blockquote, tất cả là chú thích ngắn trỏ sang sổ — còn **17** dòng: 15 dòng 📒 một dòng trỏ `Q-nn`, dòng "Cách đọc" (giữ, có thêm câu trỏ sang sổ), dòng FR-70/71 một câu. BA 864 → 650 dòng
+- [x] Sổ quyết định có ≥ 15 mục, mỗi mục ≤ 30 dòng — `nghien-cuu/so-quyet-dinh.md`: **23 mục** Q-01…Q-23, dài nhất 30 dòng; khối dài tách theo tiêu đề con (statistics → 6 mục, cỡ mẫu → 3, pháp lý → 2). Thân mục là **nguyên văn**, chưa cô đặc thành 4 dòng Quyết định/Vì sao/Bằng chứng/Ảnh hưởng — việc đó cần người đọc lại, ghi ở đầu sổ
+- [x] Không mất thông tin: `wc -w` tổng hai tệp ≥ 95% BA cũ — 15.456 → 10.191 + 7.340 = 17.531 từ (113%, phần dư là đầu mục và dòng trỏ)
 
 **Vai:** NC · **Công:** 3 giờ · **Chặn bởi:** không
 
@@ -258,8 +271,8 @@ Thứ tự ưu tiên **không phải** thứ tự giá trị. Nó là thứ tự
 **Làm gì:** một đoạn trong `nghien-cuu/ke-hoach-phan-tich.md` §1: vì sao JS thuần (phân tích tái lập trong cùng repo, chạy được trong CI không cần R, đối chiếu độc lập với Python đến 12 chữ số), và **kèm script R 10 dòng** đọc cùng tệp log cho ra cùng số — để ai không tin JS thì chạy R.
 
 **Đạt khi:**
-- [ ] `nghien-cuu/doi-chieu.R` chạy trên `nguoi-005.json` cho p trùng `npm run analyse` đến 4 chữ số
-- [ ] §1 có đoạn giải thích ≤ 10 dòng
+- [x] `nghien-cuu/doi-chieu.R` chạy trên `nguoi-005.json` cho p trùng `npm run analyse` đến 4 chữ số — `nguoi-005.json` không còn trên máy; dùng `nghien-cuu/mau-log-gia-lap.json` (sinh bằng `npm run analyse -- --demo --save`, 48 người, 192 lượt). Chạy R 4.6.1 trong docker `r-base` + jsonlite: **6/6 giá trị p trùng 4 chữ số** (0,0931 · 0,0000 · 0,0000 · 0,0066 · 0,0000 · 0,0062), kiểm bằng `diff`. Tiện thể bắt được một lỗi: `--save` mới thêm làm `analyse <tệp>` mất đối số — đã sửa
+- [x] §1 có đoạn giải thích ≤ 10 dòng — mục "Vì sao tự cài bằng JS thuần thay vì gọi R", 9 dòng, ba lý do + lối thoát bằng R
 
 **Vai:** NC · **Công:** 2 giờ · **Chặn bởi:** không
 

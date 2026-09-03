@@ -32,6 +32,19 @@ Cả ba phép đều đã cài và có kiểm thử: `src/research/statistics.js
 `src/research/effect-size.js`, `src/research/soundscape-scale.js`. Chạy bằng
 `npm run analyse -- <tệp log>`.
 
+### Vì sao tự cài bằng JS thuần thay vì gọi R
+
+Ba lý do, và một lối thoát cho ai không tin: **(1)** phân tích nằm cùng repo, cùng
+ngôn ngữ với phần ghi log — máy trạng thái phiên đổi một trường là `npm test` đỏ
+ngay, không có khe giữa "định dạng ghi" và "định dạng đọc"; **(2)** chạy trong CI
+trên mỗi push, không cần cài R; **(3)** đã đối chiếu độc lập với Python đến 12 chữ
+số có nghĩa (C6.1). Lối thoát: `Rscript nghien-cuu/doi-chieu.R <log>` — 28 dòng R
+base + jsonlite, đọc **cùng tệp log**, mirror đúng bốn luật (ghép cặp lượt đầu,
+ngưỡng chính xác 25, hiệu chỉnh trùng, công thức ISO) và in cùng 6 giá trị p. Ai
+nghi JS thì chạy R; hai bên lệch là lỗi, không phải "khác cách tính". Đã đối chiếu
+trên `nghien-cuu/mau-log-gia-lap.json` (48 người giả lập) với R 4.6.1: **6/6 giá trị p
+trùng đến 4 chữ số**.
+
 ### Vì sao hai phép so sánh, không phải một
 
 Chỉ chạy `layered` vs `isolated` thì kết quả dương tính vẫn giải thích được bằng
