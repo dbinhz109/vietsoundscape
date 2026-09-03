@@ -38,6 +38,7 @@ import {
   createExperimentSession,
 } from '../src/app/experiment/session.js';
 import { createRng } from '../src/audio/trigger.js';
+import { composeAnswerOptions } from '../src/research/answer-options.js';
 
 const args = process.argv.slice(2);
 const demo = args.includes('--demo');
@@ -57,6 +58,15 @@ function demoData() {
     .map((name) => JSON.parse(readFileSync(join(process.cwd(), 'data', 'recipes', name), 'utf-8')))
     .map((recipe) => ({ id: recipe.id, location_id: recipe.location_id }));
   const locations = [...new Set(recipes.map((r) => r.location_id))].sort();
+  // Danh sách trả lời thật: vùng thật + phương án nhiễu (spec S1.1). Câu đoán sai
+  // trong demo phải rơi vào cả nhiễu, không thì demo không kiểm được đường đó.
+  const { distractors } = JSON.parse(
+    readFileSync(join(process.cwd(), 'data', 'distractors.json'), 'utf-8'),
+  );
+  const answerOptions = composeAnswerOptions(
+    locations,
+    distractors.map((d) => d.location_id),
+  );
 
   const rng = createRng(20260806);
   // Tỉ lệ đoán đúng giả định theo điều kiện — con số bịa để thử đường ống.
@@ -69,6 +79,7 @@ function demoData() {
       participantIndex,
       locations,
       recipes,
+      answerOptions,
       likertFields: ISO_ATTRIBUTE_KEYS,
       now: () => '2026-09-14T05:30:00+07:00',
     });
@@ -82,7 +93,9 @@ function demoData() {
     while (session.state() === 'trial') {
       const trial = session.current();
       const willBeCorrect = rng() < hitRate[trial.condition];
-      const wrongGuess = locations.find((l) => l !== trial.location_id);
+      // Đoán sai thì chọn ngẫu nhiên trong các ô còn lại — vùng thật khác hay nhiễu.
+      const others = trial.answer_options.filter((id) => id !== trial.location_id);
+      const wrongGuess = others[Math.floor(rng() * others.length)];
       session.submit({
         guess: willBeCorrect ? trial.location_id : wrongGuess,
         likert: fakeRatings(trial.condition, rng, personalBias),
@@ -145,6 +158,19 @@ if (trials.length === 0) {
 
 const participants = new Set(trials.map((t) => t.participant_index)).size;
 console.log(`Log: ${trials.length} lượt nghe · ${participants} người tham gia · thiết kế ${data.design ?? '?'}`);
+
+// Câu đoán sai rơi vào đâu: vùng thật khác (nhầm nơi này với nơi kia) hay phương
+// án nhiễu (spec S1.1). Tỉ lệ nhiễu ≈ 0 trên dữ liệu thật là dấu hiệu người tham
+// gia vẫn loại trừ được — phải xem lại danh sách nhiễu, không phải mừng.
+const realLocations = new Set(trials.map((t) => t.location_id));
+const wrong = trials.filter((t) => t.correct === false);
+const intoDistractor = wrong.filter((t) => !realLocations.has(t.guess)).length;
+if (wrong.length > 0) {
+  console.log(
+    `Câu đoán sai: ${wrong.length} — ${wrong.length - intoDistractor} vào vùng thật khác, ` +
+      `${intoDistractor} vào phương án nhiễu`,
+  );
+}
 
 /**
  * Log ghi **8 thuộc tính thô** của ISO 12913-2; kiểm định chạy trên **hai chiều**

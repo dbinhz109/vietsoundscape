@@ -16,7 +16,8 @@ Chúng tôi muốn biết: khi nghe một không gian âm thanh được **phân
 ## Bạn sẽ làm gì
 
 - Nghe một số đoạn âm thanh, mỗi đoạn khoảng ⟨…⟩ giây.
-- Sau mỗi đoạn, chọn vùng miền bạn nghĩ là đúng, và trả lời vài câu về cảm nhận.
+- Sau mỗi đoạn, chọn địa điểm bạn nghĩ là đúng từ một danh sách, và trả lời vài câu về cảm nhận.
+- **Danh sách để chọn có nhiều địa điểm hơn số đoạn bạn sẽ nghe** — không phải nơi nào trong danh sách cũng xuất hiện. Đây là yêu cầu của thiết kế thí nghiệm, để câu trả lời phản ánh điều bạn nghe được chứ không phải phép loại trừ.
 - Tổng thời gian khoảng **⟨…⟩ phút**.
 - **Nên dùng tai nghe.** Nếu không có, vẫn tham gia được — chỉ cần cho chúng tôi biết.
 

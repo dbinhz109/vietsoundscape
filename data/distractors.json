@@ -1,0 +1,29 @@
+{
+  "note_vi": "Phương án nhiễu trong danh sách trả lời của phiên nghe (spec S1.1). Địa danh thật, quen, có không gian âm thanh phân biệt được, nhưng KHÔNG có trong bộ kích thích — không bao giờ là đáp án. Mỗi vùng của bộ kích thích có một phương án cùng vùng, để nhận ra vùng chưa đủ mà phải nhận ra nơi. Danh sách này là ĐỀ XUẤT, vai VH chốt; đổi thì chạy `npm test` (dataset.test.js kiểm luật) và ghi vào nghien-cuu/ke-hoach-phan-tich.md §7.",
+  "distractors": [
+    {
+      "location_id": "sa-pa",
+      "name_vi": "Sa Pa",
+      "region": "bac-bo",
+      "why_vi": "Cùng Bắc Bộ với phố cổ Hà Nội nhưng là thị trấn núi: chợ phiên, tiếng khèn, gió và sương — không có tiếng rao hay xe máy dày đặc của phố cổ."
+    },
+    {
+      "location_id": "hoi-an",
+      "name_vi": "Phố cổ Hội An",
+      "region": "trung-bo",
+      "why_vi": "Cùng Trung Bộ với Huế nhưng là phố chợ du lịch ven sông Thu Bồn: thuyền máy, du khách, nhạc quán — không có chuông chùa và mặt sông rộng của Thiên Mụ."
+    },
+    {
+      "location_id": "da-lat",
+      "name_vi": "Đà Lạt",
+      "region": "tay-nguyen",
+      "why_vi": "Cùng Tây Nguyên với buôn Ê Đê nhưng là đô thị nghỉ dưỡng trên đồi thông: chợ đêm, xe cộ, gió thông — không có cồng chiêng, nhà dài hay sinh hoạt buôn làng."
+    },
+    {
+      "location_id": "phu-quoc",
+      "name_vi": "Đảo Phú Quốc",
+      "region": "dbscl",
+      "why_vi": "Cùng miền Tây với chợ nổi Cái Răng nhưng là đảo biển: sóng, cảng cá, gió biển — không có tiếng máy ghe và rao hàng trên sông của chợ nổi."
+    }
+  ]
+}

@@ -44,8 +44,13 @@ import { createRng, scheduleTriggers } from '../audio/trigger.js';
  * }} StimulusPlan
  */
 
-/** Xáo trộn Fisher–Yates với bộ sinh có seed — không dùng Math.random. */
-function shuffled(items, rng) {
+/**
+ * Xáo trộn Fisher–Yates với bộ sinh có seed — không dùng Math.random.
+ *
+ * Dùng chung với `answer-options.js` (thứ tự danh sách trả lời): hai chỗ cùng
+ * cần "xáo được, dựng lại được", nên cùng một hàm.
+ */
+export function shuffled(items, rng) {
   const out = [...items];
   for (let i = out.length - 1; i > 0; i -= 1) {
     const j = Math.floor(rng() * (i + 1));

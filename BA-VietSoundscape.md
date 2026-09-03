@@ -693,6 +693,15 @@ Bản soundscape phân lớp thì **dài hơn, to hơn, nhiều thông tin hơn*
 | FR-57 | Chuẩn hoá cùng mức LUFS cho mọi kích thích |
 | FR-58 | **Thêm điều kiện đối chứng thứ ba: phân lớp *sai vùng miền* (trộn ngẫu nhiên).** Đây mới là phép thử đúng cho chữ "có chủ đích" trong H1 |
 | FR-59 | ≥ 3 bản trộn khác nhau cho mỗi vùng miền (chống hiệu ứng do một mẫu cụ thể) ⇒ **12–15 bản trộn**, không phải 4–5. Ràng buộc này làm tăng khối lượng thu âm — phải tính vào kế hoạch |
+| FR-60 | **Danh sách trả lời phải dài hơn số lượt nghe**: 4 vùng thật + ≥ 4 phương án nhiễu là địa danh thật, quen, không có trong bộ kích thích, mỗi vùng một nơi cùng vùng. Thứ tự xáo theo (người, lượt) có seed; ô thật và ô nhiễu dựng giống hệt trong DOM; người tham gia được báo trước rằng danh sách dài hơn số đoạn |
+
+> ### 🔴 Lỗi thiết kế tìm được khi đánh giá lại (spec S1.1) — đã sửa, ra FR-60
+>
+> Mỗi người nghe **mỗi vùng đúng một lần** (ràng buộc ở §10.2). Danh sách trả lời trước đây lại **đúng bằng bốn vùng đó**. Hệ quả: nhớ ba câu trước là lượt 4 chỉ còn **một** lựa chọn, lượt 3 còn hai — ~25% lượt gần như không mang thông tin. Tỉ lệ đúng bị thổi lên không do nghe được gì, cặp cùng-đúng tăng, McNemar mất lực, và **không phép kiểm nào trên log phát hiện được** vì log vẫn đầy đủ. Không tài liệu nào trước đó nhắc tới (grep `loại trừ|elimination` → 0).
+>
+> **Sửa:** `data/distractors.json` (Sa Pa, Phố cổ Hội An, Đà Lạt, Đảo Phú Quốc — đề xuất, VH chốt) + `src/research/answer-options.js` (ghép và xáo có seed, 11 test) + `session.js` nhận `answerOptions` tách khỏi `locations`, ghi thứ tự đã hiện vào log + `experiment-view.js` vẽ theo `trial.answer_options`, ném lỗi nếu thiếu nhãn, test khoá "ô thật và ô nhiễu dựng giống hệt". Câu *"Danh sách để chọn có nhiều địa điểm hơn số đoạn bạn sẽ nghe"* có ở màn đồng thuận và `phap-ly/07` — giết phím tắt mà không lừa ai.
+>
+> **Vì sao nhiễu cùng vùng, không phải vùng khác:** nếu nhiễu toàn ở vùng khác thì nhận ra *vùng* là đủ để loại hết nhiễu, và loại trừ quay lại ở mức vùng. Cùng vùng thì phải nhận ra *nơi*. `correct` vì thế là **mức nơi** (`guess === location_id`); mức vùng suy được lúc phân tích từ `region` của hai tệp dữ liệu, ghi là thước đo phụ. Mức đoán mò đổi từ ≈52% (trung bình có loại trừ) xuống ≈16% — cỡ mẫu tính lại ở `nghien-cuu/ke-hoach-phan-tich.md` §7.
 
 > ✅ **Đã dựng: `src/research/stimulus.js`.** FR-56/57/58 kiểm bằng `checkStimulusBalance`, FR-59 kiểm bằng `checkRecipeCoverage` — đã nối vào `npm run validate`, hiện báo **còn thiếu 8 bản trộn** (mỗi vùng mới có 1/3).
 >

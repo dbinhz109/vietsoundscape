@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, test } from 'vitest';
 import { validateClip, validateDataset } from './clip-schema.js';
+import { composeAnswerOptions } from '../research/answer-options.js';
 
 /**
  * Kiểm thử tích hợp trên chính tệp dữ liệu thật.
@@ -66,5 +67,53 @@ describe('bộ dữ liệu thật', () => {
 
     expect(result.valid).toBe(false);
     expect(result.errors.find((e) => e.field === 'license').message).toMatch(/LG-03/);
+  });
+});
+
+describe('phương án nhiễu — data/distractors.json (spec S1.1)', () => {
+  // Danh sách trả lời của phiên nghe = 4 vùng thật + các địa danh này. Không có
+  // chúng thì người tham gia loại trừ dần: lượt 4 chỉ còn một lựa chọn.
+  const { distractors } = read('distractors.json');
+  const regions = new Set(locations.features.map((f) => f.properties.region));
+
+  test('có ít nhất 4 phương án nhiễu (≥ 8 ô trả lời mỗi lượt)', () => {
+    expect(distractors.length).toBeGreaterThanOrEqual(4);
+  });
+
+  test('không phương án nào trùng địa điểm thật của bộ kích thích', () => {
+    expect(distractors.filter((d) => locationIds.has(d.location_id))).toEqual([]);
+  });
+
+  test('mã không trùng nhau', () => {
+    const ids = distractors.map((d) => d.location_id);
+    expect(new Set(ids).size).toBe(ids.length);
+  });
+
+  test('mỗi phương án có mã kebab-case, tên tiếng Việt, và vùng thuộc từ vựng của locations.geojson', () => {
+    for (const d of distractors) {
+      expect(d.location_id, JSON.stringify(d)).toMatch(/^[a-z0-9]+(-[a-z0-9]+)*$/);
+      expect(typeof d.name_vi === 'string' && d.name_vi.trim().length > 0, d.location_id).toBe(true);
+      expect(regions.has(d.region), `${d.location_id}: vùng "${d.region}"`).toBe(true);
+      expect(typeof d.why_vi === 'string' && d.why_vi.length > 20, d.location_id).toBe(true);
+    }
+  });
+
+  test('mỗi vùng của bộ kích thích có ít nhất một phương án nhiễu CÙNG vùng', () => {
+    // Nếu nhiễu toàn ở vùng khác thì nhận ra vùng là đủ để loại hết nhiễu, và
+    // heuristic loại trừ quay lại ở mức vùng. Cùng vùng thì phải nhận ra NƠI.
+    for (const region of regions) {
+      expect(
+        distractors.filter((d) => d.region === region).length,
+        `vùng ${region} không có phương án nhiễu`,
+      ).toBeGreaterThanOrEqual(1);
+    }
+  });
+
+  test('ghép được với địa điểm thật thành danh sách trả lời hợp lệ', () => {
+    const options = composeAnswerOptions(
+      [...locationIds],
+      distractors.map((d) => d.location_id),
+    );
+    expect(options.length).toBe(locationIds.size + distractors.length);
   });
 });

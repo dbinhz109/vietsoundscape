@@ -29,6 +29,7 @@ import {
 } from './bootstrap.js';
 import { EXPERIMENT_CONDITIONS } from '../../domain/taxonomy.js';
 import { ISO_ATTRIBUTE_KEYS } from '../../research/soundscape-scale.js';
+import { composeAnswerOptions } from '../../research/answer-options.js';
 
 /**
  * Thư mục phục vụ tệp kích thích.
@@ -69,18 +70,29 @@ async function main() {
   // Chặn trước khi nạp gì: thiếu số thứ tự thì cả phiên vô nghĩa.
   const participantIndex = resolveParticipantIndex(location.search);
 
-  const [locations, recipes, manifest] = await Promise.all([
+  const [locations, recipes, manifest, { distractors }] = await Promise.all([
     json('/data/locations.geojson'),
     json('/data/recipes/index.json'),
     json(`${STIMULUS_BASE}manifest.json`),
+    json('/data/distractors.json'),
   ]);
 
-  const locationLabels = Object.fromEntries(
-    locations.features.map((feature) => [
+  const locationIds = locations.features.map((feature) => feature.properties.location_id);
+
+  // Danh sách trả lời = vùng thật + phương án nhiễu (spec S1.1). Ghép ở đây, và
+  // nhãn cho MỌI ô đi cùng một bảng — thiếu nhãn là giao diện ném lỗi, vì một ô
+  // hiện mã thô là một ô khác các ô còn lại.
+  const answerOptions = composeAnswerOptions(
+    locationIds,
+    distractors.map((d) => d.location_id),
+  );
+  const optionLabels = Object.fromEntries([
+    ...locations.features.map((feature) => [
       feature.properties.location_id,
       feature.properties.name_vi,
     ]),
-  );
+    ...distractors.map((d) => [d.location_id, d.name_vi]),
+  ]);
 
   // Kiểm cả thiết kế, không chỉ bốn lượt của người này: thiếu tệp mà phát hiện ở
   // người thứ mười hai thì mười một người trước đã nghe xong rồi.
@@ -88,8 +100,9 @@ async function main() {
 
   const session = createExperimentSession({
     participantIndex,
-    locations: Object.keys(locationLabels),
+    locations: locationIds,
     recipes,
+    answerOptions,
     // Danh sách trường của phiên **lấy thẳng từ bộ ISO** mà giao diện dựng câu
     // hỏi, không khai riêng: khai hai chỗ là có ngày phiên đòi một trường mà
     // giao diện không hỏi, và mọi lượt nộp đều ném lỗi giữa buổi.
@@ -100,7 +113,7 @@ async function main() {
 
   createExperimentView(document.getElementById('experiment'), {
     session,
-    locationLabels,
+    optionLabels,
     stimulusUrl: createStimulusUrl(manifest, { base: STIMULUS_BASE }),
     onComplete: (log) => {
       releaseGuard();

@@ -95,11 +95,11 @@ Thứ tự ưu tiên **không phải** thứ tự giá trị. Nó là thứ tự
 - **TDD:** test trước cho từng điểm trên
 
 **Đạt khi:**
-- [ ] Trong DOM mỗi lượt có ≥ 8 ô trả lời, đúng 4 ô là vùng thật
-- [ ] Thứ tự ô khác nhau giữa `order` 1 và 2 của cùng người, nhưng **giống nhau** khi dựng lại cùng `participantIndex` + `order`
-- [ ] Chọn phương án nhiễu → `session.submit` nhận, `correct: false`, không ném lỗi
-- [ ] `npm run analyse -- --demo` vẫn chạy (demo phải sinh cả câu đoán nhiễu)
-- [ ] Test không lộ đáp án vẫn xanh: mã vùng thật không xuất hiện khác cách với mã nhiễu
+- [x] Trong DOM mỗi lượt có ≥ 8 ô trả lời, đúng 4 ô là vùng thật — test `experiment-view.test.js` + đo trong trình duyệt thật `/thuc-nghiem?nguoi=3`: 8 ô, 4 thật, mọi ô cùng hình dạng DOM, 0 chuỗi lộ
+- [x] Thứ tự ô khác nhau giữa `order` 1 và 2 của cùng người, nhưng **giống nhau** khi dựng lại cùng `participantIndex` + `order` — `answer-options.test.js` (12 người × 4 lượt đều khác; 48 × 4 không lệch vị trí), `session.test.js`, `experiment-view.test.js`
+- [x] Chọn phương án nhiễu → `session.submit` nhận, `correct: false`, không ném lỗi — test ở cả session và view
+- [x] `npm run analyse -- --demo` vẫn chạy (demo phải sinh cả câu đoán nhiễu) — 95 câu sai: 33 vào vùng thật khác, 62 vào nhiễu; `analyse` nay in dòng này cho mọi log
+- [x] Test không lộ đáp án vẫn xanh: mã vùng thật không xuất hiện khác cách với mã nhiễu — test mới "ô vùng thật và ô nhiễu dựng GIỐNG HỆT nhau" + thiếu nhãn thì ném lỗi; 466/466 xanh, `validate` ĐẠT
 
 **Vai:** PM + VH · **Công:** 3 giờ · **Chặn bởi:** không
 

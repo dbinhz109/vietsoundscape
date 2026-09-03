@@ -13,6 +13,10 @@
  *  3. **Không để lộ điều kiện hay đáp án trong DOM.** Người tham gia mở xem
  *     nguồn trang mà thấy `layered` hay tên vùng là hỏng lượt đó. Chỉ mã kích
  *     thích xuất hiện, trong thuộc tính `src`.
+ *  4. **Ô vùng thật và ô nhiễu dựng giống hệt nhau.** Danh sách trả lời có
+ *     phương án nhiễu (spec S1.1); một class hay thuộc tính khác biệt giữa hai
+ *     nhóm là đủ để lọc ra bốn đáp án có thể đúng. Thứ tự ô do phiên quyết
+ *     (`trial.answer_options`), giao diện chỉ vẽ theo.
  */
 
 import { REQUIRED_CONSENT_PURPOSES } from './session.js';
@@ -56,7 +60,9 @@ const choice = ({ type, name, value, id, label, ariaLabel = null, itemClass = 'c
  * @param {HTMLElement} root
  * @param {object} config
  * @param {ReturnType<import('./session.js').createExperimentSession>} config.session
- * @param {Record<string, string>} config.locationLabels
+ * @param {Record<string, string>} config.optionLabels Nhãn tiếng Việt cho MỌI mã
+ *   trong danh sách trả lời — vùng thật lẫn phương án nhiễu. Thiếu mã nào thì ném
+ *   lỗi, không hiện mã thô: hiện khác đi cho riêng một ô là một gợi ý.
  * @param {(stimulusId: string) => string} config.stimulusUrl
  * @param {(log: object) => void} config.onComplete
  * @param {{key: string, statement_vi: string}[]} [config.attributes]
@@ -65,14 +71,24 @@ const choice = ({ type, name, value, id, label, ariaLabel = null, itemClass = 'c
  */
 export function createExperimentView(root, {
   session,
-  locationLabels,
+  optionLabels,
   stimulusUrl,
   onComplete,
   attributes = ISO_ATTRIBUTES,
   scale = AGREEMENT_SCALE,
   likertLegend = LIKERT_LEGEND,
 }) {
-  const locations = Object.keys(locationLabels);
+  /** Nhãn cho một phương án — không có thì dừng, vì mã thô là một khác biệt nhìn thấy được. */
+  const labelFor = (id) => {
+    const label = optionLabels[id];
+    if (typeof label !== 'string' || label.trim() === '') {
+      throw new Error(
+        `Thiếu nhãn cho phương án "${id}" trong optionLabels. Hiện mã thô cho riêng một ô là ` +
+          'để nó khác các ô còn lại — và khác biệt là gợi ý về đáp án.',
+      );
+    }
+    return label;
+  };
 
   function renderConsent() {
     const boxes = REQUIRED_CONSENT_PURPOSES.map((purpose) =>
@@ -119,7 +135,8 @@ export function createExperimentView(root, {
       el('p', {
         text:
           'Bạn sẽ nghe bốn đoạn âm thanh, mỗi đoạn khoảng một phút, và đoán xem đoạn đó thu ở ' +
-          'vùng nào. Không có đáp án đúng nào bị chấm điểm về phía bạn.',
+          'đâu. Danh sách để chọn có nhiều địa điểm hơn số đoạn bạn sẽ nghe — không phải nơi ' +
+          'nào trong danh sách cũng xuất hiện. Không có đáp án đúng nào bị chấm điểm về phía bạn.',
       }),
       fieldset,
       start,
@@ -164,15 +181,18 @@ export function createExperimentView(root, {
       text: 'Gửi câu trả lời',
     });
 
+    // Thứ tự do phiên quyết (xáo theo người × lượt, dựng lại được). Vẽ đúng theo
+    // đó, và vẽ mọi ô bằng cùng một hàm — vùng thật hay nhiễu đều không phân biệt
+    // được từ DOM (xem luật 4 ở đầu tệp).
     const guessFieldset = el('fieldset', { 'data-region': 'question' }, [
       el('legend', { text: 'Theo bạn, đoạn âm này thu ở đâu?' }),
-      ...locations.map((location) =>
+      ...trial.answer_options.map((option) =>
         choice({
           type: 'radio',
           name: 'guess',
-          value: location,
-          id: `guess-${trial.order}-${location}`,
-          label: locationLabels[location],
+          value: option,
+          id: `guess-${trial.order}-${option}`,
+          label: labelFor(option),
         }),
       ),
     ]);

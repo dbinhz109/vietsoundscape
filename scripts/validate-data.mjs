@@ -11,6 +11,7 @@ import { validateDataset } from '../src/data/clip-schema.js';
 import { indexClipsById, validateRecipe } from '../src/data/recipe-schema.js';
 import { KRAUSE_CLASSES, SCHAFER_ROLES } from '../src/domain/taxonomy.js';
 import { checkRecipeCoverage } from '../src/research/stimulus.js';
+import { composeAnswerOptions } from '../src/research/answer-options.js';
 
 // Neo vào thư mục gốc của dự án, không phụ thuộc cwd lúc gọi.
 const ROOT = join(import.meta.dirname, '..');
@@ -156,6 +157,31 @@ if (!coverage.met) {
   );
 }
 
-const failed = !result.valid || orphans.length > 0 || r10Failed || recipesFailed;
+// Phương án nhiễu (spec S1.1): danh sách trả lời phải dài hơn số vùng sẽ nghe,
+// và không phương án nào được trùng vùng thật — nếu không "correct" mất nghĩa.
+const { distractors } = read('distractors.json');
+let distractorsFailed = false;
+try {
+  const options = composeAnswerOptions(
+    [...locationIds],
+    distractors.map((d) => d.location_id),
+  );
+  const regions = new Set(locations.features.map((f) => f.properties.region));
+  const uncovered = [...regions].filter((r) => !distractors.some((d) => d.region === r));
+  if (uncovered.length > 0) {
+    distractorsFailed = true;
+    console.error(`  ✗ vùng không có phương án nhiễu cùng vùng: ${uncovered.join(', ')}`);
+  }
+  console.log(
+    `\nDanh sách trả lời: ${options.length} ô = ${locationIds.size} vùng thật + ` +
+      `${distractors.length} phương án nhiễu (${distractors.map((d) => d.name_vi).join(', ')})`,
+  );
+} catch (error) {
+  distractorsFailed = true;
+  console.error(`  ✗ distractors.json: ${error.message}`);
+}
+
+const failed =
+  !result.valid || orphans.length > 0 || r10Failed || recipesFailed || distractorsFailed;
 console.log(failed ? '\nKHÔNG ĐẠT' : `\nĐẠT — ${clips.length} mẫu và ${notReady} bản trộn đều hợp lệ`);
 process.exit(failed ? 1 : 0);

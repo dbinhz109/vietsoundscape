@@ -5,11 +5,18 @@ import { REQUIRED_CONSENT_PURPOSES, createExperimentSession } from './session.js
 import { ISO_ATTRIBUTES, ISO_ATTRIBUTE_KEYS } from '../../research/soundscape-scale.js';
 
 const LOCATIONS = ['hanoi-pho-co', 'hue-thien-mu', 'cai-rang', 'buon-e-de'];
+/** Địa danh thật nhưng KHÔNG có trong bộ kích thích — chặn loại trừ (spec S1.1). */
+const DISTRACTORS = ['sa-pa', 'hoi-an', 'da-lat', 'phu-quoc'];
+const ANSWER_OPTIONS = [...LOCATIONS, ...DISTRACTORS];
 const LABELS = {
   'hanoi-pho-co': 'Phố cổ Hà Nội',
   'hue-thien-mu': 'Huế — chùa Thiên Mụ',
   'cai-rang': 'Chợ nổi Cái Răng',
   'buon-e-de': 'Buôn Ê Đê',
+  'sa-pa': 'Sa Pa',
+  'hoi-an': 'Phố cổ Hội An',
+  'da-lat': 'Đà Lạt',
+  'phu-quoc': 'Phú Quốc',
 };
 const RECIPES = LOCATIONS.map((location) => ({ id: `${location}-mix0`, location_id: location }));
 
@@ -20,12 +27,13 @@ const build = (overrides = {}) => {
     participantIndex: 0,
     locations: LOCATIONS,
     recipes: RECIPES,
+    answerOptions: ANSWER_OPTIONS,
     likertFields: ISO_ATTRIBUTE_KEYS,
     now: () => '2026-09-14T05:30:00+07:00',
   });
   const view = createExperimentView(root, {
     session,
-    locationLabels: LABELS,
+    optionLabels: LABELS,
     // Tên tệp phải MỜ. Bản kết xuất đặt tên theo băm chính vì lý do này.
     stimulusUrl: (id) => `/stimuli/${opaque(id)}.wav`,
     onComplete: () => {},
@@ -74,6 +82,13 @@ const chooseAndSubmit = (root, { location = LOCATIONS[0], score = 3 } = {}) => {
 
 describe('màn hình đồng thuận', () => {
   beforeEach(() => document.body.replaceChildren());
+
+  test('nói rõ danh sách trả lời dài hơn số đoạn sẽ nghe', () => {
+    // Giết heuristic loại trừ mà không lừa ai: người tham gia biết không phải
+    // mọi địa điểm trong danh sách đều sẽ vang lên.
+    const { root } = build();
+    expect(root.textContent).toMatch(/nhiều địa điểm hơn số đoạn/i);
+  });
 
   test('hiện một ô riêng cho mỗi mục đích', () => {
     const { root } = build();
@@ -166,11 +181,68 @@ describe('màn hình lượt nghe', () => {
     ).toThrow(/lộ|rò rỉ/i);
   });
 
-  test('liệt kê đủ các vùng để chọn, theo nhãn tiếng Việt', () => {
+  test('liệt kê đủ vùng thật LẪN phương án nhiễu, theo nhãn tiếng Việt', () => {
     const { root } = started();
     const radios = $$(root, 'input[name="guess"]');
-    expect(radios.map((r) => r.value).sort()).toEqual([...LOCATIONS].sort());
+    expect(radios.map((r) => r.value).sort()).toEqual([...ANSWER_OPTIONS].sort());
     expect(root.textContent).toContain('Chợ nổi Cái Răng');
+    expect(root.textContent).toContain('Sa Pa');
+  });
+
+  test('mỗi lượt có ≥ 8 ô trả lời, đúng 4 ô là vùng thật (spec S1.1)', () => {
+    // Danh sách = đúng bốn vùng sẽ nghe ⇒ lượt 4 còn một lựa chọn. ~25% lượt gần
+    // như không mang thông tin, tỉ lệ đúng bị thổi lên, McNemar mất lực.
+    const { root } = started();
+    const values = $$(root, 'input[name="guess"]').map((r) => r.value);
+    expect(values.length).toBeGreaterThanOrEqual(8);
+    expect(values.filter((v) => LOCATIONS.includes(v))).toHaveLength(4);
+  });
+
+  test('thứ tự ô đúng theo thứ tự của lượt, và đổi giữa hai lượt', () => {
+    const { root, session } = started();
+    const shownFirst = $$(root, 'input[name="guess"]').map((r) => r.value);
+    expect(shownFirst).toEqual(session.current().answer_options);
+    chooseAndSubmit(root);
+    const shownSecond = $$(root, 'input[name="guess"]').map((r) => r.value);
+    expect(shownSecond).toEqual(session.current().answer_options);
+    expect(shownSecond).not.toEqual(shownFirst);
+  });
+
+  test('ô vùng thật và ô nhiễu dựng GIỐNG HỆT nhau — không lộ đáp án qua khác biệt', () => {
+    // Một class, một data-attribute, một thứ tự thuộc tính khác nhau giữa hai
+    // nhóm là đủ để người mở "xem nguồn trang" lọc ra bốn đáp án có thể đúng.
+    const { root } = started();
+    const shape = (div) => {
+      const input = div.querySelector('input');
+      const label = div.querySelector('label');
+      return JSON.stringify({
+        className: div.className,
+        attrs: [...div.attributes].map((a) => a.name).sort(),
+        inputAttrs: [...input.attributes].map((a) => a.name).sort(),
+        idPattern: input.id.split(input.value).join('<id>'),
+        labelBound: label.getAttribute('for') === input.id,
+        childCount: div.children.length,
+      });
+    };
+    const shapes = $$(root, 'fieldset[data-region="question"] .choice').map(shape);
+    expect(shapes).toHaveLength(ANSWER_OPTIONS.length);
+    expect(new Set(shapes).size).toBe(1);
+    expect(root.innerHTML).not.toMatch(/nhiễu|distractor/i);
+  });
+
+  test('thiếu nhãn cho một phương án thì ném lỗi, không hiện mã thô', () => {
+    // Hiện mã thô cho riêng một ô là một khác biệt — và khác biệt là gợi ý.
+    const { 'sa-pa': _omit, ...incomplete } = LABELS;
+    expect(() => started({ optionLabels: incomplete })).toThrow(/sa-pa/);
+  });
+
+  test('chọn phương án nhiễu thì nộp được, log chấm sai', () => {
+    const onComplete = vi.fn();
+    const { root } = started({ onComplete });
+    chooseAndSubmit(root, { location: 'sa-pa' });
+    for (let i = 1; i < LOCATIONS.length; i += 1) chooseAndSubmit(root);
+    const first = onComplete.mock.calls[0][0].trials[0];
+    expect(first).toMatchObject({ guess: 'sa-pa', correct: false });
   });
 
   test('hỏi đủ 8 thuộc tính ISO 12913-2, ĐÚNG THỨ TỰ của bộ chuẩn', () => {

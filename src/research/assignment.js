@@ -2,7 +2,8 @@
  * Phân điều kiện và đảo thứ tự cân bằng cho thực nghiệm H1/H2 (việc C3.1).
  *
  * Thiết kế: **trong-người** (BA §10.2) — mỗi người nghe cả ba điều kiện, nhờ đó
- * kiểm soát được khác biệt cá nhân và cỡ mẫu giảm từ ~110 xuống 40–60 người.
+ * kiểm soát được khác biệt cá nhân. Cỡ mẫu chốt là **96 người** (bội của 12) theo
+ * `nghien-cuu/ke-hoach-phan-tich.md` §2 — con số 40–60 ban đầu không đủ lực.
  *
  * ## Ràng buộc quan trọng nhất: không lặp địa điểm
  *
@@ -17,7 +18,7 @@
  * ## Vì sao lấy số thứ tự người tham gia, không lấy số ngẫu nhiên
  *
  * Đảo thứ tự cân bằng là việc **có hệ thống**, không phải ngẫu nhiên: gán ngẫu
- * nhiên với n = 40–60 thì lệch nhóm là chuyện thường, và lệch bao nhiêu thì
+ * nhiên với n ≈ 100 thì lệch nhóm là chuyện thường, và lệch bao nhiêu thì
  * không kiểm soát được. Xoay vòng theo số thứ tự cho cân bằng chính xác, lại
  * dựng lại được đúng phiên của người thứ k mà không cần lưu thêm gì.
  *

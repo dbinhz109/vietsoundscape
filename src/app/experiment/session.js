@@ -13,6 +13,10 @@
  *  3. **Không lộ đúng sai.** Báo kết quả sau mỗi lượt là dạy người tham gia giữa
  *     chừng, và các lượt sau không còn đo cùng một thứ với lượt đầu.
  *  4. **Đúng/sai do máy tính từ đáp án**, không do người tham gia tự khai.
+ *  5. **Danh sách trả lời dài hơn số lượt.** Mỗi vùng chỉ nghe một lần, nên nếu
+ *     danh sách = đúng các vùng sẽ nghe thì lượt cuối chỉ còn một lựa chọn. Phải
+ *     có phương án nhiễu (`answerOptions` ⊋ `locations`), và thứ tự xáo theo
+ *     (người, lượt) — xem `src/research/answer-options.js`.
  *
  * Log xuất ra đúng format mà `scripts/analyse-results.mjs` đọc — kiểm định quyết
  * định cần ghi gì, chứ không phải ghi được gì thì kiểm cái đó.
@@ -22,6 +26,7 @@
  */
 
 import { assignParticipant } from '../../research/assignment.js';
+import { composeAnswerOptions, orderAnswerOptions } from '../../research/answer-options.js';
 import { EXPERIMENT_CONDITIONS } from '../../domain/taxonomy.js';
 
 /**
@@ -39,6 +44,8 @@ export const REQUIRED_CONSENT_PURPOSES = Object.freeze([
  * @param {number} config.participantIndex
  * @param {string[]} config.locations
  * @param {{id: string, location_id: string}[]} config.recipes
+ * @param {string[]} config.answerOptions Vùng thật + phương án nhiễu — mọi mã mà
+ *   người tham gia có thể chọn. Bắt buộc là tập cha thật sự của `locations`.
  * @param {string[]} config.likertFields
  * @param {() => string} [config.now] nguồn thời gian, tiêm vào để test được
  */
@@ -46,9 +53,30 @@ export function createExperimentSession({
   participantIndex,
   locations,
   recipes,
+  answerOptions,
   likertFields,
   now = () => new Date().toISOString(),
 }) {
+  if (!Array.isArray(answerOptions)) {
+    throw new Error(
+      'Thiếu `answerOptions` — danh sách trả lời gồm vùng thật và phương án nhiễu. Không có ' +
+        'phương án nhiễu thì người tham gia loại trừ dần, lượt cuối chỉ còn một lựa chọn (spec S1.1).',
+    );
+  }
+  const missing = locations.filter((location) => !answerOptions.includes(location));
+  if (missing.length > 0) {
+    throw new Error(
+      `Danh sách trả lời thiếu vùng thật: ${missing.join(', ')}. Đáp án đúng mà không chọn ` +
+        'được thì lượt đó chắc chắn sai.',
+    );
+  }
+  const repeated = answerOptions.filter((id, index) => answerOptions.indexOf(id) !== index);
+  if (repeated.length > 0) {
+    throw new Error(`Mã trùng trong danh sách trả lời: ${[...new Set(repeated)].join(', ')}.`);
+  }
+  // Kiểm luật còn lại (phải có nhiễu, nhiễu không trùng vùng thật) ở một chỗ duy nhất.
+  composeAnswerOptions(locations, answerOptions.filter((id) => !locations.includes(id)));
+
   const trials = assignParticipant(participantIndex, locations, EXPERIMENT_CONDITIONS).map(
     (trial) => ({
       ...trial,
@@ -84,6 +112,9 @@ export function createExperimentSession({
     return cursor < trials.length ? 'trial' : 'complete';
   };
 
+  /** Thứ tự danh sách trả lời mà người này thấy ở lượt này — dựng lại được. */
+  const optionsShownAt = (order) => orderAnswerOptions(answerOptions, { participantIndex, order });
+
   const current = () => {
     if (state() !== 'trial') return null;
     const trial = trials[cursor];
@@ -94,6 +125,7 @@ export function createExperimentSession({
       recipe_id: trial.recipe_id,
       stimulus_id: `${trial.recipe_id}--${trial.condition}`,
       total: trials.length,
+      answer_options: optionsShownAt(trial.order),
     };
   };
 
@@ -123,9 +155,9 @@ export function createExperimentSession({
     if (guess === undefined || guess === null || guess === '') {
       throw new Error(`Lượt ${trial.order}: chưa có câu đoán vùng miền.`);
     }
-    if (!locations.includes(guess)) {
+    if (!answerOptions.includes(guess)) {
       throw new Error(
-        `Lượt ${trial.order}: "${guess}" không nằm trong danh sách địa điểm. Câu đoán phải ` +
+        `Lượt ${trial.order}: "${guess}" không nằm trong danh sách trả lời. Câu đoán phải ` +
           'chọn từ danh sách, nếu không thì không đối chiếu được với đáp án.',
       );
     }
@@ -144,6 +176,9 @@ export function createExperimentSession({
       location_id: trial.location_id,
       condition: trial.condition,
       recipe_id: trial.recipe_id,
+      // Thứ tự đã hiện — để sau này kiểm thiên lệch vị trí, và để biết mức đoán
+      // mò của lượt này là 1/N với N nào.
+      answer_options: optionsShownAt(trial.order),
       guess,
       // Máy tự đối chiếu với đáp án. Để người tham gia tự khai đúng/sai là mở
       // đường cho cả nhầm lẫn lẫn thiên lệch mong muốn làm hài lòng người hỏi.
@@ -176,6 +211,7 @@ export function createExperimentSession({
     design: 'within-subject',
     participant_index: participantIndex,
     likert_fields: [...likertFields],
+    answer_options: [...answerOptions],
     consent: consent === null ? null : { purposes: { ...consent }, at: consentAt },
     complete: state() === 'complete',
     trials: responses.map((response) => ({ ...response })),

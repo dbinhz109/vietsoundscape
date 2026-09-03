@@ -2,6 +2,9 @@ import { describe, expect, test } from 'vitest';
 import { createExperimentSession, REQUIRED_CONSENT_PURPOSES } from './session.js';
 
 const LOCATIONS = ['hanoi-pho-co', 'hue-thien-mu', 'cai-rang', 'buon-e-de'];
+/** Địa danh thật nhưng KHÔNG có trong bộ kích thích — chặn loại trừ (spec S1.1). */
+const DISTRACTORS = ['sa-pa', 'hoi-an', 'da-lat', 'phu-quoc'];
+const ANSWER_OPTIONS = [...LOCATIONS, ...DISTRACTORS];
 
 /** Ba bản trộn mỗi vùng — đúng yêu cầu FR-59. */
 const RECIPES = LOCATIONS.flatMap((location) =>
@@ -13,6 +16,7 @@ const start = (overrides = {}) =>
     participantIndex: 0,
     locations: LOCATIONS,
     recipes: RECIPES,
+    answerOptions: ANSWER_OPTIONS,
     likertFields: ['pleasantness'],
     ...overrides,
   });
@@ -216,5 +220,74 @@ describe('toLog — đúng format mà npm run analyse đọc được', () => {
 
   test('phiên xong thì đánh dấu hoàn thành', () => {
     expect(finished().toLog().complete).toBe(true);
+  });
+});
+
+describe('danh sách trả lời — phương án nhiễu chặn heuristic loại trừ (spec S1.1)', () => {
+  // Mỗi người nghe mỗi vùng đúng một lần. Nếu danh sách trả lời = đúng bốn vùng
+  // đó thì nhớ ba câu trước là lượt 4 chỉ còn một lựa chọn. Tỉ lệ đúng bị thổi
+  // lên, McNemar mất lực, và không phép kiểm nào trên log phát hiện được.
+  const running = (overrides) => {
+    const session = start(overrides);
+    session.giveConsent(consentAll());
+    return session;
+  };
+
+  test('bắt buộc khai answerOptions', () => {
+    expect(() => start({ answerOptions: undefined })).toThrow(/answerOptions/);
+  });
+
+  test('answerOptions không có phương án nhiễu thì ném lỗi — đó là thiết kế có lỗ', () => {
+    expect(() => start({ answerOptions: [...LOCATIONS] })).toThrow(/nhiễu|loại trừ/i);
+  });
+
+  test('answerOptions thiếu một vùng thật thì ném lỗi', () => {
+    expect(() => start({ answerOptions: [...LOCATIONS.slice(1), ...DISTRACTORS] })).toThrow(
+      /hanoi-pho-co/,
+    );
+  });
+
+  test('answerOptions có mã trùng thì ném lỗi', () => {
+    expect(() => start({ answerOptions: [...ANSWER_OPTIONS, 'hue-thien-mu'] })).toThrow(
+      /hue-thien-mu/,
+    );
+  });
+
+  test('mỗi lượt kèm danh sách trả lời đủ vùng thật lẫn nhiễu', () => {
+    const trial = running().current();
+    expect([...trial.answer_options].sort()).toEqual([...ANSWER_OPTIONS].sort());
+  });
+
+  test('thứ tự danh sách khác nhau giữa lượt 1 và lượt 2 của cùng người', () => {
+    const session = running();
+    const first = session.current().answer_options;
+    answer(session);
+    const second = session.current().answer_options;
+    expect(first).not.toEqual(second);
+    expect([...first].sort()).toEqual([...second].sort());
+  });
+
+  test('dựng lại cùng participantIndex thì thứ tự y hệt', () => {
+    const a = running({ participantIndex: 5 }).current().answer_options;
+    const b = running({ participantIndex: 5 }).current().answer_options;
+    expect(a).toHaveLength(ANSWER_OPTIONS.length);
+    expect(a).toEqual(b);
+  });
+
+  test('chọn phương án nhiễu: nhận, chấm sai, không ném lỗi', () => {
+    const session = running();
+    expect(() => session.submit({ guess: 'sa-pa', likert: { pleasantness: 3 } })).not.toThrow();
+    expect(session.toLog().trials[0]).toMatchObject({ guess: 'sa-pa', correct: false });
+    expect(session.state()).toBe('trial');
+  });
+
+  test('log ghi danh sách gốc và thứ tự đã hiện ở từng lượt', () => {
+    // Để phân tích thiên lệch vị trí về sau, và để tính mức đoán mò 1/N đúng N.
+    const session = running();
+    const shown = session.current().answer_options;
+    answer(session);
+    const log = session.toLog();
+    expect(log.answer_options).toEqual(ANSWER_OPTIONS);
+    expect(log.trials[0].answer_options).toEqual(shown);
   });
 });
