@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Tính cỡ mẫu cho thiết kế trong-người (việc C1.2).
+ * Tính cỡ mẫu cho thiết kế trong-người (việc C1.2, sửa đổi S1.2).
  *
  *   npm run plan:sample                    — bảng cỡ mẫu theo các giả định
  *   npm run plan:sample -- --power 0.9     — đổi mức lực mong muốn
@@ -13,6 +13,15 @@
  * đúng một lần), **mỗi người tham gia đóng góp đúng 1 cặp cho mỗi phép so sánh**:
  * bốn bước liên tiếp trong vòng xoay 3 điều kiện luôn phủ đủ cả ba. Nên số cặp
  * bằng số người, và cỡ mẫu tính ra đọc thẳng là số người cần tuyển.
+ *
+ * ## Vì sao kịch bản khai bằng "biết", không khai thẳng p01/p10 (S1.2)
+ *
+ * Bản đầu khai thẳng ba cặp p01/p10. Khi phát hiện lỗi danh sách trả lời (S1.1:
+ * 4 ô → lượt cuối chắc chắn đúng) thì không biết phải sửa ba cặp đó thế nào, vì
+ * chúng không nói mức đoán mò là bao nhiêu. Nay kịch bản khai **tỉ lệ người thật
+ * sự nhận ra nơi đó** ở từng điều kiện; mức đoán mò do thiết kế danh sách quyết
+ * định; p01/p10 suy ra bằng `src/research/guessing-model.js`. Đổi thiết kế thì
+ * chỉ đổi một số.
  */
 
 import {
@@ -23,6 +32,7 @@ import {
   simulateWilcoxonPower,
   wilcoxonSampleSize,
 } from '../src/research/power.js';
+import { chanceLevel, discordantRates } from '../src/research/guessing-model.js';
 
 const args = process.argv.slice(2);
 const flag = (name, fallback) => {
@@ -34,6 +44,7 @@ const POWER = flag('power', 0.8);
 const ALPHA = flag('alpha', 0.05);
 const RUNS = args.includes('--quick') ? 800 : 4000;
 const SEED = 20260807;
+const MAX_N = 1000;
 
 const pct = (x) => `${(x * 100).toFixed(1)}%`;
 
@@ -45,37 +56,74 @@ console.log(
 // ────────────────────────────────────────────────────────── H1: tỉ lệ nhận đúng
 
 /**
- * Ba kịch bản giả định, từ dè dặt đến lạc quan. `p01` là tỉ lệ người đoán **đúng
- * ở `layered` mà sai ở `isolated`**; `p10` là chiều ngược lại.
+ * Hai thiết kế danh sách trả lời. Mức đoán mò tính với giả định người tham gia
+ * **nhớ và loại trừ** các nơi đã nghe — giả định tệ nhất về phía thiết kế.
+ */
+const DESIGNS = [
+  { key: 'cũ ', label: 'trước S1.1 — danh sách = 4 vùng sẽ nghe', chance: chanceLevel({ trials: 4, options: 4 }) },
+  { key: 'mới', label: 'sau S1.1 — 4 vùng + 4 phương án nhiễu', chance: chanceLevel({ trials: 4, options: 8 }) },
+];
+
+/**
+ * Ba kịch bản về **mức "biết"**: tỉ lệ người thật sự nhận ra nơi đó (không đoán).
+ * `knowIsolated` giữ 35% cho cả ba; kịch bản khác nhau ở phần phân lớp giúp thêm.
  *
  * Đây là chỗ duy nhất của cả bài tính có phần chủ quan, nên nói thẳng: chưa có
  * số liệu mồi từ pilot (việc C4.1). Ba kịch bản là để thấy cỡ mẫu nhạy đến đâu
  * với giả định — chứ không phải để chọn cái nào cho ra con số dễ chịu nhất.
  */
+const KNOW_ISOLATED = 0.35;
 const SCENARIOS = [
-  { name: 'dè dặt', p01: 0.25, p10: 0.15, note: 'chênh 10 điểm phần trăm' },
-  { name: 'vừa phải', p01: 0.30, p10: 0.10, note: 'chênh 20 điểm phần trăm' },
-  { name: 'lạc quan', p01: 0.35, p10: 0.05, note: 'chênh 30 điểm phần trăm' },
+  { name: 'dè dặt', knowLayered: 0.45, note: 'phân lớp giúp thêm 10 đpt người nhận ra nơi' },
+  { name: 'vừa phải', knowLayered: 0.55, note: 'thêm 20 đpt' },
+  { name: 'lạc quan', knowLayered: 0.65, note: 'thêm 30 đpt' },
 ];
 
+const sampleSizes = (p01, p10) => {
+  let byFormula;
+  let bySimulation;
+  try {
+    byFormula = String(mcnemarSampleSize({ p01, p10, alpha: ALPHA, power: POWER }));
+  } catch {
+    byFormula = '—';
+  }
+  try {
+    bySimulation = String(
+      mcnemarSampleSizeBySimulation({ p01, p10, alpha: ALPHA, power: POWER, runs: RUNS, seed: SEED, maxN: MAX_N }),
+    );
+  } catch {
+    bySimulation = `> ${MAX_N}`;
+  }
+  return { byFormula, bySimulation };
+};
+
 console.log('H1 / FR-58 — tỉ lệ nhận diện đúng (McNemar)');
-console.log(
-  '  kịch bản    p01   p10   chênh   công thức   MÔ PHỎNG   ghi chú',
-);
+console.log(`  "biết" ở isolated cố định ${pct(KNOW_ISOLATED)}; mức đoán mò theo thiết kế danh sách trả lời:`);
+for (const design of DESIGNS) console.log(`    ${design.key}  ${pct(design.chance).padStart(6)}  ${design.label}`);
+console.log('');
+console.log('  kịch bản    thiết kế   biết L   đúng L   đúng I    p01    p10   chênh   công thức   MÔ PHỎNG');
 for (const scenario of SCENARIOS) {
-  const byFormula = mcnemarSampleSize({ ...scenario, alpha: ALPHA, power: POWER });
-  const bySimulation = mcnemarSampleSizeBySimulation({
-    ...scenario, alpha: ALPHA, power: POWER, runs: RUNS, seed: SEED,
-  });
-  console.log(
-    `  ${scenario.name.padEnd(10)} ${scenario.p01.toFixed(2)}  ${scenario.p10.toFixed(2)}  ` +
-      `${pct(scenario.p01 - scenario.p10).padStart(6)}   ${String(byFormula).padStart(9)}   ` +
-      `${String(bySimulation).padStart(8)}   ${scenario.note}`,
-  );
+  for (const design of DESIGNS) {
+    const rates = discordantRates({
+      knowLayered: scenario.knowLayered,
+      knowIsolated: KNOW_ISOLATED,
+      chance: design.chance,
+    });
+    const { byFormula, bySimulation } = sampleSizes(rates.p01, rates.p10);
+    console.log(
+      `  ${scenario.name.padEnd(10)}  ${design.key}      ${pct(scenario.knowLayered).padStart(6)}  ` +
+        `${pct(rates.accuracyLayered).padStart(6)}   ${pct(rates.accuracyIsolated).padStart(6)}  ` +
+        `${rates.p01.toFixed(3)}  ${rates.p10.toFixed(3)}  ${pct(rates.p01 - rates.p10).padStart(6)}   ` +
+        `${byFormula.padStart(9)}   ${bySimulation.padStart(8)}`,
+    );
+  }
 }
 
 console.log(
-  '\n  ⚠ Hai cột KHÔNG bằng nhau, và chênh có hướng cố định. Công thức khép kín\n' +
+  '\n  Đọc bảng: cùng một mức "biết", thiết kế cũ cho chênh p01 − p10 nhỏ hơn hẳn —\n' +
+    '    dạng đóng chênh = (biết L − biết I) × (1 − đoán mò). Đoán mò 52% bào mất nửa\n' +
+    '    hiệu ứng; 16% chỉ bào mất một phần sáu. Đây là cái giá bằng số của lỗi S1.1.\n' +
+    '\n  ⚠ Hai cột cuối KHÔNG bằng nhau, và chênh có hướng cố định. Công thức khép kín\n' +
     '    (Connor 1987) giả định xấp xỉ chuẩn không hiệu chỉnh, còn `mcnemarTest` dùng\n' +
     '    bản CHÍNH XÁC khi ít cặp bất đồng và bản chi bình phương CÓ hiệu chỉnh khi\n' +
     '    nhiều — cả hai đều thận trọng hơn. Đo được: sai số loại I thực tế chỉ\n' +
@@ -104,17 +152,23 @@ console.log(
 
 // ───────────────────────────────────────────────────── Với n đã có thì sao
 
-console.log('\nNếu chỉ tuyển được n người thì phát hiện được đến đâu?');
-console.log('  n     H1 (vừa phải)   H2 (d = 0,5)');
-for (const n of [30, 40, 48, 60, 80, 100]) {
-  const h1 = simulateMcnemarPower({
-    n, p01: 0.3, p10: 0.1, alpha: ALPHA, runs: RUNS, seed: SEED,
-  });
-  const h2 = simulateWilcoxonPower({
-    n, effectSize: 0.5, alpha: ALPHA, runs: RUNS, seed: SEED,
-  });
+const moderate = Object.fromEntries(
+  DESIGNS.map((design) => [
+    design.key.trim(),
+    discordantRates({ knowLayered: 0.55, knowIsolated: KNOW_ISOLATED, chance: design.chance }),
+  ]),
+);
+
+console.log('\nNếu chỉ tuyển được n người thì phát hiện được đến đâu? (kịch bản vừa phải)');
+console.log('  n     H1 thiết kế cũ   H1 thiết kế MỚI   H2 (d = 0,5)');
+for (const n of [30, 40, 48, 60, 72, 84, 96, 108]) {
+  const h1 = (rates) =>
+    simulateMcnemarPower({ n, p01: rates.p01, p10: rates.p10, alpha: ALPHA, runs: RUNS, seed: SEED });
+  const h2 = simulateWilcoxonPower({ n, effectSize: 0.5, alpha: ALPHA, runs: RUNS, seed: SEED });
   const mark = (p) => `${pct(p).padStart(6)}${p >= POWER ? ' ✓' : '  '}`;
-  console.log(`  ${String(n).padStart(4)}  ${mark(h1)}        ${mark(h2)}`);
+  console.log(
+    `  ${String(n).padStart(4)}  ${mark(h1(moderate['cũ']))}         ${mark(h1(moderate['mới']))}          ${mark(h2)}`,
+  );
 }
 
 console.log(
@@ -126,7 +180,9 @@ console.log(
     'Cùng một nhóm người phục vụ cả hai, vì mỗi người đóng góp 1 cặp cho mỗi phép.',
 );
 
+const { p01, p10 } = moderate['mới'];
 console.log(
-  `\nĐối chiếu nhanh: lực của công thức tại n = 77 là ${pct(mcnemarPower({ n: 77, p01: 0.3, p10: 0.1, alpha: ALPHA }))}, ` +
-    `lực thật là ${pct(simulateMcnemarPower({ n: 77, p01: 0.3, p10: 0.1, alpha: ALPHA, runs: RUNS, seed: SEED }))}.`,
+  `\nĐối chiếu nhanh (thiết kế mới, vừa phải, p01 = ${p01.toFixed(3)}, p10 = ${p10.toFixed(3)}): ` +
+    `lực của công thức tại n = 96 là ${pct(mcnemarPower({ n: 96, p01, p10, alpha: ALPHA }))}, ` +
+    `lực thật là ${pct(simulateMcnemarPower({ n: 96, p01, p10, alpha: ALPHA, runs: RUNS, seed: SEED }))}.`,
 );

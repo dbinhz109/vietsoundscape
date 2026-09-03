@@ -110,9 +110,9 @@ Thứ tự ưu tiên **không phải** thứ tự giá trị. Nó là thứ tự
 **Làm gì:** cập nhật ba kịch bản với lý giải mới; chạy `npm run plan:sample`; ghi kết quả vào `nghien-cuu/ke-hoach-phan-tich.md` §2.1 bằng **một mục §7 Sửa đổi** ghi ngày và lý do — không sửa đè.
 
 **Đạt khi:**
-- [ ] §7 có dòng sửa đổi dẫn tới S1.1
-- [ ] Con số 96 được xác nhận lại hoặc thay bằng con số mới, kèm bảng lực mới
-- [ ] `LO-TRINH` C5.1 và BA §10.2 cùng một con số
+- [x] §7 có dòng sửa đổi dẫn tới S1.1 — "Sửa đổi 1" + mục §7.1 với bảng mới; §2.1 giữ nguyên, chỉ thêm dòng trỏ sang §7
+- [x] Con số 96 được xác nhận lại hoặc thay bằng con số mới, kèm bảng lực mới — **96 xác nhận lại**: sàn 84 (mô phỏng), 96 → 86,1%; cùng mức "biết" thiết kế cũ cần 286. Kịch bản khai bằng "biết + đoán mò" (`guessing-model.js`, 12 test) thay cho p01/p10 khai thẳng
+- [x] `LO-TRINH` C5.1 và BA §10.2 cùng một con số — cả hai đang là 96, không phải sửa
 
 **Vai:** NC · **Công:** 1 giờ · **Chặn bởi:** S1.1
 

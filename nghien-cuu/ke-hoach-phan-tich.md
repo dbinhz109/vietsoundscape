@@ -59,6 +59,11 @@ Chọn 96 chứ không 84: §3 có tiêu chí loại người tham gia, mà lo�
 
 ### 2.1 Con số
 
+> ⚠ Bảng dưới là **bản gốc**, giữ nguyên để đối chiếu. Ba cặp `p01`/`p10` ở đây
+> được khai thẳng, không nói mức đoán mò; sau khi sửa lỗi danh sách trả lời
+> (spec S1.1) chúng được tính lại từ mô hình "biết + đoán mò" — xem **§7, sửa
+> đổi 1**. Con số chốt **96** không đổi.
+
 Mỗi người đóng góp **đúng 1 cặp cho mỗi phép so sánh**: bốn lượt liên tiếp trong
 vòng xoay 3 điều kiện luôn phủ đủ cả ba điều kiện. Nên *số cặp = số người*.
 
@@ -210,6 +215,7 @@ Ghi ở đây để người phản biện kiểm lại được:
 | Người tham gia không đoán được đáp án từ trang web | tên tệp theo băm nội dung + giao diện ném lỗi nếu URL lộ; đo trong trình duyệt thật: 0/7 chuỗi bí mật trong DOM |
 | Không sửa được câu trả lời sau khi nghe lượt sau | máy trạng thái phiên không có `back()` |
 | Đúng/sai do máy chấm | `correct: guess === trial.location_id`, người tham gia không tự khai |
+| Không loại trừ được đáp án qua các lượt | danh sách trả lời 8 ô = 4 vùng thật + 4 phương án nhiễu (`data/distractors.json`), xáo theo (người, lượt) có seed; `session.js` từ chối cấu hình không có nhiễu; ô thật và ô nhiễu dựng giống hệt (test khoá) — thêm ở sửa đổi 1 |
 
 ---
 
@@ -219,4 +225,66 @@ _(Thêm mục mới ở đây, ghi ngày và lý do. Không sửa đè phần tr
 
 | Ngày | Sửa gì | Vì sao |
 |---|---|---|
-| | | |
+| 03/09/2026 *(ngày hệ thống — xem spec S0.5)* | **Sửa đổi 1** — tính lại cỡ mẫu §2.1 theo mô hình "biết + đoán mò" sau khi sửa lỗi danh sách trả lời (spec S1.1); thêm một dòng vào §6 | Danh sách trả lời cũ = đúng 4 vùng sẽ nghe ⇒ lượt 4 chắc chắn đúng, mức đoán mò trung bình ≈ 52%. Ba cặp p01/p10 cũ khai thẳng nên không sửa được theo thiết kế mới |
+
+### 7.1 Sửa đổi 1 — cỡ mẫu tính lại với phương án nhiễu (spec S1.1 → S1.2)
+
+**Kết luận trước:** giữ **96 người**. Sàn mới là **84** (mô phỏng, kịch bản vừa
+phải, thiết kế mới) — đúng bằng sàn cũ; 96 cho lực **86,1%**. Con số không đổi
+nhưng **cơ sở** của nó đổi, và cơ sở mới vững hơn.
+
+**Lỗi được sửa.** Mỗi người nghe mỗi vùng đúng một lần (§2.5), mà danh sách trả
+lời đúng bằng bốn vùng đó. Người nhớ ba câu trước thấy lượt 4 còn một lựa chọn.
+Mức đoán mò trung bình qua bốn lượt, giả định loại trừ hoàn hảo:
+(1/4 + 1/3 + 1/2 + 1/1)/4 ≈ **52,1%**. Sau S1.1 (8 ô): (1/8 + 1/7 + 1/6 + 1/5)/4
+≈ **15,9%**. `src/research/guessing-model.js` (12 test) cài hai phép tính này.
+
+**Vì sao phải đổi cách khai kịch bản.** Ba cặp `p01`/`p10` ở §2.1 khai thẳng tỉ
+lệ cặp bất đồng, không nói mức đoán mò. Đổi thiết kế thì không biết sửa chúng
+thế nào. Nay kịch bản khai **tỉ lệ người thật sự nhận ra nơi đó** (`biết`) ở từng
+điều kiện; mức đoán mò do thiết kế quyết định; `p01`/`p10` suy ra với giả định
+**tương quan cực đại trong người** (ai biết ở điều kiện khó thì biết ở điều kiện
+dễ — cặp bất đồng ít nhất, cỡ mẫu không nhỏ hơn thật). Dạng đóng:
+
+> p01 − p10 = (biết_L − biết_I) × (1 − đoán mò)
+
+Đoán mò 52% bào mất **nửa** hiệu ứng; 16% bào mất một phần sáu.
+
+**Bảng mới** (`npm run plan:sample`, seed 20260807, 4000 lượt/ô; `biết_I` = 35%):
+
+| Kịch bản | biết_L | Thiết kế | đoán mò | p01 | p10 | chênh | Connor | **mô phỏng** |
+|---|---|---|---|---|---|---|---|---|
+| dè dặt (+10 đpt) | 45% | cũ | 52,1% | 0,185 | 0,137 | 4,8 đpt | 1100 | **> 1000** |
+| dè dặt (+10 đpt) | 45% | **mới** | 15,9% | 0,158 | 0,073 | 8,4 đpt | 254 | **273** |
+| vừa phải (+20 đpt) | 55% | cũ | 52,1% | 0,208 | 0,112 | 9,6 đpt | 272 | **286** |
+| vừa phải (+20 đpt) | 55% | **mới** | 15,9% | 0,228 | 0,060 | 16,8 đpt | 78 | **84** |
+| lạc quan (+30 đpt) | 65% | cũ | 52,1% | 0,231 | 0,087 | 14,4 đpt | 119 | **129** |
+| lạc quan (+30 đpt) | 65% | **mới** | 15,9% | 0,299 | 0,047 | 25,2 đpt | 41 | **44** |
+
+Lực theo n, kịch bản vừa phải:
+
+| n | H1 thiết kế cũ | **H1 thiết kế mới** | H2 (d = 0,5) |
+|---|---|---|---|
+| 48 | 15,8% | 51,9% | 92,0% ✓ |
+| 72 | 23,1% | 73,4% | 98,5% ✓ |
+| 84 | 26,9% | **80,3% ✓** | 99,3% ✓ |
+| **96** | 30,9% | **86,1% ✓** | 99,7% ✓ |
+| 108 | 35,8% | 89,5% ✓ | 99,9% ✓ |
+
+**Hai điều bảng này nói mà bảng cũ không nói:**
+
+1. Với thiết kế cũ, 96 người chỉ cho lực **31%** ở cùng mức "biết". Cặp
+   `p01 = 0,30 / p10 = 0,10` của kịch bản "vừa phải" cũ, dịch ngược qua mô hình,
+   tương ứng chênh "biết" khoảng **42 điểm** — lạc quan hơn nhiều so với nhãn
+   "chênh 20 điểm" của nó. Con số 96 cũ đứng được là nhờ sự lạc quan ngầm đó;
+   con số 96 mới đứng trên mức đoán mò đã hạ.
+2. Thiết kế mới với 4 phương án nhiễu **chưa đủ** cho kịch bản dè dặt (273
+   người). Nếu pilot C4.1 cho chênh "biết" dưới 15 điểm thì phải chọn: tăng
+   4 → 8 lượt/người (§2.4 mục 1), hoặc tăng số phương án nhiễu (12 ô ⇒ đoán mò
+   ≈ 10%), hoặc hạ H1 xuống thăm dò. Quyết sau pilot, ghi bằng sửa đổi 2.
+
+**Giả định còn treo:** `biết_I` = 35% là phán đoán; mô hình bỏ qua nhiễu do hai
+điều kiện của một cặp rơi vào hai địa điểm khác nhau (§2.5). Pilot phải đo cả
+tỉ lệ đúng theo điều kiện **và** tỉ lệ câu sai rơi vào phương án nhiễu
+(`npm run analyse` in sẵn dòng này): nếu gần 0 là người tham gia vẫn loại trừ
+được — xem lại danh sách nhiễu trước khi tuyển đại trà.
