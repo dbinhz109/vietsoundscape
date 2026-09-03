@@ -26,9 +26,9 @@ Thứ tự ưu tiên **không phải** thứ tự giá trị. Nó là thứ tự
 - Kiểm `.gitignore` đã loại `node_modules/`, `build/`, `dist/`, `spike/audio/`, `coverage/`, `.playwright-mcp/` — **và thêm** `.remember/`
 
 **Đạt khi:**
-- [ ] `git log --oneline | wc -l` ≥ 1 và `git remote -v` có URL
-- [ ] `git status` sạch sau commit
-- [ ] Clone về máy khác, `npm ci && npm test` xanh 433/433
+- [x] `git log --oneline | wc -l` ≥ 1 và `git remote -v` có URL — `https://github.com/dbinhz109/vietsoundscape` (private)
+- [x] `git status` sạch sau commit — 101 tệp, 24.916 dòng, tệp lớn nhất 184 KB
+- [x] Clone về máy khác, `npm ci && npm test` xanh 433/433 — clone sạch vào thư mục tạm: 23 tệp test, 433/433, không lọt `.remember`/`build`/`dist`
 
 **Vai:** PM · **Công:** 15 phút · **Chặn bởi:** không
 
