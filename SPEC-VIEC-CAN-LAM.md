@@ -39,7 +39,7 @@ Thứ tự ưu tiên **không phải** thứ tự giá trị. Nó là thứ tự
 **Làm gì:** một trang: mục đích, cài đặt, bảng 16 lệnh `npm run` với một dòng mô tả mỗi cái, trỏ tới BA / lộ trình / `phap-ly/` / `nghien-cuu/`.
 
 **Đạt khi:**
-- [ ] Người chưa từng mở repo chạy được `npm run dev` và `npm test` chỉ bằng đọc README
+- [x] Người chưa từng mở repo chạy được `npm run dev` và `npm test` chỉ bằng đọc README — kiểm bằng clone sạch vào thư mục tạm, làm đúng 4 lệnh mục "Chạy lần đầu": `npm ci` → `npm test` → `gen:audio` (10 tệp) → `dev`; `/`, `/thuc-nghiem`, `data/`, âm đều trả 200
 
 **Vai:** PM · **Công:** 30 phút · **Chặn bởi:** S0.1
 
@@ -50,8 +50,8 @@ Thứ tự ưu tiên **không phải** thứ tự giá trị. Nó là thứ tự
 **Làm gì:** một workflow chạy trên mỗi push: `npm ci` → `npm test` → `npm run validate` → `npm run build`. Chưa cần `render:stimuli` trong CI (cần ffmpeg + 198 MB).
 
 **Đạt khi:**
-- [ ] Push một commit cố ý làm hỏng một test → CI đỏ
-- [ ] Sửa lại → CI xanh
+- [x] Push một commit cố ý làm hỏng một test → CI đỏ — nhánh tạm `ci-smoke`, commit `77520c2`, run 33733892690 **failure**, log ghi đúng `1 failed | 433 passed` tại bước `npm test`
+- [x] Sửa lại → CI xanh — hoàn lại (`6fd7598`), run 33734010401 **success**; main `491d57b` run 33733873122 **success**. Nhánh tạm đã xoá
 
 **Vai:** PM · **Công:** 45 phút · **Chặn bởi:** S0.1
 
@@ -62,8 +62,8 @@ Thứ tự ưu tiên **không phải** thứ tự giá trị. Nó là thứ tự
 **Làm gì:** đi từng dòng luồng B, đối chiếu code, đánh dấu `XONG` kèm đường dẫn tệp làm bằng chứng. Đánh dấu B0.3 là **XONG một phần** (JS thuần đã chốt; repo/CI là S0.1–S0.3).
 
 **Đạt khi:**
-- [ ] Mỗi dòng `XONG` có ít nhất một đường dẫn tệp
-- [ ] Không dòng nào có code chạy được mà còn để trống
+- [x] Mỗi dòng `XONG` có ít nhất một đường dẫn tệp — 8 dòng B0.1, B0.3, B1.1, B1.3, B2.1, B2.2, B2.3, B2.5 cập nhật trong commit `9afd09e`; dòng nào còn phần chưa làm (điện thoại thật, iOS Safari, formatter, trình đọc màn hình) ghi 🔴 ngay trong dòng
+- [x] Không dòng nào có code chạy được mà còn để trống — B0.2 (thu thử) để trống là đúng: chưa có bản thu nào
 
 **Vai:** PM · **Công:** 30 phút · **Chặn bởi:** không
 
