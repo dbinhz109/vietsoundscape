@@ -39,6 +39,9 @@ const published = (overrides = {}) => ({
   location_verified: true,
   sha256: 'a'.repeat(64),
   editing_log: ['trim', 'loudnorm'],
+  cultural_note_vi:
+    'Phố Hàng Bạc làm nghề bạc từ thế kỷ 15. Tiếng búa gõ tay là dấu ấn âm ' +
+    'thanh của nghề đó, và đang thưa dần khi máy thay người.',
   ...overrides,
 });
 
@@ -415,5 +418,62 @@ describe('validateClip — dữ liệu cá nhân nhạy cảm (LG-01b, LG-01c)',
 
   test('mẫu không nhạy cảm không bị đòi thêm gì', () => {
     expect(validateClip(published()).valid).toBe(true);
+  });
+});
+
+describe('thẻ thông tin văn hoá (FR-26)', () => {
+  const note =
+    'Tiếng búa gõ bạc là âm của một nghề gắn chặt với một con phố: Hàng Bạc ' +
+    'làm bạc từ thế kỷ 15. Số hộ còn gõ tay đang giảm dần khi máy thay người.';
+
+  test('mẫu đã xuất bản mà thiếu cultural_note_vi thì không hợp lệ', () => {
+    const result = validateClip(published({ cultural_note_vi: undefined }));
+
+    expect(result.valid).toBe(false);
+    expect(errorFields(result)).toContain('cultural_note_vi');
+  });
+
+  test('mẫu mới lên kế hoạch chưa cần thẻ văn hoá — nội dung viết ở việc VH2.1', () => {
+    const result = validateClip(planned());
+
+    expect(result.valid).toBe(true);
+  });
+
+  test('thẻ văn hoá quá ngắn bị coi là điền cho có', () => {
+    const result = validateClip(published({ cultural_note_vi: 'Tiếng rao.' }));
+
+    expect(result.valid).toBe(false);
+    const error = result.errors.find((e) => e.field === 'cultural_note_vi');
+    expect(error.message).toMatch(/đoạn giải thích/i);
+  });
+
+  test('thẻ văn hoá đủ dài thì hợp lệ', () => {
+    const result = validateClip(published({ cultural_note_vi: note }));
+
+    expect(result.valid).toBe(true);
+  });
+
+  test('bản tiếng Anh không bắt buộc, nhưng có thì cũng phải là đoạn giải thích', () => {
+    const chiTiengViet = validateClip(published({ cultural_note_vi: note }));
+    const anhCutNgan = validateClip(
+      published({ cultural_note_vi: note, cultural_note_en: 'Hammering.' }),
+    );
+
+    expect(chiTiengViet.valid).toBe(true);
+    expect(anhCutNgan.valid).toBe(false);
+    expect(errorFields(anhCutNgan)).toContain('cultural_note_en');
+  });
+
+  test('tags phải là mảng chuỗi không rỗng, không trùng nhau', () => {
+    const base = { cultural_note_vi: note };
+
+    expect(validateClip(published({ ...base, tags: ['nghe-thu-cong', 'kim-loai'] })).valid).toBe(
+      true,
+    );
+    expect(validateClip(published({ ...base, tags: 'nghe-thu-cong' })).valid).toBe(false);
+    expect(validateClip(published({ ...base, tags: ['nghe-thu-cong', ''] })).valid).toBe(false);
+    expect(
+      validateClip(published({ ...base, tags: ['kim-loai', 'kim-loai'] })).valid,
+    ).toBe(false);
   });
 });

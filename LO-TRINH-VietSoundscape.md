@@ -133,7 +133,7 @@ Làm **xong hẳn một địa điểm** từ bản đồ đến bộ trộn, th
 | B2.4 | ~~Chia sẻ bản trộn qua URL; tải lười theo lớp, có tiếng đầu tiên ≤ 5 s trên 4G mô phỏng~~ **XONG phần mã** — phát dần: lớp nền đi trước một mình rồi phát ngay, lớp phụ tải nền. Đo trong trình duyệt ở 5 Mbit/s chia nhau: **10,8 s → 6,4 s**. 🔴 **Chưa đạt 5 s vì web đang phục vụ WAV thô**; đường ống đã xuất Opus 72k (nén 7×) ⇒ chiếu ra **0,9 s**. Chỉ cần trỏ `audio` sang bản Opus khi có vật liệu thật | PM |
 | B2.5 | ~~**Làm tiếp cận ngay từ đây**, không để cuối: bàn phím đầy đủ, `role="slider"` + `aria-valuetext`, danh sách địa điểm dạng văn bản song song với bản đồ~~ **XONG phần mã** — `layer-slider.js`: `<input type=range>` (vai slider sẵn) + `aria-valuetext` đọc theo dB; danh sách địa điểm văn bản + `aria-current` ở `main.js` (FR-04); trang thực nghiệm dùng `fieldset`/`legend`, `aria-live`, nhãn `for`/`id` cho mọi ô (kiểm ở `experiment-view.test.js` mục "tiếp cận") | PM | Kiểm với NVDA/VoiceOver và người dùng thật là B6.1 — chưa làm |
 | A2.1 | Xử lý xong toàn bộ mẫu đợt 1; dựng 6 bản trộn đầu | ÂT |
-| VH2.1 | Viết thẻ văn hoá cho mẫu đợt 1: âm này là gì, ý nghĩa, đang mai một ra sao | VH |
+| VH2.1 | Viết thẻ văn hoá cho mẫu đợt 1: âm này là gì, ý nghĩa, đang mai một ra sao | VH | **Chỗ đổ nội dung đã có** (14/09): trường `cultural_note_vi/en` + `tags[]`, bắt buộc khi xuất bản, hiện ra ngay dưới thanh trượt trong phòng nghe kèm `aria-describedby` — sổ quyết định Q-24. Mới có 1/32 thẻ (HN-08) |
 | C2.1 | **Bắt đầu tuyển người tham gia** — mở danh sách chờ, liên hệ lớp/khoa/nhóm | NC |
 
 **Nghiệm thu M2:** người ngoài nhóm mở link trên điện thoại của họ, tự tìm ra địa điểm, nghe và trộn được, không cần hướng dẫn.
@@ -147,7 +147,7 @@ Làm **xong hẳn một địa điểm** từ bản đồ đến bộ trộn, th
 | A3.1 | **Thu đợt 2: địa điểm 3 và 4** + bù các mẫu thiếu của đợt 1 | ÂT + VH |
 | A3.2 | Xử lý, phân loại, cân bằng LUFS toàn bộ: **≥ 32 mẫu / 4 địa điểm** | ÂT |
 | A3.3 | Dựng **đủ 12 bản trộn** (3/vùng) + bản đối chứng "phân lớp sai vùng miền" | ÂT + NC |
-| B3.1 | Mở rộng đủ 4 địa điểm; lọc/tìm theo phân loại; trang chi tiết mẫu âm + xuất trích dẫn | PM |
+| B3.1 | Mở rộng đủ 4 địa điểm; lọc/tìm theo phân loại; trang chi tiết mẫu âm + xuất trích dẫn | PM | **XONG một phần** (14/09): cơ chế thẻ văn hoá FR-26 — lược đồ, giao diện, 10 test (`clip-schema.js`, `layer-slider.js`, `listening-room.js`). Còn lại: FR-03 lọc/tìm, FR-25 trang chi tiết, FR-27 xuất trích dẫn |
 | B3.2 | Biểu mẫu đóng góp + kiểm tệp phía server (kiểu thật theo magic bytes, mã hoá lại, **xoá sạch metadata gốc**) + hàng chờ duyệt | PM |
 | B3.3 | Bật RLS trên Supabase, chặn tần suất, cấu hình CSP/HSTS | PM |
 | C3.1 | ~~Dựng chế độ thực nghiệm: phân điều kiện, đảo thứ tự cân bằng, chặn quay lại, ghi log đủ để chạy kiểm định~~ **XONG TRỌN** — `assignment.js` + `session.js` (21 test) + `experiment-view.js` (19 test) + `bootstrap.js` (13 test), nối dây tại trang riêng `/thuc-nghiem`. Đã chạy thật trong trình duyệt: 4 lượt, 4 tệp WAV 200 OK, log tải xuống `nguoi-003.json`, `npm run analyse` đọc thẳng được. 0/7 chuỗi bí mật lọt vào DOM. **Sửa lỗi thiết kế S1.1 (spec):** danh sách trả lời trước đây = đúng 4 vùng sẽ nghe ⇒ lượt 4 còn một lựa chọn. Nay = 4 vùng thật + phương án nhiễu (`data/distractors.json`, một nơi cùng vùng cho mỗi vùng), xáo theo (người × lượt) bằng seed ở `src/research/answer-options.js` (11 test); phiên ghi thứ tự đã hiện vào log; ô thật và ô nhiễu dựng giống hệt (test khoá); màn đồng thuận + `phap-ly/07` nói rõ danh sách dài hơn số đoạn | PM + NC |

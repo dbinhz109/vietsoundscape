@@ -169,7 +169,7 @@ h3 {
 .slider-row {
   display: grid;
   grid-template-columns: 1fr auto;
-  grid-template-areas: 'label readout' 'input input' 'extra extra';
+  grid-template-areas: 'label readout' 'input input' 'extra extra' 'note note';
   align-items: center;
   gap: var(--space-1) var(--space-2);
   padding: var(--space-1) 0;
@@ -185,6 +185,23 @@ h3 {
   color: var(--ink-300);
   font-size: 0.72rem;
   letter-spacing: 0.03em;
+}
+
+/*
+ * Thẻ thông tin văn hoá (FR-26): âm này là gì, ý nghĩa, đang mai một ra sao.
+ * Đặt dưới thanh trượt chứ không phải trong tooltip — nội dung này là một phần
+ * của đề tài, không phải chú thích phụ, và tooltip thì bàn phím lẫn trình đọc
+ * màn hình đều với tới khó.
+ */
+.slider-description {
+  grid-area: note;
+  margin: 0;
+  max-width: 58ch;
+  font-size: var(--text-small);
+  line-height: 1.5;
+  color: var(--ink-500);
+  border-left: var(--rule);
+  padding-left: var(--space-2);
 }
 
 .slider-readout {

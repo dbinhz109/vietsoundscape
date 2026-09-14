@@ -48,7 +48,7 @@ Phần **máy móc** đã vượt thuyết minh; phần **vật liệu và dữ 
 |---|---|
 | Bản đồ + nhấn để mở "phòng nghe" | ✅ |
 | Trình phát có thanh trượt âm lượng từng lớp | ✅ `src/app/room/listening-room.js` + `src/app/ui/layer-slider.js` (29 test) |
-| **Thẻ thông tin văn hóa** — âm này là gì, ý nghĩa, đang mai một ra sao | 🔴 **chưa có**. `src/data/clip-schema.js` không có trường mô tả nào; giao diện chỉ hiện tên mẫu + `"signal · anthrophony"` + nhãn mai một (`listening-room.js:297–312`). FR-26 đòi ≥ 1 đoạn giải thích mỗi mẫu — thiếu ở **cả dữ liệu lẫn giao diện** |
+| **Thẻ thông tin văn hóa** — âm này là gì, ý nghĩa, đang mai một ra sao | 🟡 **cơ chế xong 14/09, nội dung thiếu**. Lúc chấm lần đầu là 🔴: không có trường mô tả nào trong lược đồ, giao diện chỉ hiện tên + `"signal · anthrophony"` + nhãn mai một. Nay `cultural_note_vi/en` + `tags[]` bắt buộc khi xuất bản, hiện ngay dưới thanh trượt kèm `aria-describedby` (trả luôn FR-63), 10 test. **Còn thiếu nội dung: 1/32 thẻ** — 31 mẫu chờ việc VH2.1, cố ý không bịa (sổ quyết định Q-24) |
 | Trang đóng góp cộng đồng | 🔴 không có — đúng như thuyết minh ghi "mở rộng về sau". Nhưng kiến trúc hiện tại **tĩnh 100%**, nên FR-30…34 (kiểm tệp phía server, xoá metadata gốc, hàng chờ duyệt) sẽ cần một máy chủ **chưa được tính vào kế hoạch nào** |
 
 ## 4. Bảng công nghệ mục 8 — bốn chỗ đã đi khác
@@ -120,7 +120,7 @@ Spec tự chấm **13/18**. Kiểm lại bằng mã và dữ liệu: **đồng �
 
 | Phần | Mức hoàn thành so với thuyết minh |
 |---|---|
-| Kỹ thuật và phương pháp | ~90% |
+| Kỹ thuật và phương pháp | ~90% (14/09: thêm cơ chế thẻ văn hoá FR-26) |
 | Vật liệu âm thật | 0% |
 | Dữ liệu người tham gia | 0% |
 | Công bố (link công khai) | 0% |

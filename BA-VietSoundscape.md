@@ -274,7 +274,7 @@ Thuyết minh gốc §7 cho phép cả hai đường: *"ghi âm trực tiếp t�
 | Mã | Yêu cầu | Tiêu chí nghiệm thu |
 |---|---|---|
 | FR-25 | Trang chi tiết mẫu âm: nghe, metadata đầy đủ, giấy phép, người ghi công | 100% trường bắt buộc ở §8.2 hiển thị hoặc ghi rõ "không có" |
-| FR-26 | Thẻ thông tin văn hóa: âm này là gì, ý nghĩa, đang mai một ra sao | Mỗi mẫu âm có ≥ 1 đoạn giải thích; mức độ mai một dùng từ vựng có kiểm soát, không phải văn tự do |
+| FR-26 | Thẻ thông tin văn hóa: âm này là gì, ý nghĩa, đang mai một ra sao | Mỗi mẫu âm có ≥ 1 đoạn giải thích; mức độ mai một dùng từ vựng có kiểm soát, không phải văn tự do — **cơ chế XONG** (`clip-schema.js` bắt buộc khi xuất bản + ngưỡng độ dài; `layer-slider.js` dựng đoạn văn và nối `aria-describedby` cho FR-63; `listening-room.js` truyền xuống). **Nội dung là việc VH2.1**, hiện mới có HN-08 |
 | FR-27 | Xuất trích dẫn học thuật cho mẫu âm và cho bộ dữ liệu | Xuất được BibTeX; có mã băm SHA-256 của tệp |
 | FR-28 | Tải mẫu âm gốc (nếu giấy phép cho phép) | Mẫu không cho tải thì ẩn nút và nêu lý do |
 
@@ -366,7 +366,7 @@ Contributor, License
 | `sha256` | ✔ | Toàn vẹn + trích dẫn |
 | `editing_log[]` | ✔ | Đã lọc nhiễu / cắt / chuẩn hóa những gì |
 | `endangerment_level` | ✔ | Từ vựng có kiểm soát, không phải văn tự do. Phải có mức **`lost`** cho âm đã không còn tồn tại — ví dụ tiếng tàu điện Hà Nội (xem `VAT-LIEU-4-DIA-DIEM.md` §4). Lớp `lost` hiển thị như lớp đã tắt vĩnh viễn, và là minh chứng mạnh nhất cho luận điểm trung tâm của đề tài |
-| `cultural_note_vi/en`, `tags[]` | | Nội dung thẻ văn hóa |
+| `cultural_note_vi/en`, `tags[]` | ✔ khi xuất bản *(`_vi`)* | Nội dung thẻ văn hóa. 📒 Q-24: FR-26 đòi mỗi mẫu có ≥ 1 đoạn giải thích, nên `cultural_note_vi` là **bắt buộc khi xuất bản**, không phải tuỳ chọn; lúc mới lên kế hoạch thì chưa cần vì nội dung là việc VH2.1 |
 | `loop_start`, `loop_end` | | Cho lớp keynote (FR-14) |
 
 ### 8.3 `SoundscapeRecipe` — bản trộn là **dữ liệu**, không phải trạng thái UI

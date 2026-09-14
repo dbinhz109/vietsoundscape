@@ -296,6 +296,7 @@ export function createListeningRoom({ container, onMixChange }) {
         id: `layer-${clip.id}`,
         label: clip.title_vi,
         hint: `${clip.schafer_role} · ${clip.krause_class}`,
+        description: clip.cultural_note_vi,
         value: current.sliders[clip.id],
         onInput: (value) => setLayerSlider(clip.id, value),
       });

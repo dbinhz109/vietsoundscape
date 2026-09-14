@@ -386,3 +386,32 @@ describe('phát dần — "tải lười theo lớp" của B2.4', () => {
     expect(room.isOpen).toBe(false);
   });
 });
+
+describe('thẻ thông tin văn hoá trong phòng nghe (FR-26)', () => {
+  const note =
+    'Chuông xe đạp từng là tiếng báo hiệu chính của phố hẹp, nay bị tiếng còi ' +
+    'xe máy lấn át gần hết.';
+
+  test('lớp âm có cultural_note_vi thì hiện đoạn giải thích cạnh thanh trượt', async () => {
+    const clips = { ...CLIPS, 'A-02': { ...CLIPS['A-02'], cultural_note_vi: note } };
+    const room = createListeningRoom({ container });
+    // A-02 là lớp tín hiệu — lớp phụ, nên chỉ hiện sau khi tải xong.
+    await (
+      await room.open({ recipe: recipeA, location: { name_vi: 'X' }, clipsById: clips })
+    ).ready;
+
+    const paragraph = container.querySelector('.slider-description');
+    expect(paragraph).not.toBeNull();
+    expect(paragraph.textContent).toBe(note);
+    expect(container.querySelector('#layer-A-02').getAttribute('aria-describedby')).toBe(
+      paragraph.id,
+    );
+  });
+
+  test('lớp âm chưa có thẻ văn hoá thì không dựng đoạn rỗng', async () => {
+    const room = createListeningRoom({ container });
+    await (await open(room, recipeA)).ready;
+
+    expect(container.querySelectorAll('.slider-description')).toHaveLength(0);
+  });
+});

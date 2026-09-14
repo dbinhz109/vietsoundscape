@@ -541,3 +541,27 @@ Chỉ lộ ra khi đọc toàn văn. Chi tiết `phap-ly/08` §8:
 | **Phối hợp với Sở VHTTDL** nơi có di sản | Luật Di sản văn hoá 45/2024 Điều 16 khoản 3 | trước thực địa |
 
 Đề tài xử lý **dữ liệu cá nhân nhạy cảm** nên **không** được hưởng miễn trừ dành cho doanh nghiệp nhỏ ở Luật Điều 38 khoản 2–3 / NĐ 356 Điều 41. Mốc 60 ngày này chạy **trước** cả cột mốc ra mắt web trong lộ trình — cần hỏi phòng pháp chế của trường xác nhận cách tính.
+
+---
+
+## Q-24 — Thẻ văn hoá: BA §8.2 và FR-26 nói ngược nhau, chốt theo FR-26
+
+| | |
+|---|---|
+| **Ngày** | 14/09/2026 |
+| **Vị trí trong BA** | 7. Yêu cầu chức năng — FR-26 · 8.2 `SoundClip` |
+| **Ảnh hưởng tới** | `src/data/clip-schema.js` · `src/app/ui/layer-slider.js` · `src/app/room/listening-room.js` · việc VH2.1 của lộ trình |
+
+**Mâu thuẫn:** FR-26 đòi *"mỗi mẫu âm có ≥ 1 đoạn giải thích"*, nhưng §8.2 lại xếp `cultural_note_vi/en` vào nhóm trường **không** bắt buộc. Một trong hai phải nhường.
+
+**Quyết định:** chốt theo FR-26, nhưng gắn vào **trạng thái**:
+
+- `cultural_note_vi` **bắt buộc khi `status: published`** — vào cùng nhóm với `sha256`, `license`, `editing_log`
+- **không** bắt buộc khi `planned` — nội dung là việc VH2.1, viết sau khi đã thu được mẫu; bắt buộc từ lúc lên kế hoạch chỉ đẻ ra 32 chỗ điền cho có
+- `cultural_note_en` và `tags[]` vẫn tuỳ chọn; có thì phải đúng dạng
+
+**Vì sao có ngưỡng độ dài** (`CULTURAL_NOTE_MIN_CHARS = 60`): yêu cầu "một đoạn giải thích" mà không đo được thì `"tiếng rao"` cũng qua. Ngưỡng này chỉ chặn chỗ điền cho có — nó **không** thay được việc người đọc lại, và cố tình đặt thấp để không biến thành trò đếm chữ.
+
+**Vì sao đoạn văn nằm ngay dưới thanh trượt, không nằm trong tooltip:** nội dung văn hoá là **một phần của đề tài**, không phải chú thích phụ; và tooltip thì bàn phím lẫn trình đọc màn hình đều với tới khó. Đoạn văn được nối vào thanh trượt bằng `aria-describedby`, nên FR-63 (*"văn bản mô tả từng âm, thay cho việc phải nhìn nhãn"*) được trả luôn ở cùng chỗ.
+
+**Ảnh hưởng sang việc khác:** VH2.1 (*"viết thẻ văn hoá cho mẫu đợt 1"*) trước đây **không có chỗ để đổ nội dung vào** — nay có. Hiện mới có đúng một thẻ: HN-08 tàu điện, lấy nguyên từ `VAT-LIEU-4-DIA-DIEM.md` §4 **kèm nguyên chỗ còn ngờ** ("mốc năm này còn phải tra lại từ nguồn chính thống"). 31 mẫu còn lại để trống có chủ ý — không bịa nội dung văn hoá thay người phụ trách văn hoá.

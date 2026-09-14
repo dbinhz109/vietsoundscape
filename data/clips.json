@@ -186,7 +186,13 @@
         "status": "chua_khao_sat"
       },
       "contains_identifiable_voice": false,
-      "consent_status": "not_required"
+      "consent_status": "not_required",
+      "cultural_note_vi": "Tàu điện leng keng chạy qua phố cổ cho tới khoảng năm 1990 thì ngừng hẳn — mốc năm này còn phải tra lại từ nguồn chính thống. Đây là âm duy nhất trong bộ dữ liệu không còn thu được nữa: nó chỉ còn trong bản lưu trữ và trong trí nhớ người nghe.",
+      "tags": [
+        "giao-thong",
+        "da-mat",
+        "pho-co"
+      ]
     },
     {
       "id": "CR-01",

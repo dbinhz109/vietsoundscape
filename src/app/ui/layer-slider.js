@@ -13,9 +13,13 @@
  * @param {number} options.value 0…1
  * @param {(value: number) => void} options.onInput
  * @param {string} [options.hint] dòng phụ, ví dụ nhóm nguồn phát
+ * @param {string} [options.description] đoạn giải thích đọc được — nội dung thẻ
+ *   văn hoá (FR-26). Nối vào thanh trượt bằng `aria-describedby` để trình đọc
+ *   màn hình đọc nó ngay sau nhãn, thay vì người dùng phải nhìn thấy mới biết
+ *   (FR-63).
  * @returns {HTMLElement}
  */
-export function createLayerSlider({ id, label, value, onInput, hint }) {
+export function createLayerSlider({ id, label, value, onInput, hint, description }) {
   const row = document.createElement('div');
   row.className = 'slider-row';
 
@@ -38,6 +42,15 @@ export function createLayerSlider({ id, label, value, onInput, hint }) {
   input.step = '0.01';
   input.value = String(value);
   input.className = 'slider-input';
+
+  let descriptionElement = null;
+  if (description) {
+    descriptionElement = document.createElement('p');
+    descriptionElement.className = 'slider-description';
+    descriptionElement.id = `${id}-mo-ta`;
+    descriptionElement.textContent = description;
+    input.setAttribute('aria-describedby', descriptionElement.id);
+  }
 
   const readout = document.createElement('output');
   readout.className = 'slider-readout';
@@ -64,5 +77,6 @@ export function createLayerSlider({ id, label, value, onInput, hint }) {
   render();
 
   row.append(labelElement, input, readout);
+  if (descriptionElement) row.append(descriptionElement);
   return row;
 }

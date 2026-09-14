@@ -80,3 +80,35 @@ describe('createLayerSlider', () => {
     expect(build().querySelector('.slider-hint')).toBeNull();
   });
 });
+
+describe('mô tả văn bản cho từng lớp âm (FR-26, FR-63)', () => {
+  test('có mô tả thì dựng đoạn văn và nối vào thanh trượt bằng aria-describedby', () => {
+    const moTa = 'Tiếng chuông chùa Thiên Mụ, vang kéo dài trên mặt sông Hương.';
+    const row = createLayerSlider({
+      id: 'layer-HU-04',
+      label: 'Đại hồng chung',
+      value: 0.5,
+      onInput: () => {},
+      description: moTa,
+    });
+
+    const paragraph = row.querySelector('.slider-description');
+    const input = row.querySelector('input');
+
+    expect(paragraph.textContent).toBe(moTa);
+    expect(paragraph.id).toBeTruthy();
+    expect(input.getAttribute('aria-describedby')).toBe(paragraph.id);
+  });
+
+  test('không có mô tả thì không dựng đoạn văn rỗng', () => {
+    const row = createLayerSlider({
+      id: 'layer-HU-04',
+      label: 'Đại hồng chung',
+      value: 0.5,
+      onInput: () => {},
+    });
+
+    expect(row.querySelector('.slider-description')).toBeNull();
+    expect(row.querySelector('input').hasAttribute('aria-describedby')).toBe(false);
+  });
+});

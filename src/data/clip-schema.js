@@ -56,7 +56,22 @@ const PUBLISHED_FIELDS = [
   'consent_status',
   'sha256',
   'editing_log',
+  'cultural_note_vi',
 ];
+
+/**
+ * Độ dài tối thiểu của thẻ văn hoá.
+ *
+ * FR-26 đòi "≥ 1 đoạn giải thích" cho mỗi mẫu âm, mà BA §8.2 lại để
+ * `cultural_note_vi` là tuỳ chọn — hai chỗ không khớp nhau. Chốt theo FR-26:
+ * bắt buộc **khi xuất bản**, còn lúc mới lên kế hoạch thì chưa cần, vì nội dung
+ * là việc VH2.1 của lộ trình, viết sau khi đã thu được mẫu (sổ quyết định Q-24).
+ *
+ * Ngưỡng tồn tại để chặn chỗ điền cho có: một câu tiếng Việt nói được âm này là
+ * gì và đang mai một ra sao hiếm khi ngắn hơn chừng này. Nó **không** thay được
+ * việc đọc lại — chỉ chặn `"tiếng rao"` và `"chưa có"`.
+ */
+export const CULTURAL_NOTE_MIN_CHARS = 60;
 
 const SHA256_PATTERN = /^[0-9a-f]{64}$/;
 /** ISO 8601 phải có múi giờ: kết thúc bằng Z hoặc ±hh:mm. */
@@ -98,6 +113,7 @@ export function validateClip(clip) {
   checkConsent(clip, fail, isPublished);
   checkSensitiveData(clip, fail, isPublished);
   checkPublishedShape(clip, fail, isPublished);
+  checkCulturalNote(clip, fail);
 
   return { valid: errors.length === 0, errors };
 }
@@ -121,6 +137,45 @@ function checkVocabulary(clip, fail) {
 
   if (!isMissing(clip.time_of_day) && !TIMES_OF_DAY.includes(clip.time_of_day)) {
     fail('time_of_day', `"${clip.time_of_day}" không thuộc: ${TIMES_OF_DAY.join(', ')}.`);
+  }
+}
+
+/**
+ * Thẻ thông tin văn hoá (FR-26).
+ *
+ * Nửa "mức độ mai một dùng từ vựng có kiểm soát" của FR-26 đã do
+ * `endangerment_level` lo. Nửa còn lại — đoạn giải thích — là chỗ này.
+ */
+function checkCulturalNote(clip, fail) {
+  for (const field of ['cultural_note_vi', 'cultural_note_en']) {
+    const note = clip[field];
+    if (isMissing(note)) continue; // thiếu hay không đã xét ở phần trường bắt buộc
+
+    if (typeof note !== 'string') {
+      fail(field, `"${field}" phải là chuỗi, nhận được ${typeof note}.`);
+      continue;
+    }
+    if (note.trim().length < CULTURAL_NOTE_MIN_CHARS) {
+      fail(
+        field,
+        `Thẻ văn hoá đang có ${note.trim().length} ký tự. FR-26 đòi một đoạn giải thích ` +
+          `(≥ ${CULTURAL_NOTE_MIN_CHARS} ký tự): âm này là gì, ý nghĩa, đang mai một ra sao.`,
+      );
+    }
+  }
+
+  const { tags } = clip;
+  if (isMissing(tags)) return;
+
+  if (!Array.isArray(tags)) {
+    fail('tags', `"tags" phải là mảng chuỗi, nhận được ${typeof tags}.`);
+    return;
+  }
+  if (tags.some((tag) => typeof tag !== 'string' || tag.trim() === '')) {
+    fail('tags', 'Mọi thẻ trong "tags" phải là chuỗi không rỗng.');
+  }
+  if (new Set(tags).size !== tags.length) {
+    fail('tags', 'Có thẻ trùng nhau trong "tags".');
   }
 }
 
