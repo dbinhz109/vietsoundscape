@@ -476,4 +476,27 @@ describe('thẻ thông tin văn hoá (FR-26)', () => {
       validateClip(published({ ...base, tags: ['kim-loai', 'kim-loai'] })).valid,
     ).toBe(false);
   });
+
+  test('thẻ trùng nhau vẫn bị bắt khi chỉ khác khoảng trắng thừa hoặc hoa thường', () => {
+    // Thẻ do người ngoài điền tay ở việc VH2.1. Nếu chỉ so nguyên văn thì
+    // " giao-thong " và "Giao-Thong" thành ba thẻ khác nhau cho cùng một thứ,
+    // và bộ lọc theo thẻ (FR-03) sẽ chia nhỏ kết quả mà không ai hiểu vì sao.
+    const base = { cultural_note_vi: note };
+
+    const khoangTrang = validateClip(published({ ...base, tags: ['giao-thong', ' giao-thong '] }));
+    const hoaThuong = validateClip(published({ ...base, tags: ['kim-loai', 'Kim-Loai'] }));
+
+    expect(khoangTrang.valid).toBe(false);
+    expect(hoaThuong.valid).toBe(false);
+    expect(errorFields(hoaThuong)).toContain('tags');
+  });
+
+  test('thẻ có khoảng trắng thừa bị chặn ngay, không chỉ khi trùng', () => {
+    const result = validateClip(
+      published({ cultural_note_vi: note, tags: [' giao-thong'] }),
+    );
+
+    expect(result.valid).toBe(false);
+    expect(result.errors.find((e) => e.field === 'tags').message).toMatch(/khoảng trắng/i);
+  });
 });

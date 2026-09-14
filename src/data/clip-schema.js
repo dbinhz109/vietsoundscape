@@ -173,9 +173,24 @@ function checkCulturalNote(clip, fail) {
   }
   if (tags.some((tag) => typeof tag !== 'string' || tag.trim() === '')) {
     fail('tags', 'Mọi thẻ trong "tags" phải là chuỗi không rỗng.');
+    return; // các luật dưới đều giả định mọi thẻ là chuỗi
   }
-  if (new Set(tags).size !== tags.length) {
-    fail('tags', 'Có thẻ trùng nhau trong "tags".');
+
+  const thua = tags.filter((tag) => tag !== tag.trim());
+  if (thua.length > 0) {
+    fail(
+      'tags',
+      `Thẻ có khoảng trắng thừa ở đầu hoặc cuối: ${thua.map((t) => `"${t}"`).join(', ')}. ` +
+        'Bỏ khoảng trắng đi — thẻ được so khớp nguyên văn khi lọc.',
+    );
+  }
+
+  // So khớp sau khi chuẩn hoá, không so nguyên văn. Thẻ do người điền tay ở việc
+  // VH2.1, nên " giao-thong " và "Giao-Thong" sẽ thành ba thẻ khác nhau cho cùng
+  // một thứ, và bộ lọc theo thẻ (FR-03) chia nhỏ kết quả mà không ai hiểu vì sao.
+  const chuanHoa = tags.map((tag) => tag.trim().toLowerCase());
+  if (new Set(chuanHoa).size !== chuanHoa.length) {
+    fail('tags', 'Có thẻ trùng nhau trong "tags" (không phân biệt hoa thường và khoảng trắng).');
   }
 }
 
