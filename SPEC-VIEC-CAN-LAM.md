@@ -10,11 +10,11 @@
 |---|---|---|---|
 | S0 hạ tầng | S0.1 git · S0.2 README · S0.3 CI · S0.4 lộ trình | **S0.5** xác nhận ngày thật | NC |
 | S1 phép đo | **S1.1** phương án nhiễu · **S1.2** cỡ mẫu tính lại (96 giữ) | **S1.3** quyết vang · **S1.4** ký + tag | NC |
-| S2 cổng G0 | — | S2.1–S2.4: cần một bản thu thật và một điện thoại thật | ÂT + PM |
+| S2 cổng G0 | **S2.1** 3/4 ô (14/09, bản thu thật CC BY) | S2.1 nghe 5 phút · S2.2 máy của nhóm · S2.3 điện thoại thật · S2.4 đóng cổng | ÂT + PM |
 | S3 đường găng | — | S3.1 kho âm · S3.2 ba thư pháp lý · S3.3 lịch thực địa | ÂT + VH + NC |
 | S4 dọn tài liệu | **S4.1** tách BA → sổ quyết định · **S4.2** script R | — | |
 
-Mọi việc máy làm được một mình đã xong (13/18). Năm việc còn lại đều cần **người thật**
+Mọi việc máy làm được một mình đã xong (13/18, cộng 3/4 ô của S2.1 ngày 14/09 nhờ mượn được bản thu thật giấy phép mở). Năm việc còn lại đều cần **người thật**
 hoặc **vật liệu thật**; không việc nào trong số đó có thể làm bằng cách viết thêm mã.
 
 ## Cách đọc
@@ -164,10 +164,10 @@ Thứ tự ưu tiên **không phải** thứ tự giá trị. Nó là thứ tự
 **Làm gì:** thu 60 giây ở nơi gần nhất có tiếng nền liên tục (quán cà phê, ngã tư, chợ) bằng điện thoại; chạy `npm run process`; khai một bản trộn tạm dùng tệp đó làm keynote; mở trong phòng nghe; nghe loop 5 phút.
 
 **Đạt khi:**
-- [ ] `npm run process` chạy xong không lỗi trên tệp thật, xuất Opus 72k + 144k
-- [ ] `findLoopPoints` trả về điểm loop (không `null`) — ghi lại `startS`/`endS`
-- [ ] Nghe 5 phút, ghi vào `BAO-CAO-G0.md`: có nghe ra điểm nối không, ở giây thứ mấy
-- [ ] So kích cỡ: WAV vs Opus 72k, để chứng minh hay bác con số "0,9 s" của B2.4
+- [x] `npm run process` chạy xong không lỗi trên tệp thật, xuất Opus 72k + 144k — bản thu thật *Départ Ferry Hai Phong 1999* (`aporee_26366_30456`, CC BY 3.0, WAV 44,1 kHz stereo 553,75 s) + ba lát 30 s; 12 tệp mã hoá, 27,19 MB, không lỗi. Số đo ở `BAO-CAO-G0.md` §7
+- [x] `findLoopPoints` trả về điểm loop (không `null`) — ghi lại `startS`/`endS` — 4/4 tệp có điểm loop; bước nhảy `4,2e-15 … 4,3e-12`, **cùng bậc** với âm tổng hợp ⇒ thuật toán không xuống cấp trên âm thật. Gain chạy đúng cả hai chiều (−10,73 dB và **+11,62 dB**), cả bốn ra đúng −23,00 LUFS, đỉnh cao nhất −2,38 dBTP
+- [ ] Nghe 5 phút, ghi vào `BAO-CAO-G0.md`: có nghe ra điểm nối không, ở giây thứ mấy — **ô duy nhất còn lại của S2.1, cần tai người.** Ba lát 30 s ở `BAO-CAO-G0.md` §7.6 dựng lại được bằng hai lệnh
+- [x] So kích cỡ: WAV vs Opus 72k, để chứng minh hay bác con số "0,9 s" của B2.4 — **bác con số 7×**: tỉ số thật là **15,19–21,57×** (7,51× là của Opus *144k* ở đoạn đông nhất). Phép chiếu 0,9 s là dè dặt chứ không lạc quan. Nhưng **chưa đóng B2.4**: thời gian tải không tỉ lệ thuần với byte, phải đo lại trong trình duyệt
 
 **Vai:** ÂT · **Công:** 2 giờ · **Chặn bởi:** không
 
@@ -180,6 +180,8 @@ Thứ tự ưu tiên **không phải** thứ tự giá trị. Nó là thứ tự
 **Đạt khi:**
 - [ ] Kết quả ghi vào `BAO-CAO-G0.md` kèm tên thiết bị, kèm kết luận "dùng được / không"
 - [ ] Nếu "không": chốt thiết bị khác trước A1.1
+
+> 📒 14/09: công cụ **đã chạy trọn trên âm thật** (bản Hải Phòng 1999) và cho kết luận DÙNG ĐƯỢC — nền ồn −35,1 dBFS, dâng 0,6 dB, 3% khối bị cắt, không thấy AGC/khử ồn (`BAO-CAO-G0.md` §7.4). **Không tích ô nào**: S2.2 hỏi về *máy nhóm sẽ mang đi thu*, còn đây là máy người khác năm 1999 — máy Minidisc thời đó không có AGC để mà phát hiện, nên là bài thử nhẹ cho bộ dò. Vẫn cần bản thu đúng mẫu 25 s → 10 s → 25 s bằng máy của nhóm.
 
 **Vai:** ÂT · **Công:** 30 phút · **Chặn bởi:** không
 
