@@ -15,7 +15,7 @@ thanh; `python3` + `numpy` chỉ cần để sinh âm thử.
 
 ```bash
 npm ci                # cài đúng phiên bản trong package-lock.json
-npm test              # 433 test — phải xanh trước khi làm gì khác
+npm test              # 478 test — phải xanh trước khi làm gì khác
 npm run gen:audio     # sinh âm thử tổng hợp vào spike/audio/ (không có trong repo)
 npm run dev           # http://localhost:5174
 ```
@@ -68,6 +68,7 @@ spike/           trang đo ban đầu (G0)
 | `BA-VietSoundscape.md` | Phân tích nghiệp vụ: yêu cầu FR/NFR, mô hình dữ liệu, thiết kế thực nghiệm |
 | `LO-TRINH-VietSoundscape.md` | Lộ trình theo mốc M0–M7 và ba luồng A/B/C, cổng G0–G2 |
 | `SPEC-VIEC-CAN-LAM.md` | Việc cần làm theo hai lần đánh giá lại, mỗi việc có tiêu chí "Đạt khi" |
+| `DANH-GIA-SO-VOI-THUYET-MINH.md` | Đối chiếu hiện trạng repo với thuyết minh đề tài: hứa gì, đang ở đâu, phải sửa gì trong thuyết minh |
 | `BAO-CAO-G0.md` | Báo cáo spike: chất lượng loop, RAM, câu còn treo |
 | `VAT-LIEU-4-DIA-DIEM.md` | Kê vật liệu âm cho bốn địa điểm |
 | `nghien-cuu/ke-hoach-phan-tich.md` | Kế hoạch phân tích đăng ký trước: giả thuyết, phép kiểm, cỡ mẫu, tiêu chí loại |
