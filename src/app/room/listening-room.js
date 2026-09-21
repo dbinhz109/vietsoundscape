@@ -7,6 +7,7 @@
  */
 
 import { createSoundscapeEngine } from '../../audio/engine.js';
+import { assetUrl } from '../asset-url.js';
 import { scheduleTriggers } from '../../audio/trigger.js';
 import { findLoopPoints } from '../../audio/loop.js';
 import { KRAUSE_CLASSES, LOOPING_ROLES } from '../../domain/taxonomy.js';
@@ -129,7 +130,7 @@ export function createListeningRoom({ container, onMixChange }) {
 
     teardown();
 
-    const urlOf = (layer) => layer.placeholder_audio ?? layer.audio;
+    const urlOf = (layer) => assetUrl(layer.placeholder_audio ?? layer.audio);
     keepUrls = new Set(recipe.layers.map(urlOf));
     evictUnused(keepUrls);
 

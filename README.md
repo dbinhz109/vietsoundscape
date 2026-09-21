@@ -8,6 +8,9 @@ nhận khác biệt (H2) so với nghe âm rời rạc.
 Đề tài nghiên cứu sinh viên. JS thuần, không khung giao diện. Web trước, app
 điện thoại là lựa chọn sau.
 
+**Web công khai:** https://dbinhz109.github.io/vietsoundscape/ — bản dựng của `main`, âm thanh
+hiện là **tổng hợp giữ chỗ** (`recipes` đang `placeholder: true`) cho tới khi có vật liệu thật.
+
 ## Chạy lần đầu
 
 Cần **Node ≥ 22** (đang dùng 24). `ffmpeg`/`ffprobe` chỉ cần cho đường ống âm
@@ -15,7 +18,7 @@ thanh; `python3` + `numpy` chỉ cần để sinh âm thử.
 
 ```bash
 npm ci                # cài đúng phiên bản trong package-lock.json
-npm test              # 478 test — phải xanh trước khi làm gì khác
+npm test              # 497 test — phải xanh trước khi làm gì khác
 npm run gen:audio     # sinh âm thử tổng hợp vào spike/audio/ (không có trong repo)
 npm run dev           # http://localhost:5174
 ```
@@ -46,6 +49,7 @@ kết xuất kích thích trước (`npm run render:stimuli -- --placeholder`, c
 | `npm run plan:sample` | Bảng cỡ mẫu theo ba kịch bản, công thức đối chiếu mô phỏng |
 
 CI (`.github/workflows/ci.yml`) chạy `test` → `validate` → `build` trên mỗi push.
+`pages.yml` dựng `main` với `PUBLIC_BASE=/vietsoundscape/` (kèm `gen:audio`) và đưa lên GitHub Pages.
 
 ## Cấu trúc
 
@@ -81,5 +85,5 @@ Giấy phép mã nguồn dự kiến là MIT (`phap-ly/09`); chưa có tệp `LI
 
 - **Test trước, mã sau.** Mỗi module có tệp `.test.js` cạnh nó.
 - Không đưa tệp âm vào git: `spike/audio/`, `build/` sinh lại được.
-- Không hardcode bí mật. Repo hiện không cần biến môi trường nào.
+- Không hardcode bí mật. Biến môi trường duy nhất là `PUBLIC_BASE` (tuỳ chọn, chỉ lúc `build` cho Pages).
 - Tài liệu và thông báo lỗi viết bằng tiếng Việt.

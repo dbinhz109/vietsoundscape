@@ -30,6 +30,7 @@ import {
 import { EXPERIMENT_CONDITIONS } from '../../domain/taxonomy.js';
 import { ISO_ATTRIBUTE_KEYS } from '../../research/soundscape-scale.js';
 import { composeAnswerOptions } from '../../research/answer-options.js';
+import { assetUrl } from '../asset-url.js';
 
 /**
  * Thư mục phục vụ tệp kích thích.
@@ -71,10 +72,10 @@ async function main() {
   const participantIndex = resolveParticipantIndex(location.search);
 
   const [locations, recipes, manifest, { distractors }] = await Promise.all([
-    json('/data/locations.geojson'),
-    json('/data/recipes/index.json'),
-    json(`${STIMULUS_BASE}manifest.json`),
-    json('/data/distractors.json'),
+    json(assetUrl('/data/locations.geojson')),
+    json(assetUrl('/data/recipes/index.json')),
+    json(assetUrl(`${STIMULUS_BASE}manifest.json`)),
+    json(assetUrl('/data/distractors.json')),
   ]);
 
   const locationIds = locations.features.map((feature) => feature.properties.location_id);
@@ -114,7 +115,7 @@ async function main() {
   createExperimentView(document.getElementById('experiment'), {
     session,
     optionLabels,
-    stimulusUrl: createStimulusUrl(manifest, { base: STIMULUS_BASE }),
+    stimulusUrl: createStimulusUrl(manifest, { base: assetUrl(STIMULUS_BASE) }),
     onComplete: (log) => {
       releaseGuard();
       downloadLog(log);

@@ -57,6 +57,9 @@ function prettyRoutes({ routes }) {
 }
 
 export default defineConfig({
+  // GitHub Pages phục vụ dưới `/vietsoundscape/`; máy chủ phát triển và preview
+  // từ gốc. Mã đọc base qua `src/app/asset-url.js`, dữ liệu vẫn viết từ gốc.
+  base: process.env.PUBLIC_BASE || '/',
   plugins: [
     copyProjectData({ directories: ['data', 'spike/audio'] }),
     prettyRoutes({ routes: { '/thuc-nghiem': '/thuc-nghiem.html' } }),

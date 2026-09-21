@@ -1,0 +1,68 @@
+# Triển khai bản tĩnh lên GitHub Pages (việc G2 / A7.1 một phần).
+#
+# Chạy sau mỗi push lên main. Không thay CI (`ci.yml`) — CI vẫn chặn test/validate
+# trên mọi nhánh; tệp này chỉ đưa bản dựng của main ra link công khai.
+#
+# Bản dựng dùng base `/vietsoundscape/` (tên repo) — mã đọc qua
+# `src/app/asset-url.js`, dữ liệu vẫn viết đường dẫn từ gốc.
+#
+# Âm thanh: `spike/audio/` không có trong repo, nên sinh lại bằng
+# `npm run gen:audio` (numpy) để phòng nghe có tiếng. Đây là âm TỔNG HỢP giữ chỗ —
+# recipes đang `placeholder: true`. `build/stimuli/` (198 MB, cần ffmpeg) KHÔNG
+# kết xuất ở đây: trang /thuc-nghiem trên Pages sẽ báo thiếu manifest cho tới khi
+# có kích thích thật và quyết định phục vụ chúng ở đâu (BA §10.5).
+name: Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - run: npm ci
+
+      - run: pip install numpy
+
+      # Âm thử tổng hợp vào spike/audio/ — plugin copy-project-data chép sang dist/.
+      - run: npm run gen:audio
+
+      - run: npm run build
+        env:
+          PUBLIC_BASE: /vietsoundscape/
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

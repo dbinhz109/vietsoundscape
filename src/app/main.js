@@ -10,6 +10,7 @@ import 'leaflet/dist/leaflet.css';
 import '../styles/tokens.css';
 import '../styles/app.css';
 
+import { assetUrl } from './asset-url.js';
 import { createSoundMap } from './map/sound-map.js';
 import { createListeningRoom } from './room/listening-room.js';
 import { parseUrlState, toSearchParams } from './state/url-state.js';
@@ -39,10 +40,10 @@ function setStatus(message, kind = 'info') {
 
 async function main() {
   const [locations, clipsFile, recipeIndex, outline] = await Promise.all([
-    json('/data/locations.geojson'),
-    json('/data/clips.json'),
-    json('/data/recipes/index.json'),
-    json('/data/vietnam-outline.geojson'),
+    json(assetUrl('/data/locations.geojson')),
+    json(assetUrl('/data/clips.json')),
+    json(assetUrl('/data/recipes/index.json')),
+    json(assetUrl('/data/vietnam-outline.geojson')),
   ]);
 
   const clipsById = indexClipsById(clipsFile.clips);
