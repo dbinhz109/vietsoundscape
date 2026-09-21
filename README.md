@@ -100,6 +100,7 @@ spike/           trang đo ban đầu (G0)
 | `nghien-cuu/thu-so-vhttdl.md` | Hai thư gửi Sở VHTTDL Huế và Đắk Lắk theo Luật Di sản Điều 16 khoản 3 (A0.3d) |
 | `nghien-cuu/ung-vien-kho-am.md` | Ứng viên kho âm mở cho 17 mẫu `licensed_archive`; §7 bản nghe thử đã tải |
 | `nghien-cuu/phan-bien-du-kien.md` | 12 câu phản biện dự kiến, mỗi câu có trả lời 30 giây, bằng chứng, điểm yếu thật |
+| `nghien-cuu/bao-cao-nghien-cuu.md` | Báo cáo nghiên cứu: mục 1–4 (đặt vấn đề, cơ sở, phương pháp) **viết xong**; mục 5–7 có khung chờ dữ liệu |
 | `nghien-cuu/sua-thuyet-minh.md` | Văn bản thay thế sẵn cho 6 lỗi của thuyết minh gốc (BA §16) |
 | `nghien-cuu/tuyen-nguoi-tham-gia.md` | Tuyển người: điều kiện mở, con số, quy trình một người, thư mời, theo dõi tuần |
 | `nghien-cuu/phieu-06-cai-rang.md` | Phiếu cộng tác viên điền sẵn cho Cái Răng (nếu không tự đi) |

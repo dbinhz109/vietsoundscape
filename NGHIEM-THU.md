@@ -20,6 +20,7 @@
 | | Số | Kiểm bằng |
 |---|---|---|
 | Kiểm thử | **662** đạt | `npm test` |
+| Tài liệu nghiên cứu | 11 tệp | `ls nghien-cuu/*.md` |
 | Module mã sản phẩm / tệp kiểm thử | 39 / 34 | `find src -name '*.js'` |
 | Công cụ dòng lệnh | 13 | `ls scripts/*.mjs` |
 | Mẫu âm khai báo | 32 (15 tự thu, 8 ⭐ xác minh tại chỗ) | `data/clips.json` |
@@ -43,7 +44,7 @@
 | Thống kê (C6.1, C6.2) | McNemar, Wilcoxon, cỡ hiệu ứng + CI; đối chiếu R khớp 12 chữ số |
 | Công bố (A7.1, A5.1) | link công khai, PWA ngoại tuyến, demo không cần wifi, hình xếp chồng dạng sóng |
 | Hiệu năng (B6.3, B6.4) | 94 KB qua dây, 0 lỗi, RAM 12 MB/5 lớp; 6 bề rộng không tràn ngang (`BAO-CAO-G0.md` §8) |
-| Chuẩn bị bảo vệ (C7.1, C7.2) | 12 câu phản biện có bằng chứng; văn bản sửa 6 lỗi thuyết minh |
+| Báo cáo và bảo vệ (C7.1, C7.2) | Báo cáo nghiên cứu mục 1–4 viết xong, 5–7 có khung; 12 câu phản biện có bằng chứng; văn bản sửa 6 lỗi thuyết minh |
 
 **Còn trong M nhưng cố ý không làm:** B3.2 biểu mẫu đóng góp và B3.3 RLS/CSP cần máy chủ thật — ngoài phạm vi v1 (BA §2 "ngoài phạm vi").
 
