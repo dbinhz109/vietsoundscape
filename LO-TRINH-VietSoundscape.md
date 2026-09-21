@@ -144,7 +144,7 @@ Làm **xong hẳn một địa điểm** từ bản đồ đến bộ trộn, th
 
 | # | Việc | Vai |
 |---|---|---|
-| A3.1 | **Thu đợt 2: địa điểm 3 và 4** + bù các mẫu thiếu của đợt 1 | ÂT + VH |
+| A3.1 | **Thu đợt 2: địa điểm 3 và 4** + bù các mẫu thiếu của đợt 1 | ÂT + VH | 📒 21/09: khung `nghien-cuu/ke-hoach-thuc-dia-dot-2.md` (Huế + Buôn Ê Đê, phiếu 02 hai cộng đồng, xin phép chùa, mùa); thư Sở `thu-so-vhttdl.md`. Chưa có ngày, đầu mối |
 | A3.2 | Xử lý, phân loại, cân bằng LUFS toàn bộ: **≥ 32 mẫu / 4 địa điểm** | ÂT |
 | A3.3 | Dựng **đủ 12 bản trộn** (3/vùng) + bản đối chứng "phân lớp sai vùng miền" | ÂT + NC |
 | B3.1 | Mở rộng đủ 4 địa điểm; lọc/tìm theo phân loại; trang chi tiết mẫu âm + xuất trích dẫn | PM | **XONG một phần** (14/09): cơ chế thẻ văn hoá FR-26 — lược đồ, giao diện, 10 test (`clip-schema.js`, `layer-slider.js`, `listening-room.js`). 📒 21/09: **FR-03, FR-25, FR-27 XONG phần mã** — `src/app/ui/location-filter.js` (5 tiêu chí + tìm chữ bỏ dấu; trạng thái trên URL `vung/nhom/vai/buoi/maimot/q`; danh sách và bản đồ cùng lọc), `src/app/ui/clip-details.js` (thẻ gập theo BA §8.2, hàng thiếu ghi "chưa có"), `src/data/citation.js` (văn bản + BibTeX có SHA-256, hai nút sao chép có đường lùi); 63 test, kiểm trình duyệt thật ở 375 px. Còn lại là **nội dung**: `clips.json` chưa có giấy phép/nguồn/băm nên thẻ đang toàn "chưa có" |
