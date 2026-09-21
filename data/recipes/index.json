@@ -1,14 +1,62 @@
 [
   {
+    "id": "buon-e-de-sang-buon",
+    "location_id": "buon-e-de",
+    "title_vi": "Buôn Ê Đê — sáng trong buôn",
+    "time_of_day": "early_morning"
+  },
+  {
+    "id": "buon-e-de-chieu-muon",
+    "location_id": "buon-e-de",
+    "title_vi": "Buôn Ê Đê — chiều muộn",
+    "time_of_day": "evening"
+  },
+  {
+    "id": "buon-e-de-dem-rung",
+    "location_id": "buon-e-de",
+    "title_vi": "Buôn Ê Đê — đêm rừng",
+    "time_of_day": "night"
+  },
+  {
+    "id": "cai-rang-rang-sang",
+    "location_id": "cai-rang",
+    "title_vi": "Chợ nổi Cái Răng — rạng sáng",
+    "time_of_day": "dawn"
+  },
+  {
+    "id": "cai-rang-cho-tan",
+    "location_id": "cai-rang",
+    "title_vi": "Chợ nổi Cái Răng — giữa buổi, chợ tan",
+    "time_of_day": "morning"
+  },
+  {
+    "id": "cai-rang-mua-chieu",
+    "location_id": "cai-rang",
+    "title_vi": "Chợ nổi Cái Răng — mưa chiều trên sông",
+    "time_of_day": "afternoon"
+  },
+  {
     "id": "hanoi-pho-co-sang-som",
     "location_id": "hanoi-pho-co",
     "title_vi": "Phố cổ Hà Nội — sáng sớm",
     "time_of_day": "early_morning"
   },
   {
-    "id": "cai-rang-rang-sang",
-    "location_id": "cai-rang",
-    "title_vi": "Chợ nổi Cái Răng — rạng sáng",
+    "id": "hanoi-pho-co-trua-mua",
+    "location_id": "hanoi-pho-co",
+    "title_vi": "Phố cổ Hà Nội — trưa mưa",
+    "time_of_day": "midday"
+  },
+  {
+    "id": "hanoi-pho-co-dem",
+    "location_id": "hanoi-pho-co",
+    "title_vi": "Phố cổ Hà Nội — đêm",
+    "time_of_day": "night"
+  },
+  {
+    "id": "hue-rang-sang-cong-phu",
+    "location_id": "hue-thien-mu",
+    "title_vi": "Huế — rạng sáng, giờ công phu",
     "time_of_day": "dawn"
   },
   {
@@ -18,9 +66,9 @@
     "time_of_day": "midday"
   },
   {
-    "id": "buon-e-de-chieu-muon",
-    "location_id": "buon-e-de",
-    "title_vi": "Buôn Ê Đê — chiều muộn",
-    "time_of_day": "evening"
+    "id": "hue-dem-ca-hue",
+    "location_id": "hue-thien-mu",
+    "title_vi": "Huế — đêm ca Huế trên sông Hương",
+    "time_of_day": "night"
   }
 ]

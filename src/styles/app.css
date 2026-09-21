@@ -334,6 +334,41 @@ h3 {
   color: var(--ink-900);
 }
 
+/* Chọn bản trộn theo thời điểm (FR-59) — nhóm nút "đang chọn" */
+.recipe-chooser {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
+.recipe-chooser:empty {
+  display: none;
+}
+
+.recipe-button {
+  font: inherit;
+  font-size: var(--text-small);
+  padding: 0.25rem var(--space-2);
+  border: var(--rule);
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--ink-700);
+  cursor: pointer;
+  transition: background var(--duration-fast) var(--ease-out);
+}
+
+.recipe-button:hover,
+.recipe-button:focus-visible {
+  background: var(--paper-sunk);
+  color: var(--ink-900);
+}
+
+.recipe-button[aria-pressed='true'] {
+  background: var(--accent-strong);
+  border-color: var(--accent-strong);
+  color: var(--paper-raised);
+}
+
 /* Giấy phép hiệu lực của bản trộn (phap-ly/09) */
 .mix-license {
   margin: var(--space-1) 0 0;

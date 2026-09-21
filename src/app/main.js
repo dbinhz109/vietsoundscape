@@ -15,6 +15,7 @@ import { createSoundMap } from './map/sound-map.js';
 import { createListeningRoom } from './room/listening-room.js';
 import { parseUrlState, toSearchParams } from './state/url-state.js';
 import { createLocationFilter, filterLocations } from './ui/location-filter.js';
+import { createRecipeChooser } from './ui/recipe-chooser.js';
 import { registerOfflineSupport } from './offline/register.js';
 import { indexClipsById, validateRecipe } from '../data/recipe-schema.js';
 
@@ -141,7 +142,12 @@ async function main() {
       return;
     }
 
-    const wanted = recipes.find((r) => r.id === state.recipeId) ?? recipes[0];
+    // Ưu tiên: bản trộn trên URL → bản khớp thời điểm đang lọc (lọc "Đêm" rồi
+    // mở một nơi thì nghe bản đêm) → bản đầu theo thứ tự thời điểm trong ngày.
+    const wanted =
+      recipes.find((r) => r.id === state.recipeId) ??
+      recipes.find((r) => state.filter.timeOfDay && r.time_of_day === state.filter.timeOfDay) ??
+      recipes[0];
     setStatus(`Đang tải "${wanted.title_vi}"…`);
 
     for (const button of list.querySelectorAll('.location-button')) {
@@ -170,6 +176,18 @@ async function main() {
 
       soundMap.focus(locationId);
       syncUrl();
+
+      // FR-59: một nơi có nhiều bản trộn theo thời điểm — cho chọn ngay trên đầu
+      // phòng nghe. Đổi bản trộn giữ nguyên địa điểm nên giữ vị trí thanh trượt.
+      const chooser = createRecipeChooser({
+        recipes,
+        currentId: recipe.id,
+        onChoose: (recipeId) => {
+          state.recipeId = recipeId;
+          select(locationId);
+        },
+      });
+      el('recipe-chooser').replaceChildren(...(chooser ? [chooser] : []));
 
       const summary = (state) =>
         `${location.name_vi} — ${state} · RAM âm thanh ` +

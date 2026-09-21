@@ -143,6 +143,8 @@ Nguyên văn các mục 1–10 giữ làm mốc so sánh (hiện trạng `390b87
 | §7 việc C7.1/C7.2 — *sửa thuyết minh, chuẩn bị bảo vệ* | chưa | 🟡 văn bản thay thế 6 lỗi soạn sẵn; 12 câu phản biện; demo ngoại tuyến `npm run demo` | `nghien-cuu/sua-thuyet-minh.md`, `phan-bien-du-kien.md` |
 | Số liệu gốc — *kho mở 0/17* (tiếp) | 15/17 ứng viên chưa duyệt | máy chấm trước 33 bản (QUA 20 · CẢNH BÁO 12 · LOẠI 1), thứ tự nghe sẵn, `survey.candidates` trong `clips.json`; tai người còn ≈ 40 phút | `ung-vien-kho-am.md` §7.5 |
 | §8 lộ trình A5.1 — *PWA offline* | chưa | ✅ service worker + manifest, kiểm tắt mạng tải lại vẫn chạy | `src/app/offline/` |
+| §6 hàng *"Mới có 4 bản trộn, cần 12–15"* | 🟡 4 | 🟡 **12 bản trộn** (3/vùng, FR-59 đạt về cấu trúc), vẫn âm giữ chỗ; nút chọn theo thời điểm | `data/recipes/`, `recipe-chooser.js` |
+| §7 lộ trình A0.3d, A3.1 — *Sở VHTTDL, thực địa đợt 2* | chưa | 🟡 hai thư soạn sẵn, khung kế hoạch Huế + Buôn Ê Đê | `nghien-cuu/thu-so-vhttdl.md`, `ke-hoach-thuc-dia-dot-2.md` |
 | §7 việc C2.1 — *tuyển người* | chưa | 🟡 quy trình, thư mời, script theo dõi sẵn; **chưa mở danh sách** | `nghien-cuu/tuyen-nguoi-tham-gia.md` |
 
 **Tự đánh giá tổng thể, cập nhật (21/09 chiều):** Kỹ thuật và phương pháp ~90% → **~95%** (FR-03/25/27 là ba yêu cầu web cuối còn mở; còn B3.2/B3.3 đóng góp cộng đồng — hoãn sau thi, cần máy chủ). Công bố 0% → **~55%** — link có, cơ chế ghi công/giấy phép/trích dẫn có, `LICENSE` có; **nội dung vẫn giữ chỗ** nên mọi thẻ đang ghi "chưa có". Hai dòng còn lại (vật liệu 0%, dữ liệu người 0%) **không đổi**: bản nghe thử chưa phải vật liệu, chưa có lượt nghe nào. Không con số nào trong bốn dòng tăng thêm được bằng cách viết mã.

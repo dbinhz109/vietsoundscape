@@ -26,6 +26,7 @@ npm run dev           # http://localhost:5174
 Trang chính là phòng nghe: chọn địa điểm trên bản đồ hoặc danh sách, trộn các
 lớp âm. Trên danh sách có bộ lọc năm tiêu chí (vùng, nhóm Krause, vai Schafer,
 thời điểm, mức mai một) và ô tìm chữ bỏ dấu; trạng thái lọc nằm trên URL (FR-03).
+Mỗi địa điểm có 3 bản trộn theo thời điểm (FR-59), chọn bằng nút trên đầu phòng nghe.
 Mỗi lớp âm có thẻ gập "Nguồn, giấy phép và trích dẫn" — mọi trường bắt buộc của
 BA §8.2 hiện ra hoặc ghi "chưa có" (FR-25), kèm trích dẫn văn bản và BibTeX có
 SHA-256 (FR-27); bản trộn hiện giấy phép hiệu lực theo `phap-ly/09`.
@@ -50,7 +51,7 @@ kết xuất kích thích trước (`npm run render:stimuli -- --placeholder`, c
 | `npm run gen:audio` | Sinh âm thử tổng hợp vào `spike/audio/` *(python3 + numpy)* |
 | `npm run spike` | Máy chủ tĩnh cho trang spike đo RAM và chất lượng loop |
 | `npm run experiment -- [N]` | In kế hoạch phân điều kiện cho N người, kiểm cân bằng vuông Latin |
-| `npm run render:stimuli -- --placeholder [--verify]` | Kết xuất 12 kích thích thực nghiệm; `--verify` kết xuất lại và so băm *(ffmpeg, ~198 MB)* |
+| `npm run render:stimuli -- --placeholder [--verify]` | Kết xuất kích thích thực nghiệm (12 bản trộn × 3 điều kiện = 36); `--verify` kết xuất lại và so băm *(ffmpeg, ~600 MB)* |
 | `npm run analyse -- <log.json>` | Chạy McNemar (H1) và Wilcoxon (H2) trên log lượt nghe; `-- --demo` dùng dữ liệu giả |
 | `npm run plan:sample` | Bảng cỡ mẫu theo ba kịch bản, công thức đối chiếu mô phỏng |
 | `npm run chon:tam -- --bo <mã,…>` | Máy chọn tạm nguồn kho từ kết quả `prescreen` (Q-30): điền `source_url/license`, để trống `downloaded_at`, gắn `survey.status: chon_tam`; `--bo` là mẫu không chọn (chờ Q-28) |
