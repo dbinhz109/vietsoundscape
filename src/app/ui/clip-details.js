@@ -26,11 +26,20 @@ const isMissing = (value) =>
 /** Số kiểu Việt: dấu phẩy thập phân, dấu trừ thật. */
 const vn = (value) => String(value).replace('.', ',').replace(/^-/, '−');
 
+/**
+ * Chỉ dựng liên kết cho http(s). `source_url` là dữ liệu người đóng góp điền;
+ * một dòng `javascript:` lọt vào `clips.json` phải hiện ra là chữ, không phải
+ * nút bấm được.
+ * @param {unknown} href
+ * @returns {string | null}
+ */
+const safeHref = (href) => (typeof href === 'string' && /^https?:\/\//i.test(href) ? href : null);
+
 const row = (label, value, { href = null, missing = isMissing(value) } = {}) => ({
   label,
   value: missing ? MISSING : String(value),
   missing,
-  href: missing ? null : href,
+  href: missing ? null : safeHref(href),
 });
 
 function sourceRow(clip) {
@@ -112,20 +121,30 @@ function externalLink(href, text) {
  * Sao chép có đường lùi: clipboard bị chặn (HTTP, iframe, quyền) thì mở ô văn
  * bản đã chọn sẵn để người dùng Ctrl+C. Không nuốt lỗi — thanh trạng thái nói
  * rõ đang ở đường nào.
+ *
+ * Hai nút dùng chung một thanh trạng thái và một ô lùi, nên mỗi lượt bấm mang
+ * một số thứ tự: lượt nào không còn là lượt mới nhất khi xong thì bỏ, để cú
+ * bấm sau không bị cú bấm trước (xong muộn) ghi đè.
  */
-async function copyWithFallback(text, { status, fallback }, label) {
-  const clipboard = globalThis.navigator?.clipboard;
-  try {
-    if (!clipboard?.writeText) throw new Error('Trình duyệt không cho sao chép tự động');
-    await clipboard.writeText(text);
-    fallback.hidden = true;
-    status.textContent = `Đã sao chép ${label}`;
-  } catch (error) {
-    fallback.value = text;
-    fallback.hidden = false;
-    fallback.select?.();
-    status.textContent = `Không sao chép tự động được (${error.message}) — ô dưới đã chọn sẵn, sao chép tay bằng Ctrl+C`;
-  }
+function createCopier({ status, fallback }) {
+  let latest = 0;
+  return async function copyWithFallback(text, label) {
+    const ticket = ++latest;
+    const clipboard = globalThis.navigator?.clipboard;
+    try {
+      if (!clipboard?.writeText) throw new Error('Trình duyệt không cho sao chép tự động');
+      await clipboard.writeText(text);
+      if (ticket !== latest) return;
+      fallback.hidden = true;
+      status.textContent = `Đã sao chép ${label}`;
+    } catch (error) {
+      if (ticket !== latest) return;
+      fallback.value = text;
+      fallback.hidden = false;
+      fallback.select?.();
+      status.textContent = `Không sao chép tự động được (${error.message}) — ô dưới đã chọn sẵn, sao chép tay bằng Ctrl+C`;
+    }
+  };
 }
 
 /**
@@ -176,12 +195,13 @@ export function createClipDetails(clip, context) {
   fallback.hidden = true;
   fallback.setAttribute('aria-label', 'Trích dẫn để sao chép tay');
 
+  const copy = createCopier({ status, fallback });
   const button = (label, payload, name) => {
     const el = document.createElement('button');
     el.type = 'button';
     el.className = 'citation-button';
     el.textContent = label;
-    el.addEventListener('click', () => copyWithFallback(payload, { status, fallback }, name));
+    el.addEventListener('click', () => copy(payload, name));
     return el;
   };
 

@@ -141,6 +141,32 @@ describe('createClipDetails', () => {
     expect(link.getAttribute('target')).toBe('_blank');
   });
 
+  test('URL nguồn không phải http(s) thì in chữ, không dựng liên kết', () => {
+    // source_url là dữ liệu do người đóng góp điền — một dòng "javascript:" lọt
+    // vào clips.json không được biến thành liên kết bấm được.
+    const el = createClipDetails({ ...archive, source_url: 'javascript:alert(1)' }, CONTEXT);
+    expect(el.querySelector('a[href^="javascript"]')).toBeNull();
+    expect(el.textContent).toContain('javascript:alert(1)');
+  });
+
+  test('bấm hai nút liên tiếp thì trạng thái theo cú bấm SAU, không theo cú xong sau', async () => {
+    let releaseFirst;
+    writeText
+      .mockImplementationOnce(() => new Promise((resolve) => { releaseFirst = resolve; }))
+      .mockImplementationOnce(async () => {});
+    const el = createClipDetails(published, CONTEXT);
+    const [copyText, copyBibtex] = el.querySelectorAll('button');
+    copyText.click();
+    copyBibtex.click();
+    await Promise.resolve();
+    await Promise.resolve();
+    expect(el.querySelector('[role=status]').textContent).toBe('Đã sao chép BibTeX');
+    releaseFirst();
+    await Promise.resolve();
+    await Promise.resolve();
+    expect(el.querySelector('[role=status]').textContent).toBe('Đã sao chép BibTeX');
+  });
+
   test('không dùng innerHTML: tiêu đề có thẻ HTML được in nguyên chữ', () => {
     const el = createClipDetails({ ...published, rights_holder: '<img src=x onerror=alert(1)>' }, CONTEXT);
     expect(el.querySelector('img')).toBeNull();

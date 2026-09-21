@@ -118,6 +118,8 @@ export function toSearchParams(state) {
   for (const { key, param } of FILTER_PARAMS) {
     if (filter[key]) params.set(param, filter[key]);
   }
-  if (filter.q) params.set('q', filter.q);
+  // Cắt ở cùng một ngưỡng với lúc đọc: link chia sẻ mở lại phải ra đúng bộ lọc
+  // đã gửi, không phải một bộ lọc bị cắt bớt trong im lặng.
+  if (filter.q) params.set('q', String(filter.q).trim().slice(0, QUERY_MAX_CHARS));
   return params;
 }

@@ -85,6 +85,13 @@ describe('bộ lọc trên URL (FR-03)', () => {
     expect(parseUrlState('?q=%20%20').filter).toEqual({});
   });
 
+  test('ghi ra URL cũng cắt chữ tìm ở 80 ký tự — link chia sẻ mở lại cho đúng bộ lọc đã gửi', () => {
+    const long = 'x'.repeat(200);
+    const params = toSearchParams({ filter: { q: long } });
+    expect(params.get('q').length).toBe(80);
+    expect(parseUrlState(`?${params}`).filter.q).toBe(params.get('q'));
+  });
+
   test('ghi ra URL chỉ những tiêu chí đang dùng, và đi vòng tròn không đổi', () => {
     const state = { locationId: null, recipeId: null, layerSliders: {}, filter: { region: 'dbscl', q: 'ghe' } };
     const params = toSearchParams(state);
