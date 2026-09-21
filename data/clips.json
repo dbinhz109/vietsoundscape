@@ -24,7 +24,20 @@
           "motorbike street ambience",
           "scooter traffic asia"
         ],
-        "status": "chua_khao_sat"
+        "status": "co_ung_vien",
+        "prescreened_at": "2026-09-21",
+        "candidates": [
+          {
+            "rank": 1,
+            "freesound_id": 451508,
+            "page_url": "https://freesound.org/people/kyles/sounds/451508/",
+            "license": "CC0 1.0",
+            "duration_s": 214.3,
+            "matches_description": true,
+            "machine_verdict": "qua",
+            "machine_reasons": []
+          }
+        ]
       },
       "contains_identifiable_voice": false,
       "consent_status": "not_required"
@@ -51,7 +64,40 @@
           "street cafe crowd",
           "sidewalk cafe"
         ],
-        "status": "chua_khao_sat"
+        "status": "co_ung_vien",
+        "prescreened_at": "2026-09-21",
+        "candidates": [
+          {
+            "rank": 1,
+            "freesound_id": 260945,
+            "page_url": "https://freesound.org/people/Splifffy/sounds/260945/",
+            "license": "CC0 1.0",
+            "duration_s": 302,
+            "matches_description": true,
+            "machine_verdict": "qua",
+            "machine_reasons": []
+          },
+          {
+            "rank": 2,
+            "freesound_id": 392649,
+            "page_url": "https://freesound.org/people/corkob/sounds/392649/",
+            "license": "CC0 1.0",
+            "duration_s": 182.9,
+            "matches_description": false,
+            "machine_verdict": "qua",
+            "machine_reasons": []
+          },
+          {
+            "rank": 3,
+            "freesound_id": 34093,
+            "page_url": "https://freesound.org/people/markushablizel/sounds/34093/",
+            "license": "CC BY 4.0",
+            "duration_s": 214,
+            "matches_description": false,
+            "machine_verdict": "qua",
+            "machine_reasons": []
+          }
+        ]
       },
       "contains_identifiable_voice": false,
       "consent_status": "not_required"
@@ -78,7 +124,30 @@
           "rain awning",
           "rain eaves"
         ],
-        "status": "chua_khao_sat"
+        "status": "co_ung_vien",
+        "prescreened_at": "2026-09-21",
+        "candidates": [
+          {
+            "rank": 1,
+            "freesound_id": 404061,
+            "page_url": "https://freesound.org/people/DBlover/sounds/404061/",
+            "license": "CC0 1.0",
+            "duration_s": 304.6,
+            "matches_description": true,
+            "machine_verdict": "qua",
+            "machine_reasons": []
+          },
+          {
+            "rank": 2,
+            "freesound_id": 162818,
+            "page_url": "https://freesound.org/people/RTB45/sounds/162818/",
+            "license": "CC BY 4.0",
+            "duration_s": 379.2,
+            "matches_description": false,
+            "machine_verdict": "qua",
+            "machine_reasons": []
+          }
+        ]
       },
       "contains_identifiable_voice": false,
       "consent_status": "not_required"
@@ -140,7 +209,34 @@
           "car horn traffic",
           "moped horn"
         ],
-        "status": "chua_khao_sat"
+        "status": "co_ung_vien",
+        "prescreened_at": "2026-09-21",
+        "candidates": [
+          {
+            "rank": 1,
+            "freesound_id": 387884,
+            "page_url": "https://freesound.org/people/AdrienPola/sounds/387884/",
+            "license": "CC0 1.0",
+            "duration_s": 30.5,
+            "matches_description": true,
+            "machine_verdict": "canh-bao",
+            "machine_reasons": [
+              "đỉnh thật 3,5 dBTP — có thể đã cắt đỉnh, nghe kỹ chỗ to nhất"
+            ]
+          },
+          {
+            "rank": 2,
+            "freesound_id": 330956,
+            "page_url": "https://freesound.org/people/nikiforov5000/sounds/330956/",
+            "license": "CC0 1.0",
+            "duration_s": 22.9,
+            "matches_description": false,
+            "machine_verdict": "canh-bao",
+            "machine_reasons": [
+              "im lặng 37% thời lượng — sẽ phải cắt"
+            ]
+          }
+        ]
       },
       "contains_identifiable_voice": false,
       "consent_status": "not_required"
@@ -183,7 +279,10 @@
           "vintage streetcar bell",
           "trolley bell"
         ],
-        "status": "chua_khao_sat"
+        "status": "khong_co_ung_vien",
+        "prescreened_at": "2026-09-21",
+        "candidates": [],
+        "note": "Kho mở không có tàu điện Hà Nội. Âm đã mất (lost) — để trống có chủ ý, chỉ nhận bản ghi lịch sử có giấy phép rõ."
       },
       "contains_identifiable_voice": false,
       "consent_status": "not_required",
@@ -216,7 +315,35 @@
           "gentle water boat",
           "wooden boat water"
         ],
-        "status": "chua_khao_sat"
+        "status": "co_ung_vien",
+        "prescreened_at": "2026-09-21",
+        "candidates": [
+          {
+            "rank": 1,
+            "freesound_id": 360631,
+            "page_url": "https://freesound.org/people/Pfannkuchn/sounds/360631/",
+            "license": "CC0 1.0",
+            "duration_s": 78.7,
+            "matches_description": false,
+            "machine_verdict": "canh-bao",
+            "machine_reasons": [
+              "nền 78,7 s, nên tìm bản ≥ 120 s"
+            ]
+          },
+          {
+            "rank": 2,
+            "freesound_id": 195892,
+            "page_url": "https://freesound.org/people/miklovan/sounds/195892/",
+            "license": "CC0 1.0",
+            "duration_s": 47.6,
+            "matches_description": false,
+            "machine_verdict": "loai",
+            "machine_reasons": [
+              "nền chỉ 47,6 s, dưới 60 s — loop sẽ nghe ra lặp",
+              "đỉnh thật 0,2 dBTP — có thể đã cắt đỉnh, nghe kỹ chỗ to nhất"
+            ]
+          }
+        ]
       },
       "contains_identifiable_voice": false,
       "consent_status": "not_required"
@@ -259,7 +386,32 @@
           "marsh birds morning",
           "wetland birds"
         ],
-        "status": "chua_khao_sat"
+        "status": "co_ung_vien",
+        "prescreened_at": "2026-09-21",
+        "candidates": [
+          {
+            "rank": 1,
+            "freesound_id": 463903,
+            "page_url": "https://freesound.org/people/BurghRecords/sounds/463903/",
+            "license": "CC0 1.0",
+            "duration_s": 148.7,
+            "matches_description": false,
+            "machine_verdict": "qua",
+            "machine_reasons": []
+          },
+          {
+            "rank": 2,
+            "freesound_id": 718564,
+            "page_url": "https://freesound.org/people/bruno.auzet/sounds/718564/",
+            "license": "CC0 1.0",
+            "duration_s": 1019.4,
+            "matches_description": false,
+            "machine_verdict": "canh-bao",
+            "machine_reasons": [
+              "-40,6 LUFS, cần khuếch đại +17,6 dB — nhiễu nền bản gốc sẽ lộ"
+            ]
+          }
+        ]
       },
       "contains_identifiable_voice": false,
       "consent_status": "not_required"
@@ -336,7 +488,42 @@
           "poultry farm",
           "domestic fowl"
         ],
-        "status": "chua_khao_sat"
+        "status": "co_ung_vien",
+        "prescreened_at": "2026-09-21",
+        "candidates": [
+          {
+            "rank": 1,
+            "freesound_id": 187549,
+            "page_url": "https://freesound.org/people/felix.blume/sounds/187549/",
+            "license": "CC0 1.0",
+            "duration_s": 102.6,
+            "matches_description": false,
+            "machine_verdict": "qua",
+            "machine_reasons": []
+          },
+          {
+            "rank": 2,
+            "freesound_id": 221675,
+            "page_url": "https://freesound.org/people/nebulousflynn/sounds/221675/",
+            "license": "CC BY 4.0",
+            "duration_s": 229.2,
+            "matches_description": false,
+            "machine_verdict": "qua",
+            "machine_reasons": []
+          },
+          {
+            "rank": 3,
+            "freesound_id": 59151,
+            "page_url": "https://freesound.org/people/f_ilippo/sounds/59151/",
+            "license": "CC0 1.0",
+            "duration_s": 367.6,
+            "matches_description": true,
+            "machine_verdict": "canh-bao",
+            "machine_reasons": [
+              "32000 Hz, dưới 44100 Hz"
+            ]
+          }
+        ]
       },
       "contains_identifiable_voice": false,
       "consent_status": "not_required"
@@ -363,7 +550,33 @@
           "rain river surface",
           "rain lake"
         ],
-        "status": "chua_khao_sat"
+        "status": "co_ung_vien",
+        "prescreened_at": "2026-09-21",
+        "candidates": [
+          {
+            "rank": 1,
+            "freesound_id": 172099,
+            "page_url": "https://freesound.org/people/nonzeroenfilade/sounds/172099/",
+            "license": "CC0 1.0",
+            "duration_s": 178.9,
+            "matches_description": false,
+            "machine_verdict": "qua",
+            "machine_reasons": []
+          },
+          {
+            "rank": 2,
+            "freesound_id": 135821,
+            "page_url": "https://freesound.org/people/cybergenic/sounds/135821/",
+            "license": "CC0 1.0",
+            "duration_s": 1190,
+            "matches_description": true,
+            "machine_verdict": "canh-bao",
+            "machine_reasons": [
+              "1190 s — phải cắt lấy đoạn dùng làm tín hiệu",
+              "-41,8 LUFS, cần khuếch đại +18,8 dB — nhiễu nền bản gốc sẽ lộ"
+            ]
+          }
+        ]
       },
       "contains_identifiable_voice": false,
       "consent_status": "not_required"
@@ -406,7 +619,30 @@
           "slow river water",
           "river bank gentle"
         ],
-        "status": "chua_khao_sat"
+        "status": "co_ung_vien",
+        "prescreened_at": "2026-09-21",
+        "candidates": [
+          {
+            "rank": 1,
+            "freesound_id": 169181,
+            "page_url": "https://freesound.org/people/klankbeeld/sounds/169181/",
+            "license": "CC BY 4.0",
+            "duration_s": 448.8,
+            "matches_description": true,
+            "machine_verdict": "qua",
+            "machine_reasons": []
+          },
+          {
+            "rank": 2,
+            "freesound_id": 217262,
+            "page_url": "https://freesound.org/people/klankbeeld/sounds/217262/",
+            "license": "CC BY 4.0",
+            "duration_s": 465,
+            "matches_description": false,
+            "machine_verdict": "qua",
+            "machine_reasons": []
+          }
+        ]
       },
       "contains_identifiable_voice": false,
       "consent_status": "not_required"
@@ -505,7 +741,32 @@
           "songbirds morning",
           "temple garden birds"
         ],
-        "status": "chua_khao_sat"
+        "status": "co_ung_vien",
+        "prescreened_at": "2026-09-21",
+        "candidates": [
+          {
+            "rank": 1,
+            "freesound_id": 521360,
+            "page_url": "https://freesound.org/people/BurghRecords/sounds/521360/",
+            "license": "CC0 1.0",
+            "duration_s": 195,
+            "matches_description": false,
+            "machine_verdict": "qua",
+            "machine_reasons": []
+          },
+          {
+            "rank": 2,
+            "freesound_id": 66785,
+            "page_url": "https://freesound.org/people/inchadney/sounds/66785/",
+            "license": "CC BY 4.0",
+            "duration_s": 817.8,
+            "matches_description": true,
+            "machine_verdict": "canh-bao",
+            "machine_reasons": [
+              "817,8 s — phải cắt lấy đoạn dùng làm tín hiệu"
+            ]
+          }
+        ]
       },
       "contains_identifiable_voice": false,
       "consent_status": "not_required"
@@ -532,7 +793,30 @@
           "leaves rustling wind",
           "bamboo wind"
         ],
-        "status": "chua_khao_sat"
+        "status": "co_ung_vien",
+        "prescreened_at": "2026-09-21",
+        "candidates": [
+          {
+            "rank": 1,
+            "freesound_id": 196712,
+            "page_url": "https://freesound.org/people/Littleboot/sounds/196712/",
+            "license": "CC0 1.0",
+            "duration_s": 236.3,
+            "matches_description": true,
+            "machine_verdict": "qua",
+            "machine_reasons": []
+          },
+          {
+            "rank": 2,
+            "freesound_id": 437337,
+            "page_url": "https://freesound.org/people/giddster/sounds/437337/",
+            "license": "CC0 1.0",
+            "duration_s": 89.2,
+            "matches_description": false,
+            "machine_verdict": "qua",
+            "machine_reasons": []
+          }
+        ]
       },
       "contains_identifiable_voice": false,
       "consent_status": "not_required"
@@ -559,7 +843,30 @@
           "forest wind canopy",
           "highland wind"
         ],
-        "status": "chua_khao_sat"
+        "status": "co_ung_vien",
+        "prescreened_at": "2026-09-21",
+        "candidates": [
+          {
+            "rank": 1,
+            "freesound_id": 637565,
+            "page_url": "https://freesound.org/people/kyles/sounds/637565/",
+            "license": "CC0 1.0",
+            "duration_s": 163.8,
+            "matches_description": true,
+            "machine_verdict": "qua",
+            "machine_reasons": []
+          },
+          {
+            "rank": 2,
+            "freesound_id": 233601,
+            "page_url": "https://freesound.org/people/klankbeeld/sounds/233601/",
+            "license": "CC BY 4.0",
+            "duration_s": 768.7,
+            "matches_description": false,
+            "machine_verdict": "qua",
+            "machine_reasons": []
+          }
+        ]
       },
       "contains_identifiable_voice": false,
       "consent_status": "not_required"
@@ -586,7 +893,34 @@
           "mountain creek",
           "small waterfall"
         ],
-        "status": "chua_khao_sat"
+        "status": "co_ung_vien",
+        "prescreened_at": "2026-09-21",
+        "candidates": [
+          {
+            "rank": 1,
+            "freesound_id": 653597,
+            "page_url": "https://freesound.org/people/gadesound/sounds/653597/",
+            "license": "CC0 1.0",
+            "duration_s": 75.9,
+            "matches_description": true,
+            "machine_verdict": "canh-bao",
+            "machine_reasons": [
+              "nền 75,9 s, nên tìm bản ≥ 120 s"
+            ]
+          },
+          {
+            "rank": 2,
+            "freesound_id": 204904,
+            "page_url": "https://freesound.org/people/CRAFTCREST.com/sounds/204904/",
+            "license": "CC BY 4.0",
+            "duration_s": 390.5,
+            "matches_description": false,
+            "machine_verdict": "canh-bao",
+            "machine_reasons": [
+              "-46,9 LUFS, cần khuếch đại +23,9 dB — nhiễu nền bản gốc sẽ lộ"
+            ]
+          }
+        ]
       },
       "contains_identifiable_voice": false,
       "consent_status": "not_required"
@@ -613,7 +947,42 @@
           "tropical forest insects night",
           "forest frogs night"
         ],
-        "status": "chua_khao_sat"
+        "status": "co_ung_vien",
+        "prescreened_at": "2026-09-21",
+        "candidates": [
+          {
+            "rank": 1,
+            "freesound_id": 328293,
+            "page_url": "https://freesound.org/people/felix.blume/sounds/328293/",
+            "license": "CC0 1.0",
+            "duration_s": 300.7,
+            "matches_description": false,
+            "machine_verdict": "qua",
+            "machine_reasons": []
+          },
+          {
+            "rank": 2,
+            "freesound_id": 147958,
+            "page_url": "https://freesound.org/people/RTB45/sounds/147958/",
+            "license": "CC BY 4.0",
+            "duration_s": 435.3,
+            "matches_description": false,
+            "machine_verdict": "qua",
+            "machine_reasons": []
+          },
+          {
+            "rank": 3,
+            "freesound_id": 103563,
+            "page_url": "https://freesound.org/people/Greencouch/sounds/103563/",
+            "license": "CC BY 3.0",
+            "duration_s": 179.6,
+            "matches_description": true,
+            "machine_verdict": "canh-bao",
+            "machine_reasons": [
+              "-43,3 LUFS, cần khuếch đại +20,3 dB — nhiễu nền bản gốc sẽ lộ"
+            ]
+          }
+        ]
       },
       "contains_identifiable_voice": false,
       "consent_status": "not_required"
@@ -696,7 +1065,10 @@
           "rural farm animals",
           "goats chickens village"
         ],
-        "status": "chua_khao_sat"
+        "status": "khong_co_ung_vien",
+        "prescreened_at": "2026-09-21",
+        "candidates": [],
+        "note": "Kho mở không có ứng viên hợp giấy phép. Cân nhắc chuyển sang tự thu (Q-28) hoặc bỏ khỏi bản trộn."
       },
       "contains_identifiable_voice": false,
       "consent_status": "not_required"
@@ -723,7 +1095,35 @@
           "rain forest canopy",
           "tropical downpour"
         ],
-        "status": "chua_khao_sat"
+        "status": "co_ung_vien",
+        "prescreened_at": "2026-09-21",
+        "candidates": [
+          {
+            "rank": 1,
+            "freesound_id": 135821,
+            "page_url": "https://freesound.org/people/cybergenic/sounds/135821/",
+            "license": "CC0 1.0",
+            "duration_s": 1190,
+            "matches_description": true,
+            "machine_verdict": "canh-bao",
+            "machine_reasons": [
+              "1190 s — phải cắt lấy đoạn dùng làm tín hiệu",
+              "-41,8 LUFS, cần khuếch đại +18,8 dB — nhiễu nền bản gốc sẽ lộ"
+            ]
+          },
+          {
+            "rank": 2,
+            "freesound_id": 38487,
+            "page_url": "https://freesound.org/people/larval1977/sounds/38487/",
+            "license": "CC0 1.0",
+            "duration_s": 154.1,
+            "matches_description": false,
+            "machine_verdict": "canh-bao",
+            "machine_reasons": [
+              "đỉnh thật -0,2 dBTP — có thể đã cắt đỉnh, nghe kỹ chỗ to nhất"
+            ]
+          }
+        ]
       },
       "contains_identifiable_voice": false,
       "consent_status": "not_required"

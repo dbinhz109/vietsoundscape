@@ -2,7 +2,7 @@
 
 **Ngày quét:** 14/09/2026 · **Công cụ:** Openverse API (gộp Freesound + Wikimedia), Internet Archive advancedsearch
 **Lọc giấy phép ngay từ truy vấn:** `license=cc0,by` — không có mẫu NC nào lọt vào danh sách này
-**Trạng thái:** 🟡 **ứng viên, chưa duyệt.** Bản nghe thử đã tải về máy ngày 21/09 (§7), chưa ai nghe.
+**Trạng thái:** 🟡 **ứng viên, chưa duyệt.** Bản nghe thử đã tải về máy ngày 21/09 (§7), máy đã chấm trước (§7.5: QUA 20 · CẢNH BÁO 12 · LOẠI 1), chưa ai nghe.
 
 ## Đọc danh sách này thế nào
 
@@ -212,3 +212,35 @@ Freesound chỉ cho tải **bản gốc** (WAV/FLAC/AIF) khi đã đăng nhập.
 2. Với mẫu đã CHỌN: điền `source_url` (cột Trang) · `source_uploader` · `downloaded_at` (ngày tải **bản gốc**, không phải ngày này) · `license` (cột Giấy phép) vào `data/clips.json`, đổi `survey.status` → `da_chon`, chạy `npm run validate`
 3. Đăng nhập Freesound, tải bản gốc cho các mẫu đã CHỌN vào `build/kho-am/<mã>/`, rồi `npm run process`
 4. Ba quyết định cần người ở §6 bước 3 **vẫn còn nguyên**: PDM 1.0 · SA cho bản Mekong thật · CR-01 và CR-03 chuyển tự thu
+
+### 7.5 Máy chấm trước — 2026-09-21 (chiều)
+
+Chạy `npm run prescreen` (luật ở `src/data/prescreen.js`, 14 test): một lượt ffmpeg mỗi tệp đo LUFS, LRA, đỉnh thật, tỉ lệ im lặng; đối chiếu thời lượng theo vai. **Máy không nghe nội dung** — LOẠI là loại theo số đo, QUA vẫn phải nghe. Kết quả đầy đủ và thứ tự nên nghe: `build/kho-am/DUYET.md` mục "Máy chấm trước"; số đo thô: `build/kho-am/prescreen.json`.
+
+**Tổng 33 tệp:** QUA 20 · CẢNH BÁO 12 · LOẠI 1. Bản xếp #1 của 15 mẫu, nghe tối đa 3 phút mỗi bản: **≈ 40 phút tai người** thay cho 185 phút nếu nghe hết.
+
+| Mẫu | Bản #1 | Máy chấm | Dài | LUFS | Ghi chú máy |
+|---|---|---|---|---|---|
+| CR-01 | #360631 🟡 | CẢNH BÁO | 78,7 s | -26,6 | nền 78,7 s, nên tìm bản ≥ 120 s |
+| CR-03 | #463903 🟡 | QUA | 148,7 s | -32,7 | — |
+| CR-07 | #187549  | QUA | 102,6 s | -14 | — |
+| CR-08 | #172099  | QUA | 178,9 s | -38,9 | — |
+| HN-01 | #451508 ⭐ | QUA | 214,3 s | -25,1 | — |
+| HN-02 | #260945 ⭐ | QUA | 302 s | -37,3 | — |
+| HN-03 | #404061 ⭐ | QUA | 304,6 s | -30,8 | — |
+| HN-06 | #387884 ⭐ | CẢNH BÁO | 30,5 s | -15,2 | đỉnh thật 3,5 dBTP — có thể đã cắt đỉnh, nghe kỹ chỗ to nhất |
+| HU-01 | #396810  | QUA | 176 s | -23,9 | — |
+| HU-02 | #169181 ⭐ | QUA | 448,8 s | -30 | — |
+| HU-07 | #521360  | QUA | 195 s | -30,5 | — |
+| HU-08 | #196712 ⭐ | QUA | 236,3 s | -20,5 | — |
+| TN-01 | #637565 ⭐ | QUA | 163,8 s | -36,3 | — |
+| TN-02 | #653597 ⭐ | CẢNH BÁO | 75,9 s | -34,8 | nền 75,9 s, nên tìm bản ≥ 120 s |
+| TN-03 | #328293  | QUA | 300,7 s | -22,7 | — |
+| TN-08 | #135821 ⭐ | CẢNH BÁO | 1190 s | -41,8 | 1190 s — phải cắt lấy đoạn dùng làm tín hiệu; -41,8 LUFS, cần khuếch đại +18,8 dB — nhiễu nền bản gốc sẽ lộ |
+
+**Đáng chú ý:**
+- **HN-06** chuông xe đạp: cả hai ứng viên đều CẢNH BÁO (#387884 đỉnh thật **+3,5 dBTP** — bản gốc đã cắt đỉnh; #330956 im lặng 37%). Củng cố Q-28 phương án tự thu.
+- **CR-01** #195892 là tệp duy nhất bị **LOẠI** theo số đo (47,6 s < 60 s cho nền, và đỉnh 0,2 dBTP). Ứng viên còn lại #360631 là thuyền buồm biển — cũng là lý do Q-28.
+- **TN-02, TN-03, CR-03, CR-08/TN-08**: bản ⭐ khớp mô tả lại **quá nhỏ** (−40 … −47 LUFS, cần khuếch đại 18–24 dB) — nghe kỹ nhiễu nền trước khi chọn; bản xếp trên tuy kém khớp mô tả nhưng sạch hơn.
+- **#135821** (mưa Amazon) đang là ứng viên của cả CR-08 và TN-08, dài 1190 s: nếu chọn, cắt hai đoạn **khác nhau** để hai vùng không dùng chung một tiếng mưa.
+- `data/clips.json`: khối `survey` của 17 mẫu kho đã ghi `status` (`co_ung_vien` 15 · `khong_co_ung_vien` 2: HN-08, TN-07) và danh sách `candidates` kèm verdict máy. **Chưa điền** `source_url/license` cấp mẫu — đó là quyết định của tai người (`survey.status → da_chon`).
