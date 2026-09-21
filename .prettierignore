@@ -1,0 +1,20 @@
+# Sinh lại được hoặc không phải mã nguồn
+dist/
+build/
+coverage/
+spike/audio/
+node_modules/
+package-lock.json
+
+# Dữ liệu: thứ tự khoá và cách xuống dòng do script sinh ra, không phải do người
+data/
+
+# Tài liệu tiếng Việt: bảng và xuống dòng do người viết, formatter bẻ lại làm
+# khó đọc diff và dễ hỏng bảng
+*.md
+
+# Bảng hệ số chép từ bài báo gốc (AS241 Wichura 1988, ACM 396…): giữ nguyên dạng
+# số như bản in để đối chiếu được. Prettier rút "3.3871328727963666080e0" thành
+# "3.387132872796366608" — cùng giá trị, nhưng hết khớp mắt với nguồn.
+src/research/power.js
+src/research/statistics.js

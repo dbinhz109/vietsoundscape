@@ -319,7 +319,7 @@ describe('vang không gian đi cùng kịch bản', () => {
   });
 
   test('bản trộn không khai vang thì kịch bản mang null, không mang undefined', () => {
-    const { reverb_ir: ir, ...bare } = recipe;
+    const { reverb_ir: _ir, ...bare } = recipe;
     const variants = buildVariants(bare, clips, { durationS: 60 });
     for (const condition of EXPERIMENT_CONDITIONS) {
       expect(variants[condition].reverb_ir).toBeNull();

@@ -48,6 +48,7 @@ hình dữ liệu, sơ đồ đã sửa); sổ này giữ **lý do, bằng chứ
 - [Q-28 — 🟡 chờ quyết: CR-01, CR-03 chuyển sang tự thu; HN-01, HN-02, HN-06 thu thêm khi ở Hà Nội](#q-28--chờ-quyết-cr-01-cr-03-chuyển-sang-tự-thu-hn-01-hn-02-hn-06-thu-thêm-khi-ở-hà-nội)
 - [Q-29 — 🟡 tạm chốt: `LICENSE` MIT ghi chủ sở hữu là nhóm đề tài](#q-29--tạm-chốt-license-mit-ghi-chủ-sở-hữu-là-nhóm-đề-tài-vietsoundscape)
 - [Q-30 — Đã chốt: máy chọn tạm nguồn kho cho 10 mẫu, tai người xác nhận sau](#q-30--đã-chốt-người-quyết-2109-máy-chọn-tạm-nguồn-kho-cho-10-mẫu-tai-người-xác-nhận-sau)
+- [Q-31 — Đã chốt: linter là cổng CI, formatter chỉ là tuỳ chọn cho tệp mới](#q-31--đã-chốt-linter-là-cổng-ci-formatter-chỉ-là-tuỳ-chọn-cho-tệp-mới)
 
 ---
 
@@ -677,3 +678,22 @@ Chỉ lộ ra khi đọc toàn văn. Chi tiết `phap-ly/08` §8:
 **Rào chắn để "tạm" không bị đọc thành "đã chọn":** `npm run survey` không tính 10 mẫu này vào tiến độ và in dòng ⚠ riêng; `dataset.test.js` đỏ nếu mẫu chọn tạm có `downloaded_at` hay rời `planned`; thẻ chi tiết trên web vẫn hiện "chưa có" cho SHA-256/thiết bị vì mẫu chưa qua đường ống.
 
 **Việc của tai người (≈ 30 phút):** nghe 10 bản theo `build/kho-am/DUYET.md`, mỗi bản: giữ → `survey.status: da_chon`; đổi → sửa `source_url/source_uploader/license` theo ứng viên khác; bỏ → `de_nghi_tu_thu`. Rồi tải bản gốc bằng tài khoản Freesound, điền `downloaded_at`, chạy `npm run process`.
+
+## Q-31 — Đã chốt: linter là cổng CI, formatter chỉ là tuỳ chọn cho tệp mới
+
+| | |
+|---|---|
+| **Ngày** | 21/09/2026 · **Người quyết:** PM (máy đề xuất và thực hiện) |
+| **Vị trí trong lộ trình** | B0.3 "dựng khung repo, CI, formatter" |
+| **Ảnh hưởng tới** | `eslint.config.js` · `.prettierrc.json` + `.prettierignore` · `.github/workflows/ci.yml` · quy ước làm việc trong README |
+
+**Sự việc:** B0.3 còn treo dòng "chưa có formatter/linter". Thử áp Prettier cho cả cây: **56 tệp đổi**, và hai chỗ hỏng rõ ràng —
+
+1. **Mảng tham số ffmpeg.** `scripts/process-audio.mjs` viết `'-i', source,` rồi `'-af', 'loudnorm…',` theo **cặp cờ–giá trị mỗi dòng** — đọc như đọc một dòng lệnh shell. Prettier tách thành mỗi token một dòng: `'-v',` xuống dòng `'error',`. Người rà soát mất khả năng đọc lệnh.
+2. **Bảng hệ số AS241** (`power.js`, `statistics.js`). Hằng số chép nguyên văn từ Wichura 1988 mang nhiều chữ số hơn `double` giữ được — đó là **cách đúng**: chép hằng số đã công bố, để máy làm tròn. Prettier rút `3.3871328727963666080e0` thành `3.387132872796366608`; cùng giá trị nhưng hết khớp mắt với bản in, nên không đối chiếu được nữa. ESLint cũng báo `no-loss-of-precision` ở đây và cũng là **sai ngữ cảnh** — đã tắt riêng cho hai tệp, có ghi lý do.
+
+**Quyết:** **ESLint là cổng CI** (`npm run lint` chạy trước `npm test`), cấu hình chỉ bắt lỗi thật — biến chưa khai, biến thừa, `==`, `var`, ném thứ không phải Error. **Prettier chỉ là công cụ tuỳ chọn** cho tệp mới (`npm run format -- <tệp>`), `.prettierignore` loại `data/`, `*.md` (bảng tiếng Việt), và hai tệp bảng số.
+
+**Bằng chứng lượt chạy đầu:** ESLint bắt **3 lỗi thật** — `layer` thừa trong vòng render của `listening-room.js`, `ir` thừa trong `variants.test.js`, `let r` nên là `const` trong `power.js`. Và khi máy sửa nhầm vòng lặp khác cùng hình dạng, ESLint báo ngay `'layer' is not defined` — đúng loại lỗi mà 632 test không bắt được vì nhánh đó chỉ chạy khi có lớp tín hiệu.
+
+**Vì sao không "định dạng một lần cho xong rồi quen":** một lần định dạng lại cả cây làm mọi dòng đổi tác giả trong `git blame`, mà đổi lấy sự nhất quán ở nơi không ai tranh cãi. Repo này có 4 người, một quy ước viết trong README rẻ hơn.

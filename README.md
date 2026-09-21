@@ -44,6 +44,8 @@ kết xuất kích thích trước (`npm run render:stimuli -- --placeholder`, c
 | `npm test` | Toàn bộ kiểm thử, chạy một lần (vitest + happy-dom) |
 | `npm run test:watch` | Kiểm thử theo dõi thay đổi |
 | `npm run coverage` | Kiểm thử kèm độ phủ (v8), ngưỡng 80% |
+| `npm run lint` | ESLint: biến chưa khai, biến thừa, `==`, `var` — chỉ lỗi thật, không bắt phong cách |
+| `npm run format -- <tệp…>` | Prettier cho tệp mới (tuỳ chọn, không áp cả cây — xem Q-31) |
 | `npm run validate` | Kiểm `data/clips.json` và `data/recipes/*.json` theo luật lược đồ; thoát mã 1 nếu lỗi |
 | `npm run process -- <wav…>` | Đường ống âm: đo LUFS → gain → tìm điểm loop → Opus 72k/144k → metadata *(ffmpeg)* |
 | `npm run survey` | Phiếu khảo sát kho âm mở cho các mẫu `licensed_archive`, đếm tiến độ |
@@ -58,7 +60,7 @@ kết xuất kích thích trước (`npm run render:stimuli -- --placeholder`, c
 | `npm run prescreen` | Chấm máy bản nghe thử kho âm trong `build/kho-am/` (LUFS, đỉnh, im lặng, thời lượng theo vai) → `DUYET.md` mục "Máy chấm trước" *(ffmpeg)* |
 | `npm run participants -- <csv>` | Theo dõi tuyển người tham gia: đã nghe/96, vòng 12 đang hở, theo tuần, thiết bị; CSV ngoài git (mẫu `nghien-cuu/mau-danh-sach-cho.csv`) |
 
-CI (`.github/workflows/ci.yml`) chạy `test` → `validate` → `build` trên mỗi push.
+CI (`.github/workflows/ci.yml`) chạy `lint` → `test` → `validate` → `build` trên mỗi push.
 `pages.yml` dựng `main` với `PUBLIC_BASE=/vietsoundscape/` (kèm `gen:audio`) và đưa lên GitHub Pages.
 
 ## Cấu trúc
@@ -122,6 +124,10 @@ dữ liệu `data/` mạng trước (độ tươi), đổi luật thì tăng s�
 ## Quy ước làm việc
 
 - **Test trước, mã sau.** Mỗi module có tệp `.test.js` cạnh nó.
+- **Linter là cổng, formatter là tuỳ chọn.** `npm run lint` phải sạch trước khi commit.
+  Prettier có cấu hình sẵn cho tệp mới, nhưng **không** định dạng lại cả cây: nó bẻ mảng
+  tham số `ffmpeg` theo cặp cờ–giá trị thành mỗi token một dòng, và viết lại bảng hệ số
+  AS241 chép từ bài báo (sổ quyết định Q-31).
 - Không đưa tệp âm vào git: `spike/audio/`, `build/` sinh lại được.
 - Không hardcode bí mật. Biến môi trường duy nhất là `PUBLIC_BASE` (tuỳ chọn, chỉ lúc `build` cho Pages).
 - Tài liệu và thông báo lỗi viết bằng tiếng Việt.

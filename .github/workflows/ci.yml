@@ -19,7 +19,11 @@ jobs:
 
       - run: npm ci
 
-      # 433 test đơn vị + tích hợp (vitest, happy-dom). Không cần âm thanh thật.
+      # Linter bắt lỗi thật (biến chưa khai, biến thừa, `==`), không bắt phong
+      # cách — xem `eslint.config.js` và sổ quyết định Q-31.
+      - run: npm run lint
+
+      # 632 test đơn vị + tích hợp (vitest, happy-dom). Không cần âm thanh thật.
       - run: npm test
 
       # Luật dữ liệu: clips.json, recipes/*.json, liên kết địa điểm, FR-59.

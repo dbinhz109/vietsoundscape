@@ -312,7 +312,7 @@ export function createListeningRoom({ container, onMixChange, citationContext })
     layerHeading.textContent = 'Từng lớp âm';
     byLayer.append(layerHeading);
 
-    for (const { layer, clip } of prepared) {
+    for (const { clip } of prepared) {
       const row = createLayerSlider({
         id: `layer-${clip.id}`,
         label: clip.title_vi,

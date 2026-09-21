@@ -71,7 +71,7 @@ export function inverseNormalCdf(p) {
     const r = 0.180625 - q * q;
     return (q * poly(A, r)) / poly(B, r);
   }
-  let r = Math.sqrt(-Math.log(q < 0 ? p : 1 - p));
+  const r = Math.sqrt(-Math.log(q < 0 ? p : 1 - p));
   const value =
     r <= 5 ? poly(C, r - 1.6) / poly(D, r - 1.6) : poly(E, r - 5) / poly(F, r - 5);
   return q < 0 ? -value : value;
