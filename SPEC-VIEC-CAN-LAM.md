@@ -11,11 +11,13 @@
 | S0 hạ tầng | S0.1 git · S0.2 README · S0.3 CI · S0.4 lộ trình | **S0.5** xác nhận ngày thật | NC |
 | S1 phép đo | **S1.1** phương án nhiễu · **S1.2** cỡ mẫu tính lại (96 giữ) | **S1.3** quyết vang · **S1.4** ký + tag | NC |
 | S2 cổng G0 | **S2.1** 3/4 ô (14/09, bản thu thật CC BY) | S2.1 nghe 5 phút · S2.2 máy của nhóm · S2.3 điện thoại thật · S2.4 đóng cổng | ÂT + PM |
-| S3 đường găng | — | S3.1 kho âm · S3.2 ba thư pháp lý · S3.3 lịch thực địa | ÂT + VH + NC |
+| S3 đường găng | **S3.1** bản nghe thử 33 tệp tải về, giấy phép khớp (21/09) · **S3.3** khung kế hoạch xong (21/09) | S3.1 nghe + điền `clips.json` + tải bản gốc · S3.2 chỉ còn A0.3d (A0.3b/c **bỏ theo Q-25**) · S3.3 ngày + tên người | ÂT + VH + NC |
 | S4 dọn tài liệu | **S4.1** tách BA → sổ quyết định · **S4.2** script R | — | |
 
 Mọi việc máy làm được một mình đã xong (13/18, cộng 3/4 ô của S2.1 ngày 14/09 nhờ mượn được bản thu thật giấy phép mở). Năm việc còn lại đều cần **người thật**
 hoặc **vật liệu thật**; không việc nào trong số đó có thể làm bằng cách viết thêm mã.
+
+> 📒 **21/09** — Ngoài spec: **G2 link công khai** đã xong (`https://dbinhz109.github.io/vietsoundscape/`, lộ trình A7.1 một phần). Việc pháp chế A0.3b/A0.3c **bỏ theo quyết định Q-25** — không còn tính vào S3.2. Q-26/27/28 mở trong sổ quyết định chờ chốt.
 
 ## Cách đọc
 
@@ -220,7 +222,7 @@ Thứ tự ưu tiên **không phải** thứ tự giá trị. Nó là thứ tự
 
 **Đạt khi:**
 - [ ] `npm run validate` ĐẠT với 17/17 có `source_url` + `license`, hoặc đã chuyển sang tự thu
-- [ ] Mọi `license` nằm trong danh sách cho phép ở `phap-ly/09` (không NC, tránh SA)
+- [ ] Mọi `license` nằm trong danh sách cho phép ở `phap-ly/09` (không NC, tránh SA) — 📒 21/09: **33/33 bản nghe thử đã tải về `build/kho-am/`, giấy phép đọc trên trang gốc đều CC0 / CC BY, không NC/SA** (`ung-vien-kho-am.md` §7). Chưa tích vì ô này chỉ có nghĩa khi `clips.json` đã điền — việc đó chờ tai người
 
 **Vai:** ÂT + VH · **Công:** 1 ngày · **Chặn bởi:** không
 
@@ -231,8 +233,8 @@ Thứ tự ưu tiên **không phải** thứ tự giá trị. Nó là thứ tự
 **Làm gì:** không đổi so với lộ trình. Nêu lại ở đây vì xếp sai thứ tự: phải xong **trước** A1.1, và **trước** S2.1 nếu bản thu thử có giọng người.
 
 **Đạt khi:**
-- [ ] A0.3b: câu trả lời bằng văn bản từ phòng pháp chế, lưu vào `phap-ly/nguon/`
-- [ ] A0.3c: tên người phụ trách điền vào `phap-ly/01`, `04`, `07`
+- ~~A0.3b: câu trả lời bằng văn bản từ phòng pháp chế~~ **BỎ theo Q-25 (21/09)**
+- ~~A0.3c: tên người phụ trách~~ **BỎ theo Q-25 (21/09)**
 - [ ] A0.3d: thư đã gửi, có đầu mối trả lời
 
 **Vai:** NC + VH · **Công:** tuỳ phía trường · **Chặn bởi:** không — nhưng **chặn** A1.1
@@ -244,8 +246,8 @@ Thứ tự ưu tiên **không phải** thứ tự giá trị. Nó là thứ tự
 **Làm gì:** một trang: địa điểm, ngày, ai đi, danh sách `clip_id` cần thu (lọc `provenance: field_recording` từ `clips.json`), khung giờ cho từng mẫu (tiếng rao sáng ≠ chiều), thiết bị, bản in `phap-ly/01`, `02`, `05`. Kèm mục **đo phản hồi xung** (A1.1b) nếu S1.3 chốt còn dùng vang.
 
 **Đạt khi:**
-- [ ] Tệp `nghien-cuu/ke-hoach-thuc-dia-dot-1.md` có ngày cụ thể và tên người
-- [ ] Danh sách mẫu khớp `clips.json` (kiểm bằng script nhỏ hoặc tay)
+- [ ] Tệp `nghien-cuu/ke-hoach-thuc-dia-dot-1.md` có ngày cụ thể và tên người — 📒 21/09: **khung đã có** (mẫu, khung giờ, phiếu, lưu ý, "Đạt khi"), chỉ còn `⟨…⟩` ở ngày và tên
+- [x] Danh sách mẫu khớp `clips.json` — kiểm bằng script 21/09: mọi `field_recording` của `hanoi-pho-co` và `cai-rang` (CR-02, CR-04, CR-05, CR-06, HN-04, HN-05, HN-07) đều có trong kế hoạch
 
 **Vai:** ÂT + VH · **Công:** 2 giờ · **Chặn bởi:** S2.2 (chốt thiết bị), S3.2
 

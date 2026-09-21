@@ -124,3 +124,20 @@ Spec tự chấm **13/18**. Kiểm lại bằng mã và dữ liệu: **đồng �
 | Vật liệu âm thật | 0% |
 | Dữ liệu người tham gia | 0% |
 | Công bố (link công khai) | 0% |
+
+---
+
+## 11. Cập nhật 21/09 — ba con số ở trên đã đổi
+
+Nguyên văn các mục 1–10 giữ làm mốc so sánh (hiện trạng `390b873`). Từ đó tới `main` hôm nay:
+
+| Mục ở trên | Lúc chấm (14/09) | Nay (21/09) | Bằng chứng |
+|---|---|---|---|
+| §2 sản phẩm 1 — *website có link công khai* | 🔴 repo private, không workflow triển khai | 🟡 **có link**: `https://dbinhz109.github.io/vietsoundscape/` — repo public, `pages.yml` dựng `main`; kiểm trình duyệt thật: 4 địa điểm, phòng nghe 5 lớp, không lỗi. **Nội dung vẫn là âm tổng hợp giữ chỗ** | commit `d1ae64b`, `03b1fbb`; run Pages xanh |
+| §4 hàng *hosting* — "chưa có hosting" | 🟡 | ✅ GitHub Pages (đúng phương án thuyết minh mục 8 nêu) | `.github/workflows/pages.yml` |
+| Số liệu gốc — *mẫu kho mở đã khảo sát 0/17* | 0/17 | **15/17 có ứng viên, 33 bản nghe thử tải về, giấy phép khớp 33/33**; vẫn **0/17 điền vào `clips.json`** vì chưa ai nghe | `nghien-cuu/ung-vien-kho-am.md` §7 |
+| §8 rủi ro đầu bảng — *chưa hỏi phòng pháp chế* | 🔴 | **Bỏ theo quyết định Q-25** — rủi ro không mất đi, chỉ đổi từ "chưa hỏi" thành "quyết không hỏi"; hệ quả ghi trong sổ | `nghien-cuu/so-quyet-dinh.md` Q-25 |
+| §10 việc 3 — *khảo sát 17 mẫu kho mở* | chưa | máy làm xong phần máy; phần tai người còn | `build/kho-am/DUYET.md` |
+
+**Tự đánh giá tổng thể, cập nhật:** Công bố (link công khai) 0% → **~40%** — link có, nhưng ghi công/giấy phép chưa có gì để hiển thị, `LICENSE` chưa có, nội dung giữ chỗ. Ba dòng còn lại (kỹ thuật ~90%, vật liệu 0%, dữ liệu người 0%) **không đổi**: bản nghe thử chưa phải vật liệu, chưa có lượt nghe nào.
+
