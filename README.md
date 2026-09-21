@@ -53,6 +53,7 @@ kết xuất kích thích trước (`npm run render:stimuli -- --placeholder`, c
 | `npm run render:stimuli -- --placeholder [--verify]` | Kết xuất 12 kích thích thực nghiệm; `--verify` kết xuất lại và so băm *(ffmpeg, ~198 MB)* |
 | `npm run analyse -- <log.json>` | Chạy McNemar (H1) và Wilcoxon (H2) trên log lượt nghe; `-- --demo` dùng dữ liệu giả |
 | `npm run plan:sample` | Bảng cỡ mẫu theo ba kịch bản, công thức đối chiếu mô phỏng |
+| `npm run chon:tam -- --bo <mã,…>` | Máy chọn tạm nguồn kho từ kết quả `prescreen` (Q-30): điền `source_url/license`, để trống `downloaded_at`, gắn `survey.status: chon_tam`; `--bo` là mẫu không chọn (chờ Q-28) |
 | `npm run prescreen` | Chấm máy bản nghe thử kho âm trong `build/kho-am/` (LUFS, đỉnh, im lặng, thời lượng theo vai) → `DUYET.md` mục "Máy chấm trước" *(ffmpeg)* |
 | `npm run participants -- <csv>` | Theo dõi tuyển người tham gia: đã nghe/96, vòng 12 đang hở, theo tuần, thiết bị; CSV ngoài git (mẫu `nghien-cuu/mau-danh-sach-cho.csv`) |
 

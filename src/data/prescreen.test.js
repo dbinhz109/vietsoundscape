@@ -2,6 +2,7 @@ import { describe, expect, test } from 'vitest';
 import {
   KEYNOTE_MIN_DURATION_S,
   parseSilenceDetect,
+  pickProvisional,
   prescreenCandidate,
   rankCandidates,
 } from './prescreen.js';
@@ -122,5 +123,44 @@ describe('parseSilenceDetect', () => {
   });
   test('đoạn im lặng chưa đóng ở cuối tệp tính tới hết thời lượng', () => {
     expect(parseSilenceDetect('[x] silence_start: 60\n', 65)).toBeCloseTo(5 / 65, 6);
+  });
+});
+
+describe('pickProvisional — máy chọn tạm một ứng viên cho tai người xác nhận', () => {
+  const base = { role: 'keynote', durationS: 180, lufs: -28, lra: 8, truePeakDbtp: -4, silenceFraction: 0.02, sampleRate: 48000 };
+
+  test('ưu tiên bản khớp mô tả (⭐) dù chỉ CẢNH BÁO, miễn không bị LOẠI', () => {
+    const picked = pickProvisional([
+      { fsid: 1, star: false, ...base },
+      { fsid: 2, star: true, ...base, durationS: 90 },
+    ]);
+    expect(picked.fsid).toBe(2);
+    expect(picked.verdict).toBe('canh-bao');
+  });
+
+  test('⭐ bị LOẠI thì lấy bản thường tốt nhất', () => {
+    const picked = pickProvisional([
+      { fsid: 1, star: true, ...base, durationS: 20 },
+      { fsid: 2, star: false, ...base, durationS: 90 },
+      { fsid: 3, star: false, ...base },
+    ]);
+    expect(picked.fsid).toBe(3);
+  });
+
+  test('chỉ có ứng viên lệch (🟡) thì không chọn — trả null, để người quyết Q-28', () => {
+    expect(pickProvisional([{ fsid: 1, weak: true, ...base }])).toBeNull();
+  });
+
+  test('bỏ những mã đã dùng cho mẫu khác — một tệp không làm mưa cho hai vùng', () => {
+    const picked = pickProvisional(
+      [{ fsid: 1, star: true, ...base }, { fsid: 2, star: false, ...base }],
+      { exclude: new Set([1]) },
+    );
+    expect(picked.fsid).toBe(2);
+  });
+
+  test('không còn gì hợp lệ thì null', () => {
+    expect(pickProvisional([{ fsid: 1, star: true, ...base, durationS: 5 }])).toBeNull();
+    expect(pickProvisional([])).toBeNull();
   });
 });

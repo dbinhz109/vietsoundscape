@@ -2,7 +2,7 @@
 
 **Ngày quét:** 14/09/2026 · **Công cụ:** Openverse API (gộp Freesound + Wikimedia), Internet Archive advancedsearch
 **Lọc giấy phép ngay từ truy vấn:** `license=cc0,by` — không có mẫu NC nào lọt vào danh sách này
-**Trạng thái:** 🟡 **ứng viên, chưa duyệt.** Bản nghe thử đã tải về máy ngày 21/09 (§7), máy đã chấm trước (§7.5: QUA 20 · CẢNH BÁO 12 · LOẠI 1), chưa ai nghe.
+**Trạng thái:** 🟡 **ứng viên, chưa duyệt.** Bản nghe thử đã tải về máy ngày 21/09 (§7), máy đã chấm trước (§7.5) và **chọn tạm 10 mẫu** (§7.6, Q-30) — chưa ai nghe.
 
 ## Đọc danh sách này thế nào
 
@@ -244,3 +244,22 @@ Chạy `npm run prescreen` (luật ở `src/data/prescreen.js`, 14 test): một 
 - **TN-02, TN-03, CR-03, CR-08/TN-08**: bản ⭐ khớp mô tả lại **quá nhỏ** (−40 … −47 LUFS, cần khuếch đại 18–24 dB) — nghe kỹ nhiễu nền trước khi chọn; bản xếp trên tuy kém khớp mô tả nhưng sạch hơn.
 - **#135821** (mưa Amazon) đang là ứng viên của cả CR-08 và TN-08, dài 1190 s: nếu chọn, cắt hai đoạn **khác nhau** để hai vùng không dùng chung một tiếng mưa.
 - `data/clips.json`: khối `survey` của 17 mẫu kho đã ghi `status` (`co_ung_vien` 15 · `khong_co_ung_vien` 2: HN-08, TN-07) và danh sách `candidates` kèm verdict máy. **Chưa điền** `source_url/license` cấp mẫu — đó là quyết định của tai người (`survey.status → da_chon`).
+
+### 7.6 Máy chọn tạm — 21/09 (tối), theo Q-30
+
+Chủ trì quyết cho máy điền tạm. `npm run chon:tam -- --bo CR-01,CR-03,HN-01,HN-02,HN-06` điền `source_url · source_uploader · license` cho **10 mẫu**, để trống `downloaded_at`, giữ `status: planned`, đánh `survey.status: chon_tam`:
+
+| Mẫu | Chọn tạm | Giấy phép | Máy chấm | Việc khi nghe |
+|---|---|---|---|---|
+| HN-03 | #404061 ⭐ mưa mái tôn (DBlover) | CC0 | QUA | xác nhận |
+| CR-07 | #59151 ⭐ gà vịt sân trại (f_ilippo) | CC0 | CẢNH BÁO 32 kHz | nghe xem có đủ trong; dự phòng #187549 |
+| CR-08 | #135821 ⭐ mưa rào có sấm (cybergenic) | CC0 | CẢNH BÁO dài 1190 s, −41,8 LUFS | chọn đoạn cắt; nếu quá nhiễu → #172099 |
+| HU-02 | #169181 ⭐ nước lớn tĩnh (klankbeeld) | CC BY 4.0 | QUA | xác nhận |
+| HU-07 | #66785 ⭐ chim rừng sáng (inchadney) | CC BY 4.0 | CẢNH BÁO dài 818 s | chọn đoạn cắt |
+| HU-08 | #196712 ⭐ chuông gió (Littleboot) | CC0 | QUA | xác nhận |
+| TN-01 | #637565 ⭐ gió rừng (kyles) | CC0 | QUA | xác nhận |
+| TN-02 | #653597 ⭐ suối rừng (gadesound) | CC0 | CẢNH BÁO nền 76 s | nghe loop có lộ không; dự phòng #204904 (−47 LUFS) |
+| TN-03 | #103563 ⭐ ve rừng Thái Lan (Greencouch) | CC BY 3.0 | CẢNH BÁO −43 LUFS | nghe nhiễu nền sau khuếch đại; dự phòng #328293 |
+| TN-08 | #38487 đồi rừng (larval1977) | CC0 | CẢNH BÁO đỉnh −0,2 dBTP | nghe chỗ to nhất; ⭐ #135821 đã dùng cho CR-08 |
+
+**Không điền 5 mẫu** (`de_nghi_tu_thu`): HN-01, HN-02, HN-06, CR-01, CR-03 — mọi ứng viên lệch địa lý hoặc hỏng, đúng Q-28 (a). `npm run survey` in riêng dòng ⚠ và **không** tính 10 mẫu này là "đã chọn"; `dataset.test.js` đỏ nếu ai khai `downloaded_at` khi chưa tải bản gốc.

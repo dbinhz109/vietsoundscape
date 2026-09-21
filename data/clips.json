@@ -24,7 +24,7 @@
           "motorbike street ambience",
           "scooter traffic asia"
         ],
-        "status": "co_ung_vien",
+        "status": "de_nghi_tu_thu",
         "prescreened_at": "2026-09-21",
         "candidates": [
           {
@@ -37,7 +37,8 @@
             "machine_verdict": "qua",
             "machine_reasons": []
           }
-        ]
+        ],
+        "note": "Không chọn tạm: ứng viên kho lệch địa lý/loại (sổ quyết định Q-28 đề nghị chuyển sang tự thu)."
       },
       "contains_identifiable_voice": false,
       "consent_status": "not_required"
@@ -64,7 +65,7 @@
           "street cafe crowd",
           "sidewalk cafe"
         ],
-        "status": "co_ung_vien",
+        "status": "de_nghi_tu_thu",
         "prescreened_at": "2026-09-21",
         "candidates": [
           {
@@ -97,7 +98,8 @@
             "machine_verdict": "qua",
             "machine_reasons": []
           }
-        ]
+        ],
+        "note": "Không chọn tạm: ứng viên kho lệch địa lý/loại (sổ quyết định Q-28 đề nghị chuyển sang tự thu)."
       },
       "contains_identifiable_voice": false,
       "consent_status": "not_required"
@@ -114,8 +116,8 @@
       "endangerment_level": "stable",
       "must_verify_on_site": false,
       "location_verified": false,
-      "source_url": null,
-      "source_uploader": null,
+      "source_url": "https://freesound.org/people/DBlover/sounds/404061/",
+      "source_uploader": "DBlover",
       "downloaded_at": null,
       "survey": {
         "archive": "freesound",
@@ -124,7 +126,7 @@
           "rain awning",
           "rain eaves"
         ],
-        "status": "co_ung_vien",
+        "status": "chon_tam",
         "prescreened_at": "2026-09-21",
         "candidates": [
           {
@@ -147,10 +149,21 @@
             "machine_verdict": "qua",
             "machine_reasons": []
           }
-        ]
+        ],
+        "chosen": {
+          "by": "may",
+          "at": "2026-09-21",
+          "freesound_id": 404061,
+          "matches_description": true,
+          "machine_verdict": "qua",
+          "machine_reasons": [],
+          "preview_file": "build/kho-am/HN-03/404061-DBlover-hq.mp3",
+          "note": "Chọn tạm theo mô tả + số đo, CHƯA AI NGHE. Bản nghe thử MP3; bản gốc chưa tải (downloaded_at trống). Nghe xong: đổi status → da_chon hoặc chọn bản khác."
+        }
       },
       "contains_identifiable_voice": false,
-      "consent_status": "not_required"
+      "consent_status": "not_required",
+      "license": "CC0-1.0"
     },
     {
       "id": "HN-04",
@@ -209,7 +222,7 @@
           "car horn traffic",
           "moped horn"
         ],
-        "status": "co_ung_vien",
+        "status": "de_nghi_tu_thu",
         "prescreened_at": "2026-09-21",
         "candidates": [
           {
@@ -236,7 +249,8 @@
               "im lặng 37% thời lượng — sẽ phải cắt"
             ]
           }
-        ]
+        ],
+        "note": "Không chọn tạm: ứng viên kho lệch địa lý/loại (sổ quyết định Q-28 đề nghị chuyển sang tự thu)."
       },
       "contains_identifiable_voice": false,
       "consent_status": "not_required"
@@ -315,7 +329,7 @@
           "gentle water boat",
           "wooden boat water"
         ],
-        "status": "co_ung_vien",
+        "status": "de_nghi_tu_thu",
         "prescreened_at": "2026-09-21",
         "candidates": [
           {
@@ -343,7 +357,8 @@
               "đỉnh thật 0,2 dBTP — có thể đã cắt đỉnh, nghe kỹ chỗ to nhất"
             ]
           }
-        ]
+        ],
+        "note": "Không chọn tạm: ứng viên kho lệch địa lý/loại (sổ quyết định Q-28 đề nghị chuyển sang tự thu)."
       },
       "contains_identifiable_voice": false,
       "consent_status": "not_required"
@@ -386,7 +401,7 @@
           "marsh birds morning",
           "wetland birds"
         ],
-        "status": "co_ung_vien",
+        "status": "de_nghi_tu_thu",
         "prescreened_at": "2026-09-21",
         "candidates": [
           {
@@ -411,7 +426,8 @@
               "-40,6 LUFS, cần khuếch đại +17,6 dB — nhiễu nền bản gốc sẽ lộ"
             ]
           }
-        ]
+        ],
+        "note": "Không chọn tạm: ứng viên kho lệch địa lý/loại (sổ quyết định Q-28 đề nghị chuyển sang tự thu)."
       },
       "contains_identifiable_voice": false,
       "consent_status": "not_required"
@@ -478,8 +494,8 @@
       "endangerment_level": "stable",
       "must_verify_on_site": false,
       "location_verified": false,
-      "source_url": null,
-      "source_uploader": null,
+      "source_url": "https://freesound.org/people/f_ilippo/sounds/59151/",
+      "source_uploader": "f_ilippo",
       "downloaded_at": null,
       "survey": {
         "archive": "freesound",
@@ -488,7 +504,7 @@
           "poultry farm",
           "domestic fowl"
         ],
-        "status": "co_ung_vien",
+        "status": "chon_tam",
         "prescreened_at": "2026-09-21",
         "candidates": [
           {
@@ -523,10 +539,23 @@
               "32000 Hz, dưới 44100 Hz"
             ]
           }
-        ]
+        ],
+        "chosen": {
+          "by": "may",
+          "at": "2026-09-21",
+          "freesound_id": 59151,
+          "matches_description": true,
+          "machine_verdict": "canh-bao",
+          "machine_reasons": [
+            "32000 Hz, dưới 44100 Hz"
+          ],
+          "preview_file": "build/kho-am/CR-07/59151-f_ilippo-hq.mp3",
+          "note": "Chọn tạm theo mô tả + số đo, CHƯA AI NGHE. Bản nghe thử MP3; bản gốc chưa tải (downloaded_at trống). Nghe xong: đổi status → da_chon hoặc chọn bản khác."
+        }
       },
       "contains_identifiable_voice": false,
-      "consent_status": "not_required"
+      "consent_status": "not_required",
+      "license": "CC0-1.0"
     },
     {
       "id": "CR-08",
@@ -540,8 +569,8 @@
       "endangerment_level": "stable",
       "must_verify_on_site": false,
       "location_verified": false,
-      "source_url": null,
-      "source_uploader": null,
+      "source_url": "https://freesound.org/people/cybergenic/sounds/135821/",
+      "source_uploader": "cybergenic",
       "downloaded_at": null,
       "survey": {
         "archive": "freesound",
@@ -550,7 +579,7 @@
           "rain river surface",
           "rain lake"
         ],
-        "status": "co_ung_vien",
+        "status": "chon_tam",
         "prescreened_at": "2026-09-21",
         "candidates": [
           {
@@ -576,10 +605,24 @@
               "-41,8 LUFS, cần khuếch đại +18,8 dB — nhiễu nền bản gốc sẽ lộ"
             ]
           }
-        ]
+        ],
+        "chosen": {
+          "by": "may",
+          "at": "2026-09-21",
+          "freesound_id": 135821,
+          "matches_description": true,
+          "machine_verdict": "canh-bao",
+          "machine_reasons": [
+            "1190 s — phải cắt lấy đoạn dùng làm tín hiệu",
+            "-41,8 LUFS, cần khuếch đại +18,8 dB — nhiễu nền bản gốc sẽ lộ"
+          ],
+          "preview_file": "build/kho-am/CR-08/135821-cybergenic-hq.mp3",
+          "note": "Chọn tạm theo mô tả + số đo, CHƯA AI NGHE. Bản nghe thử MP3; bản gốc chưa tải (downloaded_at trống). Nghe xong: đổi status → da_chon hoặc chọn bản khác."
+        }
       },
       "contains_identifiable_voice": false,
-      "consent_status": "not_required"
+      "consent_status": "not_required",
+      "license": "CC0-1.0"
     },
     {
       "id": "HU-01",
@@ -609,8 +652,8 @@
       "endangerment_level": "stable",
       "must_verify_on_site": false,
       "location_verified": false,
-      "source_url": null,
-      "source_uploader": null,
+      "source_url": "https://freesound.org/people/klankbeeld/sounds/169181/",
+      "source_uploader": "klankbeeld",
       "downloaded_at": null,
       "survey": {
         "archive": "freesound",
@@ -619,7 +662,7 @@
           "slow river water",
           "river bank gentle"
         ],
-        "status": "co_ung_vien",
+        "status": "chon_tam",
         "prescreened_at": "2026-09-21",
         "candidates": [
           {
@@ -642,10 +685,21 @@
             "machine_verdict": "qua",
             "machine_reasons": []
           }
-        ]
+        ],
+        "chosen": {
+          "by": "may",
+          "at": "2026-09-21",
+          "freesound_id": 169181,
+          "matches_description": true,
+          "machine_verdict": "qua",
+          "machine_reasons": [],
+          "preview_file": "build/kho-am/HU-02/169181-klankbeeld-hq.mp3",
+          "note": "Chọn tạm theo mô tả + số đo, CHƯA AI NGHE. Bản nghe thử MP3; bản gốc chưa tải (downloaded_at trống). Nghe xong: đổi status → da_chon hoặc chọn bản khác."
+        }
       },
       "contains_identifiable_voice": false,
-      "consent_status": "not_required"
+      "consent_status": "not_required",
+      "license": "CC-BY-4.0"
     },
     {
       "id": "HU-03",
@@ -731,8 +785,8 @@
       "endangerment_level": "stable",
       "must_verify_on_site": false,
       "location_verified": false,
-      "source_url": null,
-      "source_uploader": null,
+      "source_url": "https://freesound.org/people/inchadney/sounds/66785/",
+      "source_uploader": "inchadney",
       "downloaded_at": null,
       "survey": {
         "archive": "xeno-canto + freesound",
@@ -741,7 +795,7 @@
           "songbirds morning",
           "temple garden birds"
         ],
-        "status": "co_ung_vien",
+        "status": "chon_tam",
         "prescreened_at": "2026-09-21",
         "candidates": [
           {
@@ -766,10 +820,23 @@
               "817,8 s — phải cắt lấy đoạn dùng làm tín hiệu"
             ]
           }
-        ]
+        ],
+        "chosen": {
+          "by": "may",
+          "at": "2026-09-21",
+          "freesound_id": 66785,
+          "matches_description": true,
+          "machine_verdict": "canh-bao",
+          "machine_reasons": [
+            "817,8 s — phải cắt lấy đoạn dùng làm tín hiệu"
+          ],
+          "preview_file": "build/kho-am/HU-07/66785-inchadney-hq.mp3",
+          "note": "Chọn tạm theo mô tả + số đo, CHƯA AI NGHE. Bản nghe thử MP3; bản gốc chưa tải (downloaded_at trống). Nghe xong: đổi status → da_chon hoặc chọn bản khác."
+        }
       },
       "contains_identifiable_voice": false,
-      "consent_status": "not_required"
+      "consent_status": "not_required",
+      "license": "CC-BY-4.0"
     },
     {
       "id": "HU-08",
@@ -783,8 +850,8 @@
       "endangerment_level": "stable",
       "must_verify_on_site": false,
       "location_verified": false,
-      "source_url": null,
-      "source_uploader": null,
+      "source_url": "https://freesound.org/people/Littleboot/sounds/196712/",
+      "source_uploader": "Littleboot",
       "downloaded_at": null,
       "survey": {
         "archive": "freesound",
@@ -793,7 +860,7 @@
           "leaves rustling wind",
           "bamboo wind"
         ],
-        "status": "co_ung_vien",
+        "status": "chon_tam",
         "prescreened_at": "2026-09-21",
         "candidates": [
           {
@@ -816,10 +883,21 @@
             "machine_verdict": "qua",
             "machine_reasons": []
           }
-        ]
+        ],
+        "chosen": {
+          "by": "may",
+          "at": "2026-09-21",
+          "freesound_id": 196712,
+          "matches_description": true,
+          "machine_verdict": "qua",
+          "machine_reasons": [],
+          "preview_file": "build/kho-am/HU-08/196712-Littleboot-hq.mp3",
+          "note": "Chọn tạm theo mô tả + số đo, CHƯA AI NGHE. Bản nghe thử MP3; bản gốc chưa tải (downloaded_at trống). Nghe xong: đổi status → da_chon hoặc chọn bản khác."
+        }
       },
       "contains_identifiable_voice": false,
-      "consent_status": "not_required"
+      "consent_status": "not_required",
+      "license": "CC0-1.0"
     },
     {
       "id": "TN-01",
@@ -833,8 +911,8 @@
       "endangerment_level": "declining",
       "must_verify_on_site": false,
       "location_verified": false,
-      "source_url": null,
-      "source_uploader": null,
+      "source_url": "https://freesound.org/people/kyles/sounds/637565/",
+      "source_uploader": "kyles",
       "downloaded_at": null,
       "survey": {
         "archive": "freesound",
@@ -843,7 +921,7 @@
           "forest wind canopy",
           "highland wind"
         ],
-        "status": "co_ung_vien",
+        "status": "chon_tam",
         "prescreened_at": "2026-09-21",
         "candidates": [
           {
@@ -866,10 +944,21 @@
             "machine_verdict": "qua",
             "machine_reasons": []
           }
-        ]
+        ],
+        "chosen": {
+          "by": "may",
+          "at": "2026-09-21",
+          "freesound_id": 637565,
+          "matches_description": true,
+          "machine_verdict": "qua",
+          "machine_reasons": [],
+          "preview_file": "build/kho-am/TN-01/637565-kyles-hq.mp3",
+          "note": "Chọn tạm theo mô tả + số đo, CHƯA AI NGHE. Bản nghe thử MP3; bản gốc chưa tải (downloaded_at trống). Nghe xong: đổi status → da_chon hoặc chọn bản khác."
+        }
       },
       "contains_identifiable_voice": false,
-      "consent_status": "not_required"
+      "consent_status": "not_required",
+      "license": "CC0-1.0"
     },
     {
       "id": "TN-02",
@@ -883,8 +972,8 @@
       "endangerment_level": "stable",
       "must_verify_on_site": false,
       "location_verified": false,
-      "source_url": null,
-      "source_uploader": null,
+      "source_url": "https://freesound.org/people/gadesound/sounds/653597/",
+      "source_uploader": "gadesound",
       "downloaded_at": null,
       "survey": {
         "archive": "freesound",
@@ -893,7 +982,7 @@
           "mountain creek",
           "small waterfall"
         ],
-        "status": "co_ung_vien",
+        "status": "chon_tam",
         "prescreened_at": "2026-09-21",
         "candidates": [
           {
@@ -920,10 +1009,23 @@
               "-46,9 LUFS, cần khuếch đại +23,9 dB — nhiễu nền bản gốc sẽ lộ"
             ]
           }
-        ]
+        ],
+        "chosen": {
+          "by": "may",
+          "at": "2026-09-21",
+          "freesound_id": 653597,
+          "matches_description": true,
+          "machine_verdict": "canh-bao",
+          "machine_reasons": [
+            "nền 75,9 s, nên tìm bản ≥ 120 s"
+          ],
+          "preview_file": "build/kho-am/TN-02/653597-gadesound-hq.mp3",
+          "note": "Chọn tạm theo mô tả + số đo, CHƯA AI NGHE. Bản nghe thử MP3; bản gốc chưa tải (downloaded_at trống). Nghe xong: đổi status → da_chon hoặc chọn bản khác."
+        }
       },
       "contains_identifiable_voice": false,
-      "consent_status": "not_required"
+      "consent_status": "not_required",
+      "license": "CC0-1.0"
     },
     {
       "id": "TN-03",
@@ -937,8 +1039,8 @@
       "endangerment_level": "declining",
       "must_verify_on_site": false,
       "location_verified": false,
-      "source_url": null,
-      "source_uploader": null,
+      "source_url": "https://freesound.org/people/Greencouch/sounds/103563/",
+      "source_uploader": "Greencouch",
       "downloaded_at": null,
       "survey": {
         "archive": "freesound + xeno-canto",
@@ -947,7 +1049,7 @@
           "tropical forest insects night",
           "forest frogs night"
         ],
-        "status": "co_ung_vien",
+        "status": "chon_tam",
         "prescreened_at": "2026-09-21",
         "candidates": [
           {
@@ -982,10 +1084,23 @@
               "-43,3 LUFS, cần khuếch đại +20,3 dB — nhiễu nền bản gốc sẽ lộ"
             ]
           }
-        ]
+        ],
+        "chosen": {
+          "by": "may",
+          "at": "2026-09-21",
+          "freesound_id": 103563,
+          "matches_description": true,
+          "machine_verdict": "canh-bao",
+          "machine_reasons": [
+            "-43,3 LUFS, cần khuếch đại +20,3 dB — nhiễu nền bản gốc sẽ lộ"
+          ],
+          "preview_file": "build/kho-am/TN-03/103563-Greencouch-hq.mp3",
+          "note": "Chọn tạm theo mô tả + số đo, CHƯA AI NGHE. Bản nghe thử MP3; bản gốc chưa tải (downloaded_at trống). Nghe xong: đổi status → da_chon hoặc chọn bản khác."
+        }
       },
       "contains_identifiable_voice": false,
-      "consent_status": "not_required"
+      "consent_status": "not_required",
+      "license": "CC-BY-3.0"
     },
     {
       "id": "TN-04",
@@ -1085,8 +1200,8 @@
       "endangerment_level": "stable",
       "must_verify_on_site": false,
       "location_verified": false,
-      "source_url": null,
-      "source_uploader": null,
+      "source_url": "https://freesound.org/people/larval1977/sounds/38487/",
+      "source_uploader": "larval1977",
       "downloaded_at": null,
       "survey": {
         "archive": "freesound",
@@ -1095,7 +1210,7 @@
           "rain forest canopy",
           "tropical downpour"
         ],
-        "status": "co_ung_vien",
+        "status": "chon_tam",
         "prescreened_at": "2026-09-21",
         "candidates": [
           {
@@ -1123,10 +1238,23 @@
               "đỉnh thật -0,2 dBTP — có thể đã cắt đỉnh, nghe kỹ chỗ to nhất"
             ]
           }
-        ]
+        ],
+        "chosen": {
+          "by": "may",
+          "at": "2026-09-21",
+          "freesound_id": 38487,
+          "matches_description": false,
+          "machine_verdict": "canh-bao",
+          "machine_reasons": [
+            "đỉnh thật -0,2 dBTP — có thể đã cắt đỉnh, nghe kỹ chỗ to nhất"
+          ],
+          "preview_file": "build/kho-am/TN-08/38487-larval1977-hq.mp3",
+          "note": "Chọn tạm theo mô tả + số đo, CHƯA AI NGHE. Bản nghe thử MP3; bản gốc chưa tải (downloaded_at trống). Nghe xong: đổi status → da_chon hoặc chọn bản khác."
+        }
       },
       "contains_identifiable_voice": false,
-      "consent_status": "not_required"
+      "consent_status": "not_required",
+      "license": "CC0-1.0"
     }
   ]
 }

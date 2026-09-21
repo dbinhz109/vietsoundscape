@@ -140,3 +140,37 @@ describe('mục lục bản trộn và từ vựng vùng (FR-03)', () => {
     }
   });
 });
+
+describe('máy chọn tạm nguồn kho (Q-30) — phải trung thực về việc chưa ai nghe', () => {
+  const provisional = clips.filter((c) => c.survey?.status === 'chon_tam');
+
+  test('mẫu chọn tạm có nguồn https trên Freesound và giấy phép trong danh sách cho phép', async () => {
+    const { ALLOWED_LICENSES } = await import('../domain/taxonomy.js');
+    for (const clip of provisional) {
+      expect(clip.source_url, clip.id).toMatch(/^https:\/\/freesound\.org\//);
+      expect(clip.source_uploader, clip.id).toBeTruthy();
+      expect(ALLOWED_LICENSES, `${clip.id}: ${clip.license}`).toContain(clip.license);
+    }
+  });
+
+  test('chọn tạm thì bản gốc chưa tải (downloaded_at trống), mẫu vẫn planned, có ghi ai chọn và khi nào', () => {
+    for (const clip of provisional) {
+      expect(clip.downloaded_at, `${clip.id} không được khai đã tải khi chỉ có bản nghe thử`).toBeNull();
+      expect(clip.status, clip.id).toBe('planned');
+      expect(clip.survey.chosen?.by, clip.id).toBe('may');
+      expect(clip.survey.chosen?.at, clip.id).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+    }
+  });
+
+  test('một tệp kho không được chọn tạm cho hai mẫu', () => {
+    const ids = provisional.map((c) => c.survey.chosen.freesound_id);
+    expect(new Set(ids).size).toBe(ids.length);
+  });
+
+  test('mẫu chờ Q-28 không bị điền nguồn lệch', () => {
+    for (const clip of clips.filter((c) => c.survey?.status === 'de_nghi_tu_thu')) {
+      expect(clip.source_url, clip.id).toBeNull();
+    }
+  });
+});
+

@@ -23,7 +23,8 @@
     "plan:sample": "node scripts/plan-sample.mjs",
     "demo": "PUBLIC_BASE=/vietsoundscape/ vite build && PUBLIC_BASE=/vietsoundscape/ vite preview --port 4173 --strictPort",
     "participants": "node scripts/participants.mjs",
-    "prescreen": "node scripts/prescreen-kho-am.mjs"
+    "prescreen": "node scripts/prescreen-kho-am.mjs",
+    "chon:tam": "node scripts/chon-tam-kho-am.mjs"
   },
   "devDependencies": {
     "@vitest/coverage-v8": "^3.2.4",

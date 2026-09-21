@@ -38,11 +38,17 @@ console.log('quảng bá du lịch mà đề tài đã nêu (BA LG-03). Bộ ki�
 console.log('Ưu tiên bản DÀI 1–5 phút. Loop 3 giây nghe ra ngay là lặp.\n');
 
 let done = 0;
+let provisional = 0;
+let toField = 0;
 let currentLocation = null;
 
 for (const clip of archiveClips) {
   const filled = isFilled(clip);
+  const status = clip.survey?.status;
+  const isProvisional = status === 'chon_tam';
+  if (status === 'de_nghi_tu_thu') toField += 1;
   if (filled) done += 1;
+  else if (isProvisional) provisional += 1;
   if (onlyTodo && filled) continue;
 
   if (clip.location_id !== currentLocation) {
@@ -53,7 +59,8 @@ for (const clip of archiveClips) {
   }
 
   const survey = clip.survey ?? {};
-  console.log(`\n  ${filled ? '✓' : '☐'} ${clip.id}  ${clip.title_vi}`);
+  const mark = filled ? '✓' : isProvisional ? '⚠' : status === 'de_nghi_tu_thu' ? '→' : '☐';
+  console.log(`\n  ${mark} ${clip.id}  ${clip.title_vi}`);
   console.log(`      vai/nhóm   ${clip.schafer_role} · ${clip.krause_class}`);
   console.log(`      kho        ${survey.archive ?? '—'}`);
   console.log(`      từ khoá    ${(survey.search_terms ?? []).join(' | ')}`);
@@ -61,6 +68,13 @@ for (const clip of archiveClips) {
   if (filled) {
     console.log(`      đã chọn    ${clip.license} · ${clip.source_uploader} · ${clip.downloaded_at}`);
     console.log(`      nguồn      ${clip.source_url}`);
+  } else if (isProvisional) {
+    const chosen = clip.survey.chosen ?? {};
+    console.log(`      CHỌN TẠM   máy chọn ${chosen.at ?? ''} · #${chosen.freesound_id} · ${clip.license} · ${clip.source_uploader} · ${chosen.machine_verdict}`);
+    console.log(`      nguồn      ${clip.source_url}`);
+    console.log('      còn thiếu  TAI NGƯỜI nghe rồi đổi survey.status → da_chon · tải bản gốc · downloaded_at');
+  } else if (status === 'de_nghi_tu_thu') {
+    console.log(`      → tự thu   ${clip.survey.note ?? 'ứng viên kho lệch, chờ Q-28'}`);
   } else {
     console.log('      cần điền   source_url · source_uploader · downloaded_at · license');
   }
@@ -71,6 +85,8 @@ const total = archiveClips.length;
 const bar = '█'.repeat(Math.round((done / total) * 30)).padEnd(30, '·');
 console.log(`\n${'═'.repeat(74)}`);
 console.log(`Tiến độ  ${bar}  ${done}/${total} mẫu đã chọn được nguồn`);
+if (provisional > 0) console.log(`         ⚠ ${provisional} mẫu máy CHỌN TẠM (chưa ai nghe, chưa tải bản gốc) — không tính vào tiến độ`);
+if (toField > 0) console.log(`         → ${toField} mẫu đề nghị chuyển sang tự thu (Q-28)`);
 
 if (done < total) {
   console.log('\nSau khi điền: `npm run validate` để máy kiểm giấy phép và tính đầy đủ.');

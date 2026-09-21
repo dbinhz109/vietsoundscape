@@ -47,6 +47,7 @@ hình dữ liệu, sơ đồ đã sửa); sổ này giữ **lý do, bằng chứ
 - [Q-27 — 🟡 chờ quyết: có nhận CC BY-SA cho bản Mekong thật (CR-08) không](#q-27--chờ-quyết-có-nhận-cc-by-sa-cho-bản-mekong-thật-cr-08-không)
 - [Q-28 — 🟡 chờ quyết: CR-01, CR-03 chuyển sang tự thu; HN-01, HN-02, HN-06 thu thêm khi ở Hà Nội](#q-28--chờ-quyết-cr-01-cr-03-chuyển-sang-tự-thu-hn-01-hn-02-hn-06-thu-thêm-khi-ở-hà-nội)
 - [Q-29 — 🟡 tạm chốt: `LICENSE` MIT ghi chủ sở hữu là nhóm đề tài](#q-29--tạm-chốt-license-mit-ghi-chủ-sở-hữu-là-nhóm-đề-tài-vietsoundscape)
+- [Q-30 — Đã chốt: máy chọn tạm nguồn kho cho 10 mẫu, tai người xác nhận sau](#q-30--đã-chốt-người-quyết-2109-máy-chọn-tạm-nguồn-kho-cho-10-mẫu-tai-người-xác-nhận-sau)
 
 ---
 
@@ -658,3 +659,21 @@ Chỉ lộ ra khi đọc toàn văn. Chi tiết `phap-ly/08` §8:
 **Khuyến nghị của máy:** (a) ngay, rồi NC kiểm quy chế trường để chuyển (b) nếu cần. (c) là phương án tệ nhất: nó không "trung lập" mà là "cấm dùng".
 
 **Đã chốt (tạm, 21/09):** (a) — `LICENSE` tạo với dòng `Copyright (c) 2026 Nhóm đề tài VietSoundscape`. Tệp còn ghi rõ MIT **chỉ áp dụng cho mã nguồn**, phần dữ liệu và tài liệu theo `phap-ly/09`. NC xác nhận hoặc đổi tên: ⟨…⟩
+
+## Q-30 — Đã chốt (người quyết 21/09): máy chọn tạm nguồn kho cho 10 mẫu, tai người xác nhận sau
+
+| | |
+|---|---|
+| **Ngày mở / chốt** | 21/09/2026 · **Người quyết:** chủ trì (chọn phương án qua hỏi đáp), máy thực hiện |
+| **Vị trí trong BA** | 5.4.1 quy tắc tải vật liệu · 8.2 `source_url`, `license` |
+| **Ảnh hưởng tới** | `data/clips.json` 10 mẫu `licensed_archive` · `npm run survey` (dòng "CHỌN TẠM") · `dataset.test.js` (luật trung thực) |
+
+**Sự việc:** 33 bản nghe thử đã tải và máy đã chấm (§7.5 `ung-vien-kho-am.md`), nhưng chưa ai nghe. Máy đề xuất hai đường: dừng chờ tai người, hoặc điền tạm để người chỉ còn việc xác nhận/đổi. Chủ trì chọn **điền tạm**.
+
+**Cách làm (`npm run chon:tam -- --bo CR-01,CR-03,HN-01,HN-02,HN-06`, luật `pickProvisional()` trong `src/data/prescreen.js`):** ưu tiên bản **khớp mô tả (⭐)** chưa bị LOẠI, rồi bản thường tốt nhất; **không bao giờ** chọn ứng viên lệch địa lý/loại (🟡); một tệp không dùng cho hai mẫu. Điền `source_url`, `source_uploader`, `license`; **không** điền `downloaded_at` (chỉ có bản nghe thử MP3, bản gốc chưa tải); mẫu vẫn `planned`; `survey.status = chon_tam`, `survey.chosen` ghi ai chọn, khi nào, verdict máy.
+
+**Kết quả:** 10 mẫu chọn tạm — HN-03 #404061 · CR-07 #59151 · CR-08 #135821 · HU-02 #169181 · HU-07 #66785 · HU-08 #196712 · TN-01 #637565 · TN-02 #653597 · TN-03 #103563 · TN-08 #38487 (6 QUA, 4 CẢNH BÁO có lý do ghi kèm). **5 mẫu không điền**, đánh `de_nghi_tu_thu`: HN-01, HN-02, HN-06, CR-01, CR-03 — đúng khuyến nghị Q-28 (a); điền một thuyền buồm Bắc Âu cho Cái Răng là biết sai mà vẫn ghi. 2 mẫu không có ứng viên: HN-08 (lost), TN-07.
+
+**Rào chắn để "tạm" không bị đọc thành "đã chọn":** `npm run survey` không tính 10 mẫu này vào tiến độ và in dòng ⚠ riêng; `dataset.test.js` đỏ nếu mẫu chọn tạm có `downloaded_at` hay rời `planned`; thẻ chi tiết trên web vẫn hiện "chưa có" cho SHA-256/thiết bị vì mẫu chưa qua đường ống.
+
+**Việc của tai người (≈ 30 phút):** nghe 10 bản theo `build/kho-am/DUYET.md`, mỗi bản: giữ → `survey.status: da_chon`; đổi → sửa `source_url/source_uploader/license` theo ứng viên khác; bỏ → `de_nghi_tu_thu`. Rồi tải bản gốc bằng tài khoản Freesound, điền `downloaded_at`, chạy `npm run process`.

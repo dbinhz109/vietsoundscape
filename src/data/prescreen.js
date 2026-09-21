@@ -130,3 +130,24 @@ export function parseSilenceDetect(stderr, durationS) {
 }
 
 const fmt = (value) => String(Math.round(value * 10) / 10).replace('.', ',');
+
+/**
+ * Máy chọn **tạm** một ứng viên cho tai người xác nhận hoặc đổi (sổ quyết định Q-30).
+ *
+ * Thứ tự: bản khớp mô tả (⭐) chưa bị LOẠI, điểm cao nhất → bản thường chưa bị
+ * LOẠI, hạng tốt nhất → không chọn. Ứng viên **lệch** (🟡: sai địa lý hay sai
+ * loại) không bao giờ được chọn tạm — chọn một thuyền buồm Bắc Âu cho Cái Răng
+ * là biết sai mà vẫn ghi; mẫu đó chờ người quyết Q-28.
+ *
+ * @param {Array<object>} items ứng viên của **một** mẫu, có số đo + `star`/`weak`
+ * @param {{ exclude?: Set<number> }} [options] mã đã dùng cho mẫu khác
+ * @returns {(object & { verdict: string, reasons: string[], score: number }) | null}
+ */
+export function pickProvisional(items, { exclude = new Set() } = {}) {
+  const usable = rankCandidates(items).filter(
+    (item) => item.verdict !== 'loai' && item.verdict !== 'chua-do' && !item.weak && !exclude.has(item.fsid),
+  );
+  if (usable.length === 0) return null;
+  const starred = usable.filter((item) => item.star).sort((a, b) => b.score - a.score);
+  return starred[0] ?? usable[0];
+}
