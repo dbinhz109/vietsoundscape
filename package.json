@@ -21,7 +21,9 @@
     "render:stimuli": "node scripts/render-stimuli.mjs",
     "analyse": "node scripts/analyse-results.mjs",
     "plan:sample": "node scripts/plan-sample.mjs",
-    "demo": "PUBLIC_BASE=/vietsoundscape/ vite build && PUBLIC_BASE=/vietsoundscape/ vite preview --port 4173 --strictPort"
+    "demo": "PUBLIC_BASE=/vietsoundscape/ vite build && PUBLIC_BASE=/vietsoundscape/ vite preview --port 4173 --strictPort",
+    "participants": "node scripts/participants.mjs",
+    "prescreen": "node scripts/prescreen-kho-am.mjs"
   },
   "devDependencies": {
     "@vitest/coverage-v8": "^3.2.4",

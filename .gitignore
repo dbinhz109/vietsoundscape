@@ -17,3 +17,6 @@ build/
 
 # Bộ nhớ của trợ lý — không phải mã nguồn
 .remember/
+
+# Danh sách chờ người tham gia — có cách liên hệ, KHÔNG đưa vào git (mẫu cột: mau-danh-sach-cho.csv)
+nghien-cuu/danh-sach-cho*.csv

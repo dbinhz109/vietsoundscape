@@ -18,7 +18,7 @@ thanh; `python3` + `numpy` chỉ cần để sinh âm thử.
 
 ```bash
 npm ci                # cài đúng phiên bản trong package-lock.json
-npm test              # 570 test — phải xanh trước khi làm gì khác
+npm test              # 618 test — phải xanh trước khi làm gì khác
 npm run gen:audio     # sinh âm thử tổng hợp vào spike/audio/ (không có trong repo)
 npm run dev           # http://localhost:5174
 ```
@@ -53,6 +53,8 @@ kết xuất kích thích trước (`npm run render:stimuli -- --placeholder`, c
 | `npm run render:stimuli -- --placeholder [--verify]` | Kết xuất 12 kích thích thực nghiệm; `--verify` kết xuất lại và so băm *(ffmpeg, ~198 MB)* |
 | `npm run analyse -- <log.json>` | Chạy McNemar (H1) và Wilcoxon (H2) trên log lượt nghe; `-- --demo` dùng dữ liệu giả |
 | `npm run plan:sample` | Bảng cỡ mẫu theo ba kịch bản, công thức đối chiếu mô phỏng |
+| `npm run prescreen` | Chấm máy bản nghe thử kho âm trong `build/kho-am/` (LUFS, đỉnh, im lặng, thời lượng theo vai) → `DUYET.md` mục "Máy chấm trước" *(ffmpeg)* |
+| `npm run participants -- <csv>` | Theo dõi tuyển người tham gia: đã nghe/96, vòng 12 đang hở, theo tuần, thiết bị; CSV ngoài git (mẫu `nghien-cuu/mau-danh-sach-cho.csv`) |
 
 CI (`.github/workflows/ci.yml`) chạy `test` → `validate` → `build` trên mỗi push.
 `pages.yml` dựng `main` với `PUBLIC_BASE=/vietsoundscape/` (kèm `gen:audio`) và đưa lên GitHub Pages.
@@ -64,7 +66,7 @@ src/audio/       bộ máy Web Audio: gain, loop, trigger có seed, đồ thị 
 src/data/        lược đồ và luật cho mẫu âm, bản trộn, độ to, kiểm thiết bị thu
 src/domain/      phân loại Schafer / Krause, ba điều kiện thực nghiệm
 src/research/    phân điều kiện, biến thể kích thích, thống kê, cỡ hiệu ứng, lực, thang ISO
-src/app/         giao diện: bản đồ, phòng nghe, trang thực nghiệm
+src/app/         giao diện: bản đồ, phòng nghe, bộ lọc, thẻ chi tiết, trang thực nghiệm, PWA (offline/)
 scripts/         công cụ dòng lệnh (bảng trên)
 data/            mẫu âm, bản trộn, địa điểm (GeoJSON) — nguồn sự thật, script Node đọc thẳng
 test/            AudioContext giả cho kiểm thử
@@ -87,6 +89,8 @@ spike/           trang đo ban đầu (G0)
 | `nghien-cuu/ung-vien-kho-am.md` | Ứng viên kho âm mở cho 17 mẫu `licensed_archive`; §7 bản nghe thử đã tải |
 | `nghien-cuu/phan-bien-du-kien.md` | 12 câu phản biện dự kiến, mỗi câu có trả lời 30 giây, bằng chứng, điểm yếu thật |
 | `nghien-cuu/sua-thuyet-minh.md` | Văn bản thay thế sẵn cho 6 lỗi của thuyết minh gốc (BA §16) |
+| `nghien-cuu/tuyen-nguoi-tham-gia.md` | Tuyển người: điều kiện mở, con số, quy trình một người, thư mời, theo dõi tuần |
+| `nghien-cuu/phieu-06-cai-rang.md` | Phiếu cộng tác viên điền sẵn cho Cái Răng (nếu không tự đi) |
 | `phap-ly/` | Hồ sơ pháp lý: phiếu đồng thuận, thoả thuận cộng đồng, căn cứ luật, quyết định giấy phép |
 
 Mã nguồn theo **MIT** (`LICENSE`; chủ sở hữu tạm ghi là nhóm đề tài — sổ quyết
@@ -105,6 +109,11 @@ npm run demo          # dựng + phục vụ tại http://localhost:4173/vietsou
 
 Tắt wifi rồi mở lại trang để chắc. Nếu cần trình chiếu từ máy khác trong phòng,
 thêm `-- --host` vào lệnh preview.
+
+Link công khai cũng là **PWA**: mở một lần có mạng, service worker (`src/app/offline/`)
+cất vỏ trang, dữ liệu và tệp âm đã nghe; sau đó mất mạng vẫn mở được, và trên
+điện thoại "Thêm vào màn hình chính" cài được như app. Tệp có mã băm cache trước,
+dữ liệu `data/` mạng trước (độ tươi), đổi luật thì tăng số ở `CACHE_NAME`.
 
 ## Quy ước làm việc
 

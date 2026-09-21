@@ -20,6 +20,8 @@ hoặc **vật liệu thật**; không việc nào trong số đó có thể là
 > 📒 **21/09** — Ngoài spec: **G2 link công khai** đã xong (`https://dbinhz109.github.io/vietsoundscape/`, lộ trình A7.1 một phần). Việc pháp chế A0.3b/A0.3c **bỏ theo quyết định Q-25** — không còn tính vào S3.2. Q-26/27/28 mở trong sổ quyết định chờ chốt.
 >
 > 📒 **21/09 (chiều)** — Thêm ngoài spec, đều là việc máy làm một mình: lộ trình **B3.1** FR-03/25/27 xong phần mã (bộ lọc, thẻ chi tiết + ghi công, trích dẫn BibTeX; 570 test); **`LICENSE`** MIT (Q-29 tạm chốt); **phiếu 06 điền sẵn cho Cái Răng** (`nghien-cuu/phieu-06-cai-rang.md`, chờ chọn "nhóm đi / cộng tác viên"); **12 câu phản biện** có bằng chứng (`phan-bien-du-kien.md`); **văn bản sửa thuyết minh** cho 6 lỗi BA §16 (`sua-thuyet-minh.md`). Kiểm giao diện ở 375 px bằng Playwright trên máy tính — **không thay được S2.3 điện thoại thật**. Năm việc cần người thật ở bảng trên **không đổi**.
+>
+> 📒 **21/09 (tối)** — Thêm: **S3.1 máy chấm trước** 33 bản nghe thử (`npm run prescreen`: QUA 20 · CẢNH BÁO 12 · LOẠI 1; thứ tự nghe trong `DUYET.md`; `survey.candidates` ghi vào `clips.json`) — tai người còn ≈ 40 phút thay vì 2,5 giờ; **C2.1/C5.2** quy trình tuyển + thư mời + `npm run participants` (`tuyen-nguoi-tham-gia.md`); **A5.1 PWA** ngoại tuyến + cài được (kiểm tắt mạng tải lại vẫn chạy). 618 test.
 
 ## Cách đọc
 
