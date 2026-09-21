@@ -46,6 +46,7 @@ hình dữ liệu, sơ đồ đã sửa); sổ này giữ **lý do, bằng chứ
 - [Q-26 — 🟡 chờ quyết: có nhận Public Domain Mark 1.0 từ mirror radio aporee không](#q-26--chờ-quyết-có-nhận-public-domain-mark-10-từ-mirror-radio-aporee-không)
 - [Q-27 — 🟡 chờ quyết: có nhận CC BY-SA cho bản Mekong thật (CR-08) không](#q-27--chờ-quyết-có-nhận-cc-by-sa-cho-bản-mekong-thật-cr-08-không)
 - [Q-28 — 🟡 chờ quyết: CR-01, CR-03 chuyển sang tự thu; HN-01, HN-02, HN-06 thu thêm khi ở Hà Nội](#q-28--chờ-quyết-cr-01-cr-03-chuyển-sang-tự-thu-hn-01-hn-02-hn-06-thu-thêm-khi-ở-hà-nội)
+- [Q-29 — 🟡 tạm chốt: `LICENSE` MIT ghi chủ sở hữu là nhóm đề tài](#q-29--tạm-chốt-license-mit-ghi-chủ-sở-hữu-là-nhóm-đề-tài-vietsoundscape)
 
 ---
 
@@ -642,3 +643,18 @@ Chỉ lộ ra khi đọc toàn văn. Chi tiết `phap-ly/08` §8:
 
 **Đã chốt:** ⟨…⟩
 
+## Q-29 — 🟡 tạm chốt: `LICENSE` MIT ghi chủ sở hữu là "Nhóm đề tài VietSoundscape"
+
+| | |
+|---|---|
+| **Ngày mở** | 21/09/2026 · **Người quyết:** NC (máy tạm chốt để repo public không vô chủ giấy phép) |
+| **Vị trí trong BA** | 15. Pháp lý · `phap-ly/09` hàng "Mã nguồn — MIT" |
+| **Ảnh hưởng tới** | `LICENSE` ở gốc repo · `README.md` mục giấy phép · lộ trình B0.3, A7.1 |
+
+**Sự việc:** repo đã public từ 21/09 (G2) mà không có tệp `LICENSE`. Theo luật bản quyền mặc định, mã public không giấy phép là **"mọi quyền được bảo lưu"** — người xem không được sao chép, kể cả người phản biện muốn chạy thử. `phap-ly/09` đã quyết MIT từ 05/08; thứ duy nhất còn thiếu là **tên chủ sở hữu**, và câu hỏi đó chưa có người trả lời.
+
+**Phương án:** (a) ghi **tên nhóm đề tài** (không tên riêng) — dùng được ngay, không cần hỏi ai, đổi sau bằng một commit · (b) ghi tên chủ trì + trường — cần xác nhận trường có yêu cầu sở hữu kết quả NCKH sinh viên không (nhiều trường có quy chế riêng) · (c) để trống tiếp.
+
+**Khuyến nghị của máy:** (a) ngay, rồi NC kiểm quy chế trường để chuyển (b) nếu cần. (c) là phương án tệ nhất: nó không "trung lập" mà là "cấm dùng".
+
+**Đã chốt (tạm, 21/09):** (a) — `LICENSE` tạo với dòng `Copyright (c) 2026 Nhóm đề tài VietSoundscape`. Tệp còn ghi rõ MIT **chỉ áp dụng cho mã nguồn**, phần dữ liệu và tài liệu theo `phap-ly/09`. NC xác nhận hoặc đổi tên: ⟨…⟩

@@ -117,3 +117,26 @@ describe('phương án nhiễu — data/distractors.json (spec S1.1)', () => {
     expect(options.length).toBe(locationIds.size + distractors.length);
   });
 });
+
+describe('mục lục bản trộn và từ vựng vùng (FR-03)', () => {
+  const index = read('recipes/index.json');
+
+  test('mỗi mục trong index.json có time_of_day khớp với tệp bản trộn', () => {
+    // Bộ lọc "thời điểm trong ngày" đọc từ index để không phải tải hết bản
+    // trộn; lệch nhau là lọc sai mà không ai báo.
+    for (const entry of index) {
+      const recipe = read(`recipes/${entry.id}.json`);
+      expect(entry.time_of_day, `${entry.id} thiếu time_of_day trong index`).toBe(recipe.time_of_day);
+      expect(entry.location_id).toBe(recipe.location_id);
+    }
+  });
+
+  test('vùng của mọi địa điểm nằm trong REGIONS của taxonomy', async () => {
+    const { REGIONS } = await import('../domain/taxonomy.js');
+    for (const feature of locations.features) {
+      expect(REGIONS, `${feature.properties.location_id}: vùng "${feature.properties.region}"`).toContain(
+        feature.properties.region,
+      );
+    }
+  });
+});

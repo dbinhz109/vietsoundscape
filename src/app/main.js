@@ -14,11 +14,12 @@ import { assetUrl } from './asset-url.js';
 import { createSoundMap } from './map/sound-map.js';
 import { createListeningRoom } from './room/listening-room.js';
 import { parseUrlState, toSearchParams } from './state/url-state.js';
+import { createLocationFilter, filterLocations } from './ui/location-filter.js';
 import { indexClipsById, validateRecipe } from '../data/recipe-schema.js';
 
 const el = (id) => document.getElementById(id);
 
-const state = { locationId: null, recipeId: null, layerSliders: {} };
+const state = { locationId: null, recipeId: null, layerSliders: {}, filter: {} };
 
 const json = async (url) => {
   const response = await fetch(url);
@@ -57,11 +58,21 @@ async function main() {
     recipesByLocation.get(entry.location_id).push(entry);
   }
 
+  // Đọc URL sớm để bộ lọc dựng ra đúng trạng thái người ta gửi; còn địa điểm
+  // thì chỉ ghi nhận, không tự phát (NFR-21) — xử lý ở cuối.
+  const fromUrl = parseUrlState(location.search);
+  state.filter = fromUrl.filter;
+
   const room = createListeningRoom({
     container: el('room'),
     onMixChange: (sliders) => {
       state.layerSliders = sliders;
       syncUrl();
+    },
+    citationContext: {
+      datasetVersion: clipsFile.dataset_version ?? 'chưa có',
+      siteUrl: new URL(assetUrl('/'), location.href).href,
+      accessed: new Date().toISOString().slice(0, 10),
     },
   });
 
@@ -91,8 +102,35 @@ async function main() {
     button.addEventListener('click', () => select(id));
     item.append(button);
     item.dataset.region = region;
+    item.dataset.locationId = id;
     list.append(item);
   }
+
+  // FR-03: lọc và tìm. Danh sách và bản đồ cùng nghe một bộ lọc, trạng thái
+  // lọc nằm trên URL để chia sẻ được một góc nhìn ("chỉ dấu ấn đã mất").
+  const locationProps = locations.features.map((feature) => feature.properties);
+  const applyFilter = () => {
+    const matched = filterLocations({
+      locations: locationProps,
+      clips: clipsFile.clips,
+      recipes: recipeIndex,
+      filter: state.filter,
+    });
+    const keep = new Set(matched);
+    for (const item of list.children) item.hidden = !keep.has(item.dataset.locationId);
+    soundMap.setVisible(keep);
+    filterForm.setResultCount(matched.length, locationProps.length);
+  };
+  const filterForm = createLocationFilter({
+    value: state.filter,
+    onChange: (filter) => {
+      state.filter = filter;
+      applyFilter();
+      syncUrl();
+    },
+  });
+  el('filter').replaceChildren(filterForm);
+  applyFilter();
 
   async function select(locationId) {
     const location = byLocation.get(locationId);
@@ -160,7 +198,6 @@ async function main() {
 
   // Trạng thái từ URL: chỉ ghi nhận, không tự phát — trình duyệt chặn phát âm
   // khi chưa có hành động của người dùng (NFR-21).
-  const fromUrl = parseUrlState(location.search);
   Object.assign(state, fromUrl);
   if (fromUrl.locationId && byLocation.has(fromUrl.locationId)) {
     soundMap.focus(fromUrl.locationId);

@@ -169,7 +169,7 @@ h3 {
 .slider-row {
   display: grid;
   grid-template-columns: 1fr auto;
-  grid-template-areas: 'label readout' 'input input' 'extra extra' 'note note';
+  grid-template-areas: 'label readout' 'input input' 'extra extra' 'note note' 'details details';
   align-items: center;
   gap: var(--space-1) var(--space-2);
   padding: var(--space-1) 0;
@@ -257,6 +257,193 @@ h3 {
 .badge-lost {
   background: color-mix(in oklch, var(--warn) 22%, transparent);
   color: var(--ink-700);
+}
+
+/* Bộ lọc (FR-03): một ô tìm, năm ô chọn. Trên điện thoại xếp một cột. */
+.filter-form {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-2) 0 var(--space-3);
+  border-bottom: var(--rule);
+}
+
+.filter-field {
+  display: grid;
+  gap: 2px;
+}
+
+.filter-field label {
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink-500);
+}
+
+.filter-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-2);
+}
+
+@media (max-width: 24rem) {
+  .filter-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.filter-search,
+.filter-select {
+  width: 100%;
+  min-width: 0;
+  font: inherit;
+  font-size: var(--text-small);
+  padding: 0.35rem var(--space-2);
+  border: var(--rule);
+  border-radius: var(--radius-sm);
+  background: var(--paper);
+  color: var(--ink-900);
+}
+
+.filter-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-2);
+}
+
+.filter-count {
+  font-size: var(--text-small);
+  color: var(--ink-500);
+}
+
+.filter-reset {
+  font: inherit;
+  font-size: var(--text-small);
+  padding: 0.2rem var(--space-2);
+  border: var(--rule);
+  border-radius: var(--radius-sm);
+  background: var(--paper);
+  color: var(--ink-700);
+  cursor: pointer;
+}
+
+.filter-reset:hover,
+.filter-reset:focus-visible {
+  background: var(--paper-sunk);
+  color: var(--ink-900);
+}
+
+/* Giấy phép hiệu lực của bản trộn (phap-ly/09) */
+.mix-license {
+  margin: var(--space-1) 0 0;
+  font-size: var(--text-small);
+  color: var(--ink-500);
+}
+
+.mix-license-warn {
+  color: var(--warn);
+}
+
+/*
+ * Thẻ chi tiết mẫu âm (FR-25) + trích dẫn (FR-27). Gập lại mặc định để phòng
+ * nghe vẫn là chỗ nghe; mở ra là bảng tra cứu, hàng thiếu in nghiêng mờ chứ
+ * không biến mất.
+ */
+.clip-details {
+  grid-area: details;
+  font-size: var(--text-small);
+  border-left: var(--rule);
+  padding-left: var(--space-2);
+}
+
+.clip-details summary {
+  cursor: pointer;
+  color: var(--ink-500);
+  font-family: ui-sans-serif, system-ui, sans-serif;
+}
+
+.clip-details summary:hover,
+.clip-details summary:focus-visible {
+  color: var(--ink-900);
+}
+
+.clip-facts {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 2px var(--space-2);
+  margin: var(--space-1) 0 0;
+}
+
+.clip-facts dt {
+  color: var(--ink-500);
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.03em;
+  padding-top: 0.15rem;
+}
+
+.clip-facts dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.fact-missing {
+  color: var(--ink-300);
+  font-style: italic;
+}
+
+.citation {
+  margin-top: var(--space-2);
+  display: grid;
+  gap: var(--space-1);
+}
+
+.citation h4 {
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink-500);
+}
+
+.citation-text {
+  margin: 0;
+  color: var(--ink-700);
+  user-select: all;
+}
+
+.citation-button {
+  justify-self: start;
+  font: inherit;
+  font-size: var(--text-small);
+  padding: 0.2rem var(--space-2);
+  border: var(--rule);
+  border-radius: var(--radius-sm);
+  background: var(--paper);
+  color: var(--ink-700);
+  cursor: pointer;
+}
+
+.citation-button:hover,
+.citation-button:focus-visible {
+  background: var(--paper-sunk);
+  color: var(--ink-900);
+}
+
+.citation-status {
+  color: var(--ink-500);
+}
+
+.citation-fallback {
+  width: 100%;
+  font: inherit;
+  font-size: var(--text-small);
+  border: var(--rule);
+  border-radius: var(--radius-sm);
+  background: var(--paper);
+  color: var(--ink-900);
 }
 
 #map {

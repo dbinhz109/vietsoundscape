@@ -3,7 +3,7 @@ import { parseUrlState, toSearchParams } from './url-state.js';
 
 describe('parseUrlState', () => {
   test('không có tham số thì không chọn địa điểm nào', () => {
-    expect(parseUrlState('')).toEqual({ locationId: null, recipeId: null, layerSliders: {} });
+    expect(parseUrlState('')).toEqual({ locationId: null, recipeId: null, layerSliders: {}, filter: {} });
   });
 
   test('đọc được địa điểm và bản trộn', () => {
@@ -51,6 +51,7 @@ describe('toSearchParams', () => {
       locationId: 'buon-e-de',
       recipeId: 'buon-e-de-dem',
       layerSliders: { 'TN-01': 0.55, 'TN-05': 0.8 },
+      filter: {},
     };
     expect(parseUrlState(`?${toSearchParams(state)}`)).toEqual(state);
   });
@@ -58,5 +59,38 @@ describe('toSearchParams', () => {
   test('làm gọn số để URL đọc được', () => {
     const params = toSearchParams({ locationId: 'x', layerSliders: { A: 0.123456789 } });
     expect(params.get('mix')).toBe('A:0.12');
+  });
+});
+
+describe('bộ lọc trên URL (FR-03)', () => {
+  test('đọc được năm tiêu chí và chữ tìm', () => {
+    const { filter } = parseUrlState('?vung=bac-bo&nhom=anthrophony&vai=soundmark&buoi=early_morning&maimot=lost&q=rao');
+    expect(filter).toEqual({
+      region: 'bac-bo',
+      krause: 'anthrophony',
+      schafer: 'soundmark',
+      timeOfDay: 'early_morning',
+      endangerment: 'lost',
+      q: 'rao',
+    });
+  });
+
+  test('giá trị ngoài từ vựng bị bỏ, không làm sập trang', () => {
+    expect(parseUrlState('?vung=sao-hoa&nhom=xyz&vai=&buoi=noon').filter).toEqual({});
+  });
+
+  test('chữ tìm được cắt khoảng trắng và giới hạn độ dài', () => {
+    expect(parseUrlState('?q=%20chuông%20').filter).toEqual({ q: 'chuông' });
+    expect(parseUrlState(`?q=${'a'.repeat(200)}`).filter.q.length).toBe(80);
+    expect(parseUrlState('?q=%20%20').filter).toEqual({});
+  });
+
+  test('ghi ra URL chỉ những tiêu chí đang dùng, và đi vòng tròn không đổi', () => {
+    const state = { locationId: null, recipeId: null, layerSliders: {}, filter: { region: 'dbscl', q: 'ghe' } };
+    const params = toSearchParams(state);
+    expect(params.get('vung')).toBe('dbscl');
+    expect(params.get('q')).toBe('ghe');
+    expect(params.has('nhom')).toBe(false);
+    expect(parseUrlState(`?${params}`)).toEqual(state);
   });
 });

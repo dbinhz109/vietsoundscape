@@ -97,8 +97,9 @@ export function createSoundMap({ element, onSelect }) {
         dot.bindTooltip(`${name} · ${clipCount} mẫu âm`, { direction: 'top', offset: [0, -8] });
         dot.on('click', () => onSelect(id));
 
-        markers.set(id, { dot, halo });
-        return L.layerGroup([halo, dot]);
+        const group = L.layerGroup([halo, dot]);
+        markers.set(id, { dot, halo, group });
+        return group;
       },
     }).addTo(map);
   }
@@ -119,5 +120,20 @@ export function createSoundMap({ element, onSelect }) {
     entry.dot.openTooltip();
   }
 
-  return { addOutline, addLocations, focus, map };
+  /**
+   * Chỉ giữ trên bản đồ những địa điểm qua bộ lọc (FR-03). Gỡ hẳn khỏi bản đồ
+   * chứ không làm mờ: điểm mờ vẫn bấm được, mà bấm vào một nơi vừa bị lọc ra
+   * là bộ lọc nói một đằng bản đồ làm một nẻo.
+   * @param {Iterable<string>} locationIds
+   */
+  function setVisible(locationIds) {
+    const keep = new Set(locationIds);
+    for (const [id, { group }] of markers) {
+      const shown = map.hasLayer(group);
+      if (keep.has(id) && !shown) group.addTo(map);
+      if (!keep.has(id) && shown) map.removeLayer(group);
+    }
+  }
+
+  return { addOutline, addLocations, focus, setVisible, map };
 }

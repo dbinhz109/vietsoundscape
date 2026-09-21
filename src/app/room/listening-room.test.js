@@ -415,3 +415,41 @@ describe('thẻ thông tin văn hoá trong phòng nghe (FR-26)', () => {
     expect(container.querySelectorAll('.slider-description')).toHaveLength(0);
   });
 });
+
+describe('nguồn, giấy phép và trích dẫn trong phòng nghe (FR-25, FR-27, A7.1)', () => {
+  const context = { datasetVersion: '0.3.0', siteUrl: 'https://x.test/', accessed: '2026-09-21' };
+
+  test('mỗi lớp âm có một thẻ chi tiết gập lại, kèm trích dẫn', async () => {
+    const room = createListeningRoom({ container, citationContext: context });
+    const result = await open(room, recipeA);
+    await result.ready;
+    const details = container.querySelectorAll('details.clip-details');
+    expect(details.length).toBe(3);
+    expect(details[0].open).toBe(false);
+    expect(container.querySelectorAll('.citation-text').length).toBe(3);
+  });
+
+  test('bản trộn chưa đủ giấy phép thì nói thẳng "chưa xác định" thay vì im lặng', async () => {
+    const room = createListeningRoom({ container, citationContext: context });
+    await open(room, recipeA);
+    expect(container.querySelector('.mix-license').textContent).toContain('chưa xác định');
+  });
+
+  test('đủ giấy phép thì hiện giấy phép hiệu lực của bản trộn', async () => {
+    const licensed = Object.fromEntries(
+      Object.entries(CLIPS).map(([id, clip]) => [id, { ...clip, license: 'CC-BY-4.0' }]),
+    );
+    const room = createListeningRoom({ container, citationContext: context });
+    await room.open({ recipe: recipeA, location: { name_vi: 'X' }, clipsById: licensed });
+    expect(container.querySelector('.mix-license').textContent).toContain(
+      'Giấy phép hiệu lực của bản trộn: CC BY 4.0',
+    );
+  });
+
+  test('không truyền ngữ cảnh trích dẫn thì vẫn dựng được, không sập', async () => {
+    const room = createListeningRoom({ container });
+    const result = await open(room, recipeA);
+    await result.ready;
+    expect(container.querySelectorAll('details.clip-details').length).toBe(3);
+  });
+});

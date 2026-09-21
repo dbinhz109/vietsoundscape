@@ -12,6 +12,7 @@ import { scheduleTriggers } from '../../audio/trigger.js';
 import { findLoopPoints } from '../../audio/loop.js';
 import { KRAUSE_CLASSES, LOOPING_ROLES } from '../../domain/taxonomy.js';
 import { createLayerSlider } from '../ui/layer-slider.js';
+import { createClipDetails, createMixLicenseNote } from '../ui/clip-details.js';
 
 const KRAUSE_LABEL = {
   geophony: 'Âm tự nhiên — gió, nước, mưa',
@@ -22,7 +23,22 @@ const KRAUSE_LABEL = {
 const SIGNAL_HORIZON_S = 90;
 const BYTES_PER_SAMPLE = 4;
 
-export function createListeningRoom({ container, onMixChange }) {
+/** Ngữ cảnh trích dẫn khi `main.js` chưa truyền — đủ để không sập, không bịa. */
+const defaultCitationContext = () => ({
+  datasetVersion: 'chưa có',
+  siteUrl: `${globalThis.location?.origin ?? ''}/`,
+  accessed: new Date().toISOString().slice(0, 10),
+});
+
+/**
+ * @param {object} options
+ * @param {HTMLElement} options.container
+ * @param {(sliders: Record<string, number>) => void} [options.onMixChange]
+ * @param {{ datasetVersion: string, siteUrl: string, accessed: string }} [options.citationContext]
+ *   cho trích dẫn FR-27 trong thẻ chi tiết mỗi lớp
+ */
+export function createListeningRoom({ container, onMixChange, citationContext }) {
+  const citation = citationContext ?? defaultCitationContext();
   let context = null;
   let engine = null;
   const buffers = new Map();
@@ -269,6 +285,10 @@ export function createListeningRoom({ container, onMixChange }) {
       ? 'Đang dùng âm giả lập tổng hợp — cấu trúc phân lớp là thật, vật liệu thì chưa.'
       : `${prepared.length} lớp âm`;
 
+    // Giấy phép hiệu lực của cả bản trộn — `phap-ly/09` đòi hiện cùng giấy
+    // phép từng lớp, và đây là chỗ cảnh báo SA lây sang lớp tự thu lộ ra.
+    const mixLicense = createMixLicenseNote(current.recipe, current.clipsById);
+
     const byBus = document.createElement('div');
     byBus.className = 'bus-group';
     const busHeading = document.createElement('h3');
@@ -317,6 +337,9 @@ export function createListeningRoom({ container, onMixChange }) {
         badge.textContent = 'đã không còn tồn tại';
         row.append(badge);
       }
+      // FR-25: mọi trường bắt buộc hiển thị hoặc ghi rõ "chưa có"; FR-27:
+      // trích dẫn sao chép được. Gập lại để phòng nghe vẫn gọn.
+      row.append(createClipDetails(clip, citation));
       byLayer.append(row);
     }
 
@@ -327,7 +350,7 @@ export function createListeningRoom({ container, onMixChange }) {
       onInput: (value) => engine.setMasterSlider(value),
     });
 
-    container.replaceChildren(heading, meta, byBus, byLayer, master);
+    container.replaceChildren(heading, meta, mixLicense, byBus, byLayer, master);
   }
 
   return {

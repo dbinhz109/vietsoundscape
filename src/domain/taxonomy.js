@@ -87,6 +87,13 @@ export const SENSITIVE_CATEGORIES = Object.freeze([
  */
 export const EXPERIMENT_CONDITIONS = Object.freeze(['layered', 'isolated', 'scrambled']);
 
+/**
+ * Bốn vùng của bốn địa điểm (`data/locations.geojson`, BA §5.1). Bộ lọc FR-03
+ * và phương án nhiễu FR-60 cùng đọc từ đây; `dataset.test.js` kiểm mọi địa điểm
+ * và phương án nhiễu đều khai vùng nằm trong danh sách này.
+ */
+export const REGIONS = Object.freeze(['bac-bo', 'trung-bo', 'tay-nguyen', 'dbscl']);
+
 export const TIMES_OF_DAY = Object.freeze([
   'dawn',
   'early_morning',
