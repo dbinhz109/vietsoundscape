@@ -87,6 +87,8 @@ spike/           trang đo ban đầu (G0)
 | `nghien-cuu/ke-hoach-phan-tich.md` | Kế hoạch phân tích đăng ký trước: giả thuyết, phép kiểm, cỡ mẫu, tiêu chí loại |
 | `nghien-cuu/so-quyet-dinh.md` | Sổ quyết định Q-01…Q-29: mỗi quyết định nghiên cứu kèm lý do và bằng chứng |
 | `nghien-cuu/ke-hoach-thuc-dia-dot-1.md` | Kế hoạch thực địa Hà Nội + Cái Răng: mẫu, khung giờ, phiếu, tiêu chí đạt |
+| `nghien-cuu/ke-hoach-thuc-dia-dot-2.md` | Kế hoạch đợt 2 Huế + Buôn Ê Đê: mẫu nhạy cảm, phiếu 02 cộng đồng, xin phép chùa, mùa |
+| `nghien-cuu/thu-so-vhttdl.md` | Hai thư gửi Sở VHTTDL Huế và Đắk Lắk theo Luật Di sản Điều 16 khoản 3 (A0.3d) |
 | `nghien-cuu/ung-vien-kho-am.md` | Ứng viên kho âm mở cho 17 mẫu `licensed_archive`; §7 bản nghe thử đã tải |
 | `nghien-cuu/phan-bien-du-kien.md` | 12 câu phản biện dự kiến, mỗi câu có trả lời 30 giây, bằng chứng, điểm yếu thật |
 | `nghien-cuu/sua-thuyet-minh.md` | Văn bản thay thế sẵn cho 6 lỗi của thuyết minh gốc (BA §16) |

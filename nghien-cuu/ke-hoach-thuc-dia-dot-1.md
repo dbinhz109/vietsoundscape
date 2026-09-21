@@ -102,7 +102,7 @@ Ba mẫu này đang là `licensed_archive`, nhưng ứng viên tải về không
 | Việc | Vì sao để sau |
 |---|---|
 | **A1.1b đo phản hồi xung** (quét hình sin tại chỗ) | Chỉ cần nếu S1.3 chốt còn dùng vang trong kích thích. Khuyến nghị hiện tại là bỏ vang khỏi kích thích ⇒ không đo. Nếu NC chốt ngược, thêm 20 phút mỗi địa điểm, cần loa phát và tệp quét |
-| Huế (HU-01, 03, 04⭐, 05🎤⚠️, 06⭐🎤⚠️) và Buôn Ê Đê (TN-04, 05⭐⚠️, 06⭐⚠️) | Đợt 2 (A3.1). Cả hai nơi có mẫu **nhạy cảm** (tôn giáo, dân tộc) và cần **phiếu 02** ghi công cộng đồng + xin phép nhà chùa / gặp nghệ nhân — không nhờ cộng tác viên thay được (`VAT-LIEU` §5.2) |
+| Huế (HU-01, 03, 04⭐, 05🎤⚠️, 06⭐🎤⚠️) và Buôn Ê Đê (TN-04, 05⭐⚠️, 06⭐⚠️) | Đợt 2 (A3.1) — **khung đã có:** `ke-hoach-thuc-dia-dot-2.md` (21/09). Cả hai nơi có mẫu **nhạy cảm** (tôn giáo, dân tộc) và cần **phiếu 02** ghi công cộng đồng + xin phép nhà chùa / gặp nghệ nhân — không nhờ cộng tác viên thay được (`VAT-LIEU` §5.2) |
 
 ---
 

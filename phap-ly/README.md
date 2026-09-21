@@ -20,7 +20,7 @@
 >
 > 1. **Hồ sơ đánh giá tác động xử lý dữ liệu — nộp trong 60 ngày** kể từ ngày xử lý dữ liệu cá nhân **đầu tiên** (Luật Điều 21 khoản 1). Đề tài xử lý dữ liệu nhạy cảm nên **không được miễn**. Mốc này chạy trước cả ngày ra mắt web. **Hỏi phòng pháp chế của trường ngay.**
 > 2. **Cử người phụ trách bảo vệ dữ liệu cá nhân** (Luật Điều 33 khoản 2). Điền tên vào văn bản 01, 04, 07 — hiện đang trống.
-> 3. **Liên hệ Sở VHTTDL** Thừa Thiên Huế và Đắk Lắk (Luật Di sản văn hoá Điều 16 khoản 3).
+> 3. **Liên hệ Sở VHTTDL** Huế và Đắk Lắk (Luật Di sản văn hoá Điều 16 khoản 3) — thư mẫu ở `nghien-cuu/thu-so-vhttdl.md`.
 
 ---
 

@@ -239,7 +239,7 @@ Thứ tự ưu tiên **không phải** thứ tự giá trị. Nó là thứ tự
 **Đạt khi:**
 - ~~A0.3b: câu trả lời bằng văn bản từ phòng pháp chế~~ **BỎ theo Q-25 (21/09)**
 - ~~A0.3c: tên người phụ trách~~ **BỎ theo Q-25 (21/09)**
-- [ ] A0.3d: thư đã gửi, có đầu mối trả lời
+- [ ] A0.3d: thư đã gửi, có đầu mối trả lời — 📒 21/09: hai thư **soạn sẵn** (`nghien-cuu/thu-so-vhttdl.md`), chờ kiểm tên Sở + chữ ký khoa
 
 **Vai:** NC + VH · **Công:** tuỳ phía trường · **Chặn bởi:** không — nhưng **chặn** A1.1
 
