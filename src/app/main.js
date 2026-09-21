@@ -110,7 +110,7 @@ async function main() {
     }
 
     try {
-      const recipe = await json(`/data/recipes/${wanted.id}.json`);
+      const recipe = await json(assetUrl(`/data/recipes/${wanted.id}.json`));
       const check = validateRecipe(recipe, clipsById);
       if (!check.valid) {
         setStatus(`Bản trộn "${recipe.id}" không hợp lệ: ${check.errors[0].message}`, 'error');
