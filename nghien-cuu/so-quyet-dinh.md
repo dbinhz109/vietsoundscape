@@ -41,6 +41,11 @@ hình dữ liệu, sơ đồ đã sửa); sổ này giữ **lý do, bằng chứ
 - [Q-21 — FR-52 đã dựng và đã chứng minh](#q-21--fr-52-đã-dựng-và-đã-chứng-minh)
 - [Q-22 — Bộ hồ sơ đã soạn xong ở `phap-ly/`](#q-22--bộ-hồ-sơ-đã-soạn-xong-ở-phap-ly)
 - [Q-23 — 🔴 Ba nghĩa vụ có mốc thời gian, chưa có trong lộ trình cũ](#q-23--ba-nghĩa-vụ-có-mốc-thời-gian-chưa-có-trong-lộ-trình-cũ)
+- [Q-24 — Thẻ văn hoá: BA §8.2 và FR-26 nói ngược nhau, chốt theo FR-26](#q-24--thẻ-văn-hoá-ba-82-và-fr-26-nói-ngược-nhau-chốt-theo-fr-26)
+- [Q-25 — Không hỏi phòng pháp chế trước thực địa (A0.3b, A0.3c bỏ khỏi kế hoạch)](#q-25--không-hỏi-phòng-pháp-chế-trước-thực-địa-a03b-a03c-bỏ-khỏi-kế-hoạch)
+- [Q-26 — 🟡 chờ quyết: có nhận Public Domain Mark 1.0 từ mirror radio aporee không](#q-26--chờ-quyết-có-nhận-public-domain-mark-10-từ-mirror-radio-aporee-không)
+- [Q-27 — 🟡 chờ quyết: có nhận CC BY-SA cho bản Mekong thật (CR-08) không](#q-27--chờ-quyết-có-nhận-cc-by-sa-cho-bản-mekong-thật-cr-08-không)
+- [Q-28 — 🟡 chờ quyết: CR-01, CR-03 chuyển sang tự thu; HN-01, HN-02, HN-06 thu thêm khi ở Hà Nội](#q-28--chờ-quyết-cr-01-cr-03-chuyển-sang-tự-thu-hn-01-hn-02-hn-06-thu-thêm-khi-ở-hà-nội)
 
 ---
 
@@ -565,3 +570,75 @@ Chỉ lộ ra khi đọc toàn văn. Chi tiết `phap-ly/08` §8:
 **Vì sao đoạn văn nằm ngay dưới thanh trượt, không nằm trong tooltip:** nội dung văn hoá là **một phần của đề tài**, không phải chú thích phụ; và tooltip thì bàn phím lẫn trình đọc màn hình đều với tới khó. Đoạn văn được nối vào thanh trượt bằng `aria-describedby`, nên FR-63 (*"văn bản mô tả từng âm, thay cho việc phải nhìn nhãn"*) được trả luôn ở cùng chỗ.
 
 **Ảnh hưởng sang việc khác:** VH2.1 (*"viết thẻ văn hoá cho mẫu đợt 1"*) trước đây **không có chỗ để đổ nội dung vào** — nay có. Hiện mới có đúng một thẻ: HN-08 tàu điện, lấy nguyên từ `VAT-LIEU-4-DIA-DIEM.md` §4 **kèm nguyên chỗ còn ngờ** ("mốc năm này còn phải tra lại từ nguồn chính thống"). 31 mẫu còn lại để trống có chủ ý — không bịa nội dung văn hoá thay người phụ trách văn hoá.
+
+## Q-25 — Không hỏi phòng pháp chế trước thực địa (A0.3b, A0.3c bỏ khỏi kế hoạch)
+
+| | |
+|---|---|
+| **Ngày** | 21/09/2026 (đồng hồ máy) |
+| **Vị trí trong BA** | 15. Pháp lý — LG-01 · `phap-ly/08` §8.1, §8.2 · `phap-ly/README` khung "Ba việc gấp" |
+| **Ảnh hưởng tới** | `LO-TRINH` A0.3b, A0.3c · `SPEC-VIEC-CAN-LAM` S3.2 |
+
+**Quyết định:** người chủ trì chốt **bỏ** việc hỏi phòng pháp chế của trường về hồ sơ đánh giá tác động xử lý dữ liệu cá nhân (Điều 21 Luật 91/2025) và việc cử người phụ trách bảo vệ dữ liệu cá nhân (Điều 33 khoản 2). Đi thực địa không chờ câu trả lời này.
+
+**Vì sao:** ⟨NC điền — quyết định đưa ra bằng lời, chưa ghi lý do⟩
+
+**Hệ quả phải ghi nhớ, không ai theo dõi thay:**
+- Nếu nghĩa vụ Điều 21 áp dụng cho nhóm, mốc **60 ngày** tính từ **ngày thu mẫu có giọng người đầu tiên** (dự kiến HN-04) sẽ chạy mà không có hồ sơ. `ke-hoach-thuc-dia-dot-1.md` §1.4 yêu cầu ghi ngày đó lại để về sau còn biết mốc ở đâu.
+- Các nghĩa vụ **không** phụ thuộc pháp chế vẫn giữ nguyên trong phiếu 05: **thông báo đang ghi âm** (Điều 32 khoản 2), **đồng thuận** cho giọng người nhận dạng được (phiếu 01), **xin phép** nhà chùa và nghệ nhân (phiếu 02).
+- Phân tích ở `phap-ly/08` §8 **không bị rút lại** — vẫn là câu trả lời sẵn nếu hội đồng hỏi; chỉ khác là nhóm chưa xác nhận với ai.
+- A0.3d (thư Sở VHTTDL Huế, Đắk Lắk — Luật Di sản Điều 16 khoản 3) **không** nằm trong quyết định này; vẫn treo tới đợt 2.
+
+## Q-26 — 🟡 chờ quyết: có nhận Public Domain Mark 1.0 từ mirror radio aporee không
+
+| | |
+|---|---|
+| **Ngày mở** | 21/09/2026 · **Người quyết:** NC |
+| **Vị trí trong BA** | 15. Pháp lý — `phap-ly/09` · `src/domain/taxonomy.js` `ALLOWED_LICENSES` |
+| **Ảnh hưởng tới** | 7 bản ghi tại Việt Nam trên Internet Archive (`nghien-cuu/ung-vien-kho-am.md` §3), trong đó *"Love Song by Clothes Lady"* ghi tại 2A Lý Quốc Sư — bản rao/hát rong phố cổ **duy nhất** tìm được |
+
+**Sự việc:** PDM 1.0 không phải giấy phép, là *nhãn* khẳng định tác phẩm đã thuộc công cộng. Giấy phép mặc định của radio aporee là CC BY-NC-SA, nên nhãn PDM trên bản mirror nhiều khả năng là lỗi khi mirror, không phải ý người thu.
+
+**Phương án:** (a) **không nhận** — giữ `ALLOWED_LICENSES` như hiện tại, bỏ 7 bản · (b) nhận **sau khi** mở trang gốc `aporee.org` của từng bản và thấy người thu tự gắn CC0/PDM · (c) viết thư hỏi thẳng người thu xin cấp CC BY.
+
+**Khuyến nghị của máy:** (b) rồi (c) cho riêng bản Lý Quốc Sư — vì nó có giọng người nên dù giấy phép sạch vẫn còn vướng `consent_status` (giấy phép mở không thay đồng thuận, `phap-ly/09` mục cuối). Sáu bản còn lại không đáng công.
+
+**Đã chốt:** ⟨…⟩
+
+## Q-27 — 🟡 chờ quyết: có nhận CC BY-SA cho bản Mekong thật (CR-08) không
+
+| | |
+|---|---|
+| **Ngày mở** | 21/09/2026 · **Người quyết:** NC |
+| **Vị trí trong BA** | 15. Pháp lý — LG-03 · `phap-ly/09` "tránh SA" · `effectiveMixLicense()` |
+| **Ảnh hưởng tới** | CR-08 mưa rào trên sông; bản trộn Cái Răng nào dùng nó |
+
+**Sự việc:** `aporee_3412_4687` *Mekong Delta, dusk, approaching rain* là bản mưa **đúng nơi** duy nhất; giấy phép CC BY-SA 3.0. SA lây: bản trộn chứa nó phải phát hành BY-SA, kéo theo cả mẫu tự thu trong bản trộn đó. `phap-ly/09` đã quyết tránh SA vì lý do này.
+
+**Phương án:** (a) **không nhận**, dùng mưa kho CC0 (đã tải: #135821 Amazon, #172099 Jungle) — mưa là geophony, ít mang thông tin vùng, đúng tinh thần R-10 · (b) nhận, chấp nhận bản trộn Cái Răng nào có CR-08 phát hành BY-SA, ghi rõ trong `effectiveMixLicense()`.
+
+**Khuyến nghị của máy:** (a). Giá của SA là toàn bộ bản trộn; giá của mưa Amazon là không ai nhận ra mưa Amazon khác mưa Mekong qua tai nghe điện thoại.
+
+**Đã chốt:** ⟨…⟩
+
+## Q-28 — 🟡 chờ quyết: CR-01, CR-03 chuyển sang tự thu; HN-01, HN-02, HN-06 thu thêm khi ở Hà Nội
+
+| | |
+|---|---|
+| **Ngày mở** | 21/09/2026 · **Người quyết:** ÂT + VH |
+| **Vị trí trong BA** | 5.4 mô hình lai · 8.2 `provenance` |
+| **Ảnh hưởng tới** | `data/clips.json` 5 mẫu · `VAT-LIEU` §3.5 đếm TẢI/TỰ THU (16/15 → 11/20 nếu nhận cả) · `ke-hoach-thuc-dia-dot-1.md` §1.2, §2.1 |
+
+**Sự việc, sau khi tải bản nghe thử 21/09** (`ung-vien-kho-am.md` §7):
+- **CR-01** nước vỗ mạn ghe: cả 2 ứng viên là thuyền buồm / tàu biển Bắc Âu
+- **CR-03** chim nước ĐBSCL: cả 2 ứng viên là chim ôn đới Pháp / Scotland
+- **HN-01** xe máy Hà Nội: ứng viên ⭐ #451508 tên tệp gốc ghi *"…perspective India"*
+- **HN-02** cà phê vỉa hè: ứng viên là sân đại học và Paris
+- **HN-06** chuông xe đạp: chỉ là chuông đơn lẻ 23–30 s
+
+**Phương án:** (a) chuyển cả 5 sang `field_recording` — nhóm đã ở Hà Nội (3 mẫu, thêm ~1,5 giờ) và đã thuê ghe Cái Răng (2 mẫu, thêm ~30 phút) · (b) chỉ chuyển CR-01, CR-03 (lệch nặng nhất), giữ 3 mẫu Hà Nội là kho · (c) giữ nguyên, chấp nhận lệch địa lý theo lý lẽ R-10.
+
+**Khuyến nghị của máy:** (a). Đối số R-10 ("nền không mang thông tin vùng") bảo vệ được mưa và gió, nhưng **không** bảo vệ được còi xe Ấn Độ trong bản trộn Hà Nội — người nghe Việt Nam nhận ra ngay, và câu hỏi phản biện "nhóm tự thu được gì?" (BA §16.6) có thêm 5 câu trả lời với chi phí gần bằng không.
+
+**Đã chốt:** ⟨…⟩
+
