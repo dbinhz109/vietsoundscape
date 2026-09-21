@@ -30,6 +30,7 @@ import {
 import { EXPERIMENT_CONDITIONS } from '../../domain/taxonomy.js';
 import { ISO_ATTRIBUTE_KEYS } from '../../research/soundscape-scale.js';
 import { composeAnswerOptions } from '../../research/answer-options.js';
+import { registerOfflineSupport } from '../offline/register.js';
 import { assetUrl } from '../asset-url.js';
 
 /**
@@ -124,3 +125,6 @@ async function main() {
 }
 
 main().catch(fail);
+
+// Vỏ trang phiên nghe cũng cất được để mở lại không cần mạng (A5.1).
+registerOfflineSupport({ swUrl: assetUrl('/sw.js') });

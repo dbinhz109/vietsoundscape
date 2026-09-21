@@ -78,6 +78,13 @@ export default defineConfig({
       input: {
         main: resolve(ROOT, 'index.html'),
         experiment: resolve(ROOT, 'thuc-nghiem.html'),
+        // Service worker (A5.1): gói riêng, đặt ở gốc bản dựng với tên cố định
+        // vì phạm vi của nó là thư mục chứa nó, và URL đăng ký không được đổi
+        // theo mã băm.
+        sw: resolve(ROOT, 'src/app/offline/sw.js'),
+      },
+      output: {
+        entryFileNames: (chunk) => (chunk.name === 'sw' ? 'sw.js' : 'assets/[name]-[hash].js'),
       },
     },
     // Tên tệp mang mã băm nội dung ⇒ đặt được Cache-Control: immutable (NFR-12).

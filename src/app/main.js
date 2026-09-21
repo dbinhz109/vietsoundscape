@@ -15,6 +15,7 @@ import { createSoundMap } from './map/sound-map.js';
 import { createListeningRoom } from './room/listening-room.js';
 import { parseUrlState, toSearchParams } from './state/url-state.js';
 import { createLocationFilter, filterLocations } from './ui/location-filter.js';
+import { registerOfflineSupport } from './offline/register.js';
 import { indexClipsById, validateRecipe } from '../data/recipe-schema.js';
 
 const el = (id) => document.getElementById(id);
@@ -209,6 +210,9 @@ async function main() {
     setStatus('Chọn một địa điểm để bước vào phòng nghe.');
   }
 }
+
+// PWA ngoại tuyến (A5.1): chỉ ở bản dựng, thất bại thì trang vẫn chạy như thường.
+registerOfflineSupport({ swUrl: assetUrl('/sw.js') });
 
 main().catch((error) => {
   setStatus(`Lỗi khởi động: ${error.message}`, 'error');

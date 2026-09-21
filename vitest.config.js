@@ -22,6 +22,10 @@ export default defineConfig({
         'src/app/main.js',
         'src/app/map/sound-map.js',
         'src/app/experiment/main-experiment.js',
+        //  - `offline/sw.js` và `offline/register.js` chỉ nối sự kiện trình
+        //    duyệt vào `cache-policy.js` (có test đầy đủ với cache giả).
+        'src/app/offline/sw.js',
+        'src/app/offline/register.js',
       ],
       thresholds: {
         statements: 80,
