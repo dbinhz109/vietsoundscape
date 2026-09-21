@@ -20,7 +20,8 @@
     "experiment": "node scripts/experiment-plan.mjs",
     "render:stimuli": "node scripts/render-stimuli.mjs",
     "analyse": "node scripts/analyse-results.mjs",
-    "plan:sample": "node scripts/plan-sample.mjs"
+    "plan:sample": "node scripts/plan-sample.mjs",
+    "demo": "PUBLIC_BASE=/vietsoundscape/ vite build && PUBLIC_BASE=/vietsoundscape/ vite preview --port 4173 --strictPort"
   },
   "devDependencies": {
     "@vitest/coverage-v8": "^3.2.4",

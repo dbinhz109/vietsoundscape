@@ -18,13 +18,18 @@ thanh; `python3` + `numpy` chỉ cần để sinh âm thử.
 
 ```bash
 npm ci                # cài đúng phiên bản trong package-lock.json
-npm test              # 497 test — phải xanh trước khi làm gì khác
+npm test              # 570 test — phải xanh trước khi làm gì khác
 npm run gen:audio     # sinh âm thử tổng hợp vào spike/audio/ (không có trong repo)
 npm run dev           # http://localhost:5174
 ```
 
 Trang chính là phòng nghe: chọn địa điểm trên bản đồ hoặc danh sách, trộn các
-lớp âm. Trang `/thuc-nghiem?nguoi=N` là phiên nghe của người tham gia thứ N — cần
+lớp âm. Trên danh sách có bộ lọc năm tiêu chí (vùng, nhóm Krause, vai Schafer,
+thời điểm, mức mai một) và ô tìm chữ bỏ dấu; trạng thái lọc nằm trên URL (FR-03).
+Mỗi lớp âm có thẻ gập "Nguồn, giấy phép và trích dẫn" — mọi trường bắt buộc của
+BA §8.2 hiện ra hoặc ghi "chưa có" (FR-25), kèm trích dẫn văn bản và BibTeX có
+SHA-256 (FR-27); bản trộn hiện giấy phép hiệu lực theo `phap-ly/09`.
+Trang `/thuc-nghiem?nguoi=N` là phiên nghe của người tham gia thứ N — cần
 kết xuất kích thích trước (`npm run render:stimuli -- --placeholder`, cần ffmpeg).
 
 ## Lệnh
@@ -34,6 +39,7 @@ kết xuất kích thích trước (`npm run render:stimuli -- --placeholder`, c
 | `npm run dev` | Máy chủ phát triển Vite, cổng 5174 |
 | `npm run build` | Dựng bản tĩnh vào `dist/`, chép kèm `data/` và `spike/audio/` |
 | `npm run preview` | Xem bản đã dựng |
+| `npm run demo` | Dựng với base của Pages rồi phục vụ tại máy — **demo ngoại tuyến** (xem dưới) |
 | `npm test` | Toàn bộ kiểm thử, chạy một lần (vitest + happy-dom) |
 | `npm run test:watch` | Kiểm thử theo dõi thay đổi |
 | `npm run coverage` | Kiểm thử kèm độ phủ (v8), ngưỡng 80% |
@@ -76,10 +82,29 @@ spike/           trang đo ban đầu (G0)
 | `BAO-CAO-G0.md` | Báo cáo spike: chất lượng loop, RAM, câu còn treo |
 | `VAT-LIEU-4-DIA-DIEM.md` | Kê vật liệu âm cho bốn địa điểm |
 | `nghien-cuu/ke-hoach-phan-tich.md` | Kế hoạch phân tích đăng ký trước: giả thuyết, phép kiểm, cỡ mẫu, tiêu chí loại |
+| `nghien-cuu/so-quyet-dinh.md` | Sổ quyết định Q-01…Q-29: mỗi quyết định nghiên cứu kèm lý do và bằng chứng |
+| `nghien-cuu/ke-hoach-thuc-dia-dot-1.md` | Kế hoạch thực địa Hà Nội + Cái Răng: mẫu, khung giờ, phiếu, tiêu chí đạt |
+| `nghien-cuu/ung-vien-kho-am.md` | Ứng viên kho âm mở cho 17 mẫu `licensed_archive`; §7 bản nghe thử đã tải |
+| `nghien-cuu/phan-bien-du-kien.md` | 12 câu phản biện dự kiến, mỗi câu có trả lời 30 giây, bằng chứng, điểm yếu thật |
+| `nghien-cuu/sua-thuyet-minh.md` | Văn bản thay thế sẵn cho 6 lỗi của thuyết minh gốc (BA §16) |
 | `phap-ly/` | Hồ sơ pháp lý: phiếu đồng thuận, thoả thuận cộng đồng, căn cứ luật, quyết định giấy phép |
 
-Giấy phép mã nguồn dự kiến là MIT (`phap-ly/09`); chưa có tệp `LICENSE` vì chưa
-điền tên chủ sở hữu.
+Mã nguồn theo **MIT** (`LICENSE`; chủ sở hữu tạm ghi là nhóm đề tài — sổ quyết
+định Q-29, đổi tên bằng một commit khi NC chốt). Mẫu âm, bản trộn, metadata, tài
+liệu theo giấy phép riêng ở `phap-ly/09`.
+
+## Demo ngoại tuyến (bảo vệ không cần wifi)
+
+Toàn bộ trang chạy được không có mạng: bản đồ dùng đường viền vector cục bộ
+(không tile, không CDN), dữ liệu và âm nằm trong `dist/`.
+
+```bash
+npm run gen:audio     # một lần, nếu spike/audio/ chưa có
+npm run demo          # dựng + phục vụ tại http://localhost:4173/vietsoundscape/
+```
+
+Tắt wifi rồi mở lại trang để chắc. Nếu cần trình chiếu từ máy khác trong phòng,
+thêm `-- --host` vào lệnh preview.
 
 ## Quy ước làm việc
 
