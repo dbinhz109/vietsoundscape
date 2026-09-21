@@ -199,8 +199,8 @@ Làm **xong hẳn một địa điểm** từ bản đồ đến bộ trộn, th
 | C6.2 | ~~Báo cáo cả cỡ hiệu ứng và khoảng tin cậy, không chỉ giá trị p~~ **XONG** — `src/research/effect-size.js`. H1: chênh tỉ lệ (Wald hiệu chỉnh Agresti–Min) + tỉ số odds (CI logit). H2: rank-biserial + Hodges–Lehmann (CI cắt đuôi phân bố signed-rank). `npm run analyse` in cỡ hiệu ứng **ngay dưới mỗi p**, không để mục riêng | NC |
 | B6.1 | **Kiểm thử tiếp cận thật** với NVDA/VoiceOver + ≥ 1 người khiếm thị; chế độ hạ âm nền khi trình đọc đang nói | PM |
 | B6.2 | Nếu B6.1 không làm được → **bỏ tuyên bố hỗ trợ người khiếm thị** khỏi mục 10 thuyết minh. Không giữ tuyên bố chưa kiểm chứng | NC |
-| B6.3 | Đo và siết hiệu năng: RAM âm thanh, thời gian có tiếng đầu tiên, ngân sách băng thông CDN | PM |
-| B6.4 | Kiểm thử chéo trình duyệt + hồi quy hình ảnh ở 320/768/1024/1440 | PM |
+| B6.3 | Đo và siết hiệu năng: RAM âm thanh, thời gian có tiếng đầu tiên, ngân sách băng thông CDN | PM | 📒 21/09: **đo trên bản công khai** (`BAO-CAO-G0.md` §8.3) — 94 KB qua dây lần tải đầu (gzip), 10 yêu cầu, 0 lỗi, DOMContentLoaded 50 ms, RAM âm thanh 12,0 MB/5 lớp (ngưỡng NFR-04 là 150 MB). **Máy tính**; điện thoại thật vẫn là S2.3 |
+| B6.4 | Kiểm thử chéo trình duyệt + hồi quy hình ảnh ở 320/768/1024/1440 | PM | 📒 21/09: **hồi quy bố cục XONG** ở 320/375/768/1024/1440/1920 — không bề rộng nào tràn ngang, bố cục đổi đúng mốc 60rem, bộ lọc 1→2 cột (`BAO-CAO-G0.md` §8.1); bàn phím đi trọn tới phòng nghe, viền focus 2 px, giảm chuyển động về 0 s (§8.2). **Còn:** Firefox và **iOS Safari thật** (B1.3) |
 
 ---
 

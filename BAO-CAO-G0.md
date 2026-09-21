@@ -229,3 +229,61 @@ curl -sSL -o pha.wav https://archive.org/download/aporee_26366_30456/FerryAllerH
 npm run process -- pha.wav --out=build/audio
 npm run check:recorder -- pha.wav
 ```
+
+---
+
+## 8. Đo trên bản công khai — 21/09/2026 (việc B6.3 và B6.4)
+
+Đo bằng Playwright trên `https://dbinhz109.github.io/vietsoundscape/`, Chromium máy tính.
+**Không thay được S2.3** (điện thoại Android thật) — mục đó vẫn mở.
+
+### 8.1 Hồi quy bố cục ở sáu bề rộng (B6.4)
+
+| Bề rộng | Tràn ngang | Bố cục | Bộ lọc | Cỡ h1 |
+|---|---|---|---|---|
+| 320 | không (305 ≤ 320) | xếp dọc, tư liệu trước bản đồ | 1 cột | 28 px |
+| 375 | không (360 ≤ 375) | xếp dọc | 1 cột | 28 px |
+| 768 | không (753 ≤ 768) | xếp dọc | 2 cột | 36 px |
+| 1024 | không | hai cột, bản đồ bên phải | 2 cột | 42 px |
+| 1440 | không | hai cột | 2 cột | 48 px |
+| 1920 | không | hai cột | 2 cột | 48 px |
+
+Không bề rộng nào có thanh cuộn ngang. Các phần tử `<svg>` của Leaflet rộng hơn khung nhìn
+là **đúng thiết kế** — đó là mặt phẳng kéo bản đồ, nằm trong khung đã cắt.
+
+Vùng bấm nhỏ hơn 24 px: chỉ có hai liên kết ghi công của Leaflet (14 px) — mặc định của
+thư viện, không phải giao diện của đề tài.
+
+### 8.2 Bàn phím và giảm chuyển động (B2.5, FR-64)
+
+Tab từ đầu trang tới nút địa điểm đầu tiên mất **8 lần**: ô tìm → 5 ô lọc → nút *Xoá lọc* →
+*Phố cổ Hà Nội*. Mọi chặng đều có viền focus **2 px**. Bấm **Enter** trên nút địa điểm mở
+được phòng nghe, trạng thái báo "5 lớp đang phát" — tức là đường không dùng chuột chạy trọn
+(FR-04). Với `prefers-reduced-motion: reduce`, thời lượng chuyển cảnh về **0 s**.
+
+### 8.3 Băng thông và thời gian (B6.3)
+
+GitHub Pages phục vụ có **gzip**, nên con số phải đọc ở cột "qua dây":
+
+| Tệp lần tải đầu | Không nén | Qua dây |
+|---|---|---|
+| `main-*.js` (gồm Leaflet) | 181 KB | **56 KB** |
+| `main-*.css` + `register-*.css` | 24 KB | 9 KB |
+| `vietnam-outline.geojson` | 74 KB | 25 KB |
+| `clips.json` | 44 KB | 6 KB |
+| `locations.geojson` + `recipes/index.json` | 4 KB | 1 KB |
+| **Tổng** | **320 KB** | **94 KB** |
+
+| Số đo | Giá trị | Ngưỡng |
+|---|---|---|
+| `DOMContentLoaded` | 50 ms | — |
+| Số yêu cầu lần tải đầu | 10 | — |
+| Yêu cầu lỗi (≥ 400) | **0** | 0 |
+| Thời gian tới tiếng đầu tiên | 200 ms *(cache nóng, âm tổng hợp)* | ≤ 5 s (B2.4) |
+| RAM âm thanh, 5 lớp | **12,0 MB** | ≤ 150 MB (NFR-04) |
+
+`cache-control: max-age=600` là mặc định của GitHub Pages; tệp `assets/` mang mã băm nên
+đặt được `immutable` khi chuyển sang máy chủ có cấu hình (NFR-12) — chưa cần.
+
+**Bốn con số này đều trên máy tính.** Điều kiện 2 của cổng G0 hỏi về **điện thoại tầm
+trung**: RAM và có rớt tiếng hay không. Chưa đo (spec S2.3).

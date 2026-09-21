@@ -11,6 +11,9 @@ nhận khác biệt (H2) so với nghe âm rời rạc.
 **Web công khai:** https://dbinhz109.github.io/vietsoundscape/ — bản dựng của `main`, âm thanh
 hiện là **tổng hợp giữ chỗ** (`recipes` đang `placeholder: true`) cho tới khi có vật liệu thật.
 
+**Đang ở đâu:** phần máy làm được đã đóng; còn 6 việc cần người và 1 đợt thu dữ liệu người
+tham gia — bảng đầy đủ kèm bằng chứng ở [`NGHIEM-THU.md`](NGHIEM-THU.md).
+
 ## Chạy lần đầu
 
 Cần **Node ≥ 22** (đang dùng 24). `ffmpeg`/`ffprobe` chỉ cần cho đường ống âm
@@ -82,6 +85,7 @@ spike/           trang đo ban đầu (G0)
 | Tệp | Nội dung |
 |---|---|
 | `BA-VietSoundscape.md` | Phân tích nghiệp vụ: yêu cầu FR/NFR, mô hình dữ liệu, thiết kế thực nghiệm |
+| `NGHIEM-THU.md` | **"Hoàn thiện" nghĩa là gì**: ba mức máy/người/người tham gia, từng dòng có bằng chứng, đường ngắn nhất tới xong |
 | `LO-TRINH-VietSoundscape.md` | Lộ trình theo mốc M0–M7 và ba luồng A/B/C, cổng G0–G2 |
 | `SPEC-VIEC-CAN-LAM.md` | Việc cần làm theo hai lần đánh giá lại, mỗi việc có tiêu chí "Đạt khi" |
 | `DANH-GIA-SO-VOI-THUYET-MINH.md` | Đối chiếu hiện trạng repo với thuyết minh đề tài: hứa gì, đang ở đâu, phải sửa gì trong thuyết minh |
