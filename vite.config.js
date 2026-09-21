@@ -89,6 +89,11 @@ export default defineConfig({
     },
     // Tên tệp mang mã băm nội dung ⇒ đặt được Cache-Control: immutable (NFR-12).
     assetsDir: 'assets',
+    // Không chèn <link rel="modulepreload">: khi service worker (A5.1) kiểm soát
+    // trang, Chrome bỏ preload với cảnh báo "cross-world service worker resource
+    // mismatch" — hai cảnh báo mỗi lần mở, đổi lấy vài mili giây cho một chunk
+    // dùng chung ~1 kB. Không đáng.
+    modulePreload: false,
     // Ngân sách trang đích: JS < 150 kb, CSS < 30 kb. Leaflet một mình đã khoảng
     // 150 kb chưa nén, nên đặt cảnh báo ở 200 kb để biết ngay khi có gì phình.
     chunkSizeWarningLimit: 200,
