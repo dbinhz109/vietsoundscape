@@ -59,7 +59,7 @@ kết xuất kích thích trước (`npm run render:stimuli -- --placeholder`, c
 | `npm run spike` | Máy chủ tĩnh cho trang spike đo RAM và chất lượng loop |
 | `npm run experiment -- [N]` | In kế hoạch phân điều kiện cho N người, kiểm cân bằng vuông Latin |
 | `npm run render:stimuli -- --placeholder [--verify]` | Kết xuất kích thích thực nghiệm (12 bản trộn × 3 điều kiện = 36); `--verify` kết xuất lại và so băm *(ffmpeg, ~600 MB)* |
-| `npm run analyse -- <log.json>` | Chạy McNemar (H1) và Wilcoxon (H2) trên log lượt nghe; `-- --demo` dùng dữ liệu giả |
+| `npm run analyse -- <log…>` | Chạy McNemar (H1) và Wilcoxon (H2); nhận **nhiều tệp hoặc cả thư mục** (mỗi người một tệp); `-- --demo` dùng dữ liệu giả |
 | `npm run plan:sample` | Bảng cỡ mẫu theo ba kịch bản, công thức đối chiếu mô phỏng |
 | `npm run chon:tam -- --bo <mã,…>` | Máy chọn tạm nguồn kho từ kết quả `prescreen` (Q-30): điền `source_url/license`, để trống `downloaded_at`, gắn `survey.status: chon_tam`; `--bo` là mẫu không chọn (chờ Q-28) |
 | `npm run prescreen` | Chấm máy bản nghe thử kho âm trong `build/kho-am/` (LUFS, đỉnh, im lặng, thời lượng theo vai) → `DUYET.md` mục "Máy chấm trước" *(ffmpeg)* |
@@ -100,6 +100,7 @@ spike/           trang đo ban đầu (G0)
 | `nghien-cuu/thu-so-vhttdl.md` | Hai thư gửi Sở VHTTDL Huế và Đắk Lắk theo Luật Di sản Điều 16 khoản 3 (A0.3d) |
 | `nghien-cuu/ung-vien-kho-am.md` | Ứng viên kho âm mở cho 17 mẫu `licensed_archive`; §7 bản nghe thử đã tải |
 | `nghien-cuu/phan-bien-du-kien.md` | 12 câu phản biện dự kiến, mỗi câu có trả lời 30 giây, bằng chứng, điểm yếu thật |
+| `nghien-cuu/dien-tap-duong-ong.md` | Diễn tập trọn đường ống kết xuất → phiên nghe → log → phân tích; lỗi tìm được và đã sửa |
 | `nghien-cuu/bao-cao-nghien-cuu.md` | Báo cáo nghiên cứu: mục 1–4 (đặt vấn đề, cơ sở, phương pháp) **viết xong**; mục 5–7 có khung chờ dữ liệu |
 | `nghien-cuu/sua-thuyet-minh.md` | Văn bản thay thế sẵn cho 6 lỗi của thuyết minh gốc (BA §16) |
 | `nghien-cuu/tuyen-nguoi-tham-gia.md` | Tuyển người: điều kiện mở, con số, quy trình một người, thư mời, theo dõi tuần |

@@ -2,7 +2,9 @@
 /**
  * Chạy kiểm định H1 và H2 trên log lượt nghe (việc M6).
  *
- *   npm run analyse -- data/results/pilot.json
+ *   npm run analyse -- build/log/nguoi-001.json            — một người
+ *   npm run analyse -- build/log/*.json                    — cả mẻ, gộp lại
+ *   npm run analyse -- build/log/                          — cả thư mục
  *   npm run analyse -- --demo                     — sinh dữ liệu GIẢ LẬP để xem format log
  *   npm run analyse -- --demo --save mau-log.json — ghi log giả lập ra tệp (để đối chiếu R)
  *
@@ -29,7 +31,7 @@
  * tin hơn thì đoán đúng hơn".
  */
 
-import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
+import { readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { mcnemarTest, pairResponses, wilcoxonSignedRankTest } from '../src/research/statistics.js';
 import { mcnemarEffect, wilcoxonEffect } from '../src/research/effect-size.js';
@@ -40,12 +42,31 @@ import {
 } from '../src/app/experiment/session.js';
 import { createRng } from '../src/audio/trigger.js';
 import { composeAnswerOptions } from '../src/research/answer-options.js';
+import { mergeParticipantLogs } from '../src/research/merge-logs.js';
 
 const args = process.argv.slice(2);
 const demo = args.includes('--demo');
 const saveIndex = args.indexOf('--save');
 const savePath = saveIndex >= 0 ? args[saveIndex + 1] : null;
-const path = args.find((a, i) => !a.startsWith('--') && (saveIndex < 0 || i !== saveIndex + 1));
+/**
+ * Mọi đối số không phải cờ đều là tệp log — **không chỉ cái đầu tiên**.
+ *
+ * Trang phiên nghe cho mỗi người tải về một tệp riêng, nên lúc phân tích sẽ có
+ * 96 tệp. Bản trước lấy `args.find(...)` nên `npm run analyse -- log/*.json`
+ * chạy trót lọt và **im lặng** báo n = 1. Lỗi tìm được lúc diễn tập trọn đường
+ * ống, trước khi tuyển người.
+ */
+const paths = args.filter((a, i) => !a.startsWith('--') && (saveIndex < 0 || i !== saveIndex + 1));
+
+/** Đưa vào thư mục thì lấy mọi tệp .json trong đó. */
+const expandPaths = (list) =>
+  list.flatMap((entry) => {
+    if (!statSync(entry).isDirectory()) return [entry];
+    return readdirSync(entry)
+      .filter((name) => name.endsWith('.json'))
+      .sort()
+      .map((name) => join(entry, name));
+  });
 
 /**
  * Sinh log giả lập để xem format và kiểm đường ống. KHÔNG phải kết quả nghiên cứu.
@@ -152,11 +173,16 @@ if (demo) {
       '║  đường ống phân tích chạy được.                                      ║\n' +
       '╚══════════════════════════════════════════════════════════════════════╝\n',
   );
-} else if (!path) {
-  console.error('Cần đường dẫn tệp log, hoặc --demo để xem format.');
+} else if (paths.length === 0) {
+  console.error('Cần đường dẫn tệp log (một tệp, nhiều tệp, hoặc một thư mục), hoặc --demo để xem format.');
   process.exit(1);
 } else {
-  data = JSON.parse(readFileSync(path, 'utf-8'));
+  const files = expandPaths(paths);
+  data = mergeParticipantLogs(files.map((file) => JSON.parse(readFileSync(file, 'utf-8'))));
+  console.log(`Đọc ${files.length} tệp log.`);
+  for (const item of data.excluded ?? []) {
+    console.log(`  ⚠ loại người ${item.participant_index ?? '?'}: ${item.reason}`);
+  }
 }
 
 const trials = data.trials ?? [];

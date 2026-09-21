@@ -165,7 +165,7 @@ Làm **xong hẳn một địa điểm** từ bản đồ đến bộ trộn, th
 |---|---|---|
 | A4.1 | **Đóng băng bộ dữ liệu `v1.0`** + bảng kê SHA-256 | ÂT |
 | A4.2 | ~~**Kết xuất kích thích thực nghiệm** thành tệp cố định; đối chiếu băm~~ **ĐƯỜNG ỐNG XONG** — `npm run render:stimuli -- --placeholder --verify` kết xuất 12 kích thích, kết xuất lại lần hai, **12/12 khớp băm chính xác**, độ to lệch 0,04 LU. Việc còn lại ở mốc này: chạy lại trên **vật liệu thật** rồi chốt bảng kê vào `v1.0`. **Kết xuất phía máy chủ, không phải trên máy người tham gia**: `OfflineAudioContext` không cho ra byte giống nhau giữa các trình duyệt (BA §10.5) | ÂT + PM |
-| C4.1 | **Pilot với 5–8 người** ngoài nhóm | NC |
+| C4.1 | **Pilot với 5–8 người** ngoài nhóm | NC | 📒 21/09: **diễn tập máy xong trước pilot** (`nghien-cuu/dien-tap-duong-ong.md`) — 36 kích thích kết xuất, một phiên thật trong trình duyệt tải được log, 96 log gộp và phân tích chạy trọn. Tìm được **lỗi im lặng**: `analyse` chỉ đọc tệp đầu tiên nên `*.json` báo n=1; đã sửa bằng `merge-logs.js`. Pilot với người thật vẫn cần |
 | C4.2 | Sửa câu hỏi/hướng dẫn theo phản hồi pilot, rồi **đóng băng bộ câu hỏi** | NC |
 
 > **Cổng G1 — sau mốc này cấm sửa nội dung:**
