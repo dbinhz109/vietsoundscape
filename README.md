@@ -30,6 +30,8 @@ Trang chính là phòng nghe: chọn địa điểm trên bản đồ hoặc dan
 lớp âm. Trên danh sách có bộ lọc năm tiêu chí (vùng, nhóm Krause, vai Schafer,
 thời điểm, mức mai một) và ô tìm chữ bỏ dấu; trạng thái lọc nằm trên URL (FR-03).
 Mỗi địa điểm có 3 bản trộn theo thời điểm (FR-59), chọn bằng nút trên đầu phòng nghe.
+Phòng nghe có hình **xếp chồng dạng sóng** từng lớp theo nhóm Krause — âm tự nhiên dưới,
+âm sinh vật giữa, âm do con người trên; kéo một lớp về 0 thì dải của nó mờ đi.
 Mỗi lớp âm có thẻ gập "Nguồn, giấy phép và trích dẫn" — mọi trường bắt buộc của
 BA §8.2 hiện ra hoặc ghi "chưa có" (FR-25), kèm trích dẫn văn bản và BibTeX có
 SHA-256 (FR-27); bản trộn hiện giấy phép hiệu lực theo `phap-ly/09`.
@@ -69,7 +71,7 @@ CI (`.github/workflows/ci.yml`) chạy `lint` → `test` → `validate` → `bui
 ## Cấu trúc
 
 ```
-src/audio/       bộ máy Web Audio: gain, loop, trigger có seed, đồ thị nút — không đụng DOM
+src/audio/       bộ máy Web Audio: gain, loop, trigger có seed, đường bao dạng sóng — không đụng DOM
 src/data/        lược đồ và luật cho mẫu âm, bản trộn, độ to, kiểm thiết bị thu
 src/domain/      phân loại Schafer / Krause, ba điều kiện thực nghiệm
 src/research/    phân điều kiện, biến thể kích thích, thống kê, cỡ hiệu ứng, lực, thang ISO

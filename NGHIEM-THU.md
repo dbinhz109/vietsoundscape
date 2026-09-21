@@ -19,7 +19,7 @@
 
 | | Số | Kiểm bằng |
 |---|---|---|
-| Kiểm thử | **632** đạt | `npm test` |
+| Kiểm thử | **662** đạt | `npm test` |
 | Module mã sản phẩm / tệp kiểm thử | 39 / 34 | `find src -name '*.js'` |
 | Công cụ dòng lệnh | 13 | `ls scripts/*.mjs` |
 | Mẫu âm khai báo | 32 (15 tự thu, 8 ⭐ xác minh tại chỗ) | `data/clips.json` |
@@ -41,11 +41,11 @@
 | Web (B2.1–B2.5, B3.1) | bản đồ, phòng nghe, lọc/tìm 5 tiêu chí, thẻ chi tiết FR-25, trích dẫn FR-27, tiếp cận bàn phím |
 | Thực nghiệm (C3.1, C3.1c, A4.2) | phân điều kiện vuông Latin, 3 biến thể, kết xuất so băm 12/12 khớp |
 | Thống kê (C6.1, C6.2) | McNemar, Wilcoxon, cỡ hiệu ứng + CI; đối chiếu R khớp 12 chữ số |
-| Công bố (A7.1, A5.1) | link công khai, PWA ngoại tuyến, demo không cần wifi |
+| Công bố (A7.1, A5.1) | link công khai, PWA ngoại tuyến, demo không cần wifi, hình xếp chồng dạng sóng |
 | Hiệu năng (B6.3, B6.4) | 94 KB qua dây, 0 lỗi, RAM 12 MB/5 lớp; 6 bề rộng không tràn ngang (`BAO-CAO-G0.md` §8) |
 | Chuẩn bị bảo vệ (C7.1, C7.2) | 12 câu phản biện có bằng chứng; văn bản sửa 6 lỗi thuyết minh |
 
-**Còn trong M nhưng cố ý không làm:** B3.2 biểu mẫu đóng góp và B3.3 RLS/CSP cần máy chủ thật — ngoài phạm vi v1; hiển thị dạng sóng là trang trí.
+**Còn trong M nhưng cố ý không làm:** B3.2 biểu mẫu đóng góp và B3.3 RLS/CSP cần máy chủ thật — ngoài phạm vi v1 (BA §2 "ngoài phạm vi").
 
 ## Mức N — người: chưa mở, 6 việc
 

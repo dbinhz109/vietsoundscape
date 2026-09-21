@@ -13,12 +13,16 @@ import { findLoopPoints } from '../../audio/loop.js';
 import { KRAUSE_CLASSES, LOOPING_ROLES } from '../../domain/taxonomy.js';
 import { createLayerSlider } from '../ui/layer-slider.js';
 import { createClipDetails, createMixLicenseNote } from '../ui/clip-details.js';
+import { createLayerStack } from '../ui/layer-stack.js';
 
 const KRAUSE_LABEL = {
   geophony: 'Âm tự nhiên — gió, nước, mưa',
   biophony: 'Âm sinh vật — chim, ve, ếch',
   anthrophony: 'Âm do con người — chợ, giao thông, tôn giáo',
 };
+
+/** Tệp âm của một lớp: bản giữ chỗ nếu có, không thì bản thật. */
+const urlOf = (layer) => assetUrl(layer.placeholder_audio ?? layer.audio);
 
 const SIGNAL_HORIZON_S = 90;
 const BYTES_PER_SAMPLE = 4;
@@ -47,6 +51,8 @@ export function createListeningRoom({ container, onMixChange, citationContext })
   let openSession = null;
   /** URL mà phiên hiện tại cần giữ trong bộ đệm. */
   let keepUrls = new Set();
+  /** Hình xếp chồng dạng sóng của phiên hiện tại — vẽ lại khi kéo thanh trượt. */
+  let layerStack = null;
 
   /**
    * Yêu cầu đang bay, khoá theo URL.
@@ -110,6 +116,7 @@ export function createListeningRoom({ container, onMixChange, citationContext })
 
   function teardown() {
     openSession = null;
+    layerStack = null;
     if (engine) engine.dispose();
     engine = null;
     current = null;
@@ -146,7 +153,6 @@ export function createListeningRoom({ container, onMixChange, citationContext })
 
     teardown();
 
-    const urlOf = (layer) => assetUrl(layer.placeholder_audio ?? layer.audio);
     keepUrls = new Set(recipe.layers.map(urlOf));
     evictUnused(keepUrls);
 
@@ -272,6 +278,8 @@ export function createListeningRoom({ container, onMixChange, citationContext })
   function setLayerSlider(clipId, value) {
     engine.setLayerSlider(clipId, value);
     current.sliders[clipId] = value;
+    // Hình phải đổi theo tay người kéo, nếu không nó nói dối về thứ đang nghe.
+    layerStack?.update(current.sliders);
     onMixChange?.(current.sliders);
   }
 
@@ -288,6 +296,18 @@ export function createListeningRoom({ container, onMixChange, citationContext })
     // Giấy phép hiệu lực của cả bản trộn — `phap-ly/09` đòi hiện cùng giấy
     // phép từng lớp, và đây là chỗ cảnh báo SA lây sang lớp tự thu lộ ra.
     const mixLicense = createMixLicenseNote(current.recipe, current.clipsById);
+
+    // Lập luận thị giác cho H1: thấy được cấu trúc phân lớp, không chỉ nghe (A5.1).
+    layerStack = createLayerStack({
+      layers: prepared.map(({ layer, clip }) => ({
+        id: clip.id,
+        label: clip.title_vi,
+        krauseClass: clip.krause_class,
+        schaferRole: clip.schafer_role,
+        buffer: buffers.get(urlOf(layer)),
+        slider: current.sliders[clip.id],
+      })),
+    });
 
     const byBus = document.createElement('div');
     byBus.className = 'bus-group';
@@ -350,7 +370,9 @@ export function createListeningRoom({ container, onMixChange, citationContext })
       onInput: (value) => engine.setMasterSlider(value),
     });
 
-    container.replaceChildren(heading, meta, mixLicense, byBus, byLayer, master);
+    container.replaceChildren(
+      ...[heading, meta, mixLicense, layerStack, byBus, byLayer, master].filter(Boolean),
+    );
   }
 
   return {

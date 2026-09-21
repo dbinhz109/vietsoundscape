@@ -334,6 +334,31 @@ h3 {
   color: var(--ink-900);
 }
 
+/*
+ * Xếp chồng dạng sóng (A5.1). Không phải trang trí: đây là chỗ duy nhất người
+ * xem **thấy** được cấu trúc phân lớp mà H1 nói tới. Canvas co theo chiều rộng
+ * cột, tỉ lệ cố định để không nhảy khi đổi bản trộn.
+ */
+.layer-stack {
+  margin: var(--space-2) 0 0;
+}
+
+.layer-stack-canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 600 / 180;
+  background: var(--paper-sunk);
+  border-radius: var(--radius-sm);
+}
+
+.layer-stack figcaption {
+  margin-top: var(--space-1);
+  font-size: var(--text-small);
+  color: var(--ink-500);
+  max-width: 58ch;
+}
+
 /* Chọn bản trộn theo thời điểm (FR-59) — nhóm nút "đang chọn" */
 .recipe-chooser {
   display: flex;
