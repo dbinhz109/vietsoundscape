@@ -28,7 +28,15 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "prepare:demo": "node scripts/prepare-data.mjs --demo",
+    "prepare:real": "node scripts/prepare-data.mjs --real",
+    "setup:demo": "node scripts/setup-dataset.mjs demo",
+    "setup:real": "node scripts/setup-dataset.mjs real",
+    "demo:logs": "node scripts/demo-logs.mjs",
+    "analyse:demo": "node scripts/analyse-results.mjs build/demo/logs",
+    "validate:runtime": "SOUNDSCAPE_DATA=build/runtime/data node scripts/validate-data.mjs",
+    "test:workflow": "node scripts/check-data-workflow.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

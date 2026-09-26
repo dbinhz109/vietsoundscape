@@ -140,6 +140,12 @@ export function createLocationFilter({ value, onChange }) {
   });
   form.append(field('filter-q', 'Tìm', search));
 
+  const advanced = document.createElement('details');
+  advanced.className = 'filter-advanced';
+  advanced.open = CRITERIA.some(({ key }) => Boolean(current[key]));
+  const advancedLabel = document.createElement('summary');
+  advancedLabel.textContent = 'Lọc nâng cao';
+
   const row = document.createElement('div');
   row.className = 'filter-row';
   const selects = [];
@@ -164,7 +170,8 @@ export function createLocationFilter({ value, onChange }) {
     selects.push({ key, select });
     row.append(field(`filter-${key}`, label, select));
   }
-  form.append(row);
+  advanced.append(advancedLabel, row);
+  form.append(advanced);
 
   const footer = document.createElement('div');
   footer.className = 'filter-footer';

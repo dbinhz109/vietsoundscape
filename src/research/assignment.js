@@ -53,19 +53,23 @@ export function assignParticipant(participantIndex, locations, conditions = EXPE
     );
   }
 
-  const trials = locations.map((_, step) => {
-    const k = participantIndex + step;
+  // Mỗi nhóm bốn người xoay đủ bốn vị trí địa điểm. Nhóm kế tiếp đi ngược
+  // chiều để cân bằng cả vị trí lẫn hướng chuyển tiếp; ba nhóm dịch điều kiện
+  // một nấc, tạo thành vòng đầy đủ 12 người.
+  const locationShift = participantIndex % locations.length;
+  const block = Math.floor(participantIndex / locations.length);
+  const reverse = block % 2 === 1;
+  const conditionShift = block % conditions.length;
+
+  return locations.map((_, step) => {
+    const locationIndex =
+      (locationShift + (reverse ? -step : step) + locations.length) % locations.length;
     return {
-      location_id: locations[k % locations.length],
-      condition: conditions[k % conditions.length],
+      order: step + 1,
+      location_id: locations[locationIndex],
+      condition: conditions[(step + conditionShift) % conditions.length],
     };
   });
-
-  // Người có số lẻ đi ngược chiều. Nếu ai cũng theo cùng một chiều thì thứ tự
-  // trở thành biến gây nhiễu dính chặt vào điều kiện, tách ra không được nữa.
-  const ordered = participantIndex % 2 === 1 ? [...trials].reverse() : trials;
-
-  return ordered.map((trial, index) => ({ order: index + 1, ...trial }));
 }
 
 /**

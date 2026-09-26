@@ -54,13 +54,15 @@ const sha256 = (path) => createHash('sha256').update(readFileSync(path)).digest(
 
 // ---------------------------------------------------------------- nạp dữ liệu
 
-const recipeDir = join(ROOT, 'data', 'recipes');
+const dataDir = process.env.SOUNDSCAPE_DATA || (!usePlaceholder && existsSync(join(ROOT, 'build/runtime/data/clips.json')) ? 'build/runtime/data' : 'data');
+const recipeDir = join(ROOT, dataDir, 'recipes');
 const recipes = readdirSync(recipeDir)
   .filter((name) => name.endsWith('.json') && name !== 'index.json')
   .map((name) => JSON.parse(readFileSync(join(recipeDir, name), 'utf-8')))
   .sort((a, b) => a.id.localeCompare(b.id));
 
-let clips = JSON.parse(readFileSync(join(ROOT, 'data', 'clips.json'), 'utf-8')).clips;
+const dataset = JSON.parse(readFileSync(join(ROOT, dataDir, 'clips.json'), 'utf-8'));
+let clips = dataset.clips;
 
 /** Tệp âm của từng mẫu. Chế độ giả lập lấy từ `placeholder_audio` của bản trộn. */
 const sources = new Map();
@@ -69,6 +71,16 @@ for (const recipe of recipes) {
     if (usePlaceholder && layer.placeholder_audio && !sources.has(layer.clip_id)) {
       sources.set(layer.clip_id, join(ROOT, layer.placeholder_audio.replace(/^\//, '')));
     }
+  }
+}
+
+if (!usePlaceholder) {
+  for (const clip of clips) {
+    const source = clip.research_audio ?? clip.audio;
+    if (!source) throw new Error(`Thiếu tệp âm cho ${clip.id}. Chạy npm run prepare:demo hoặc prepare:real.`);
+    const path = join(ROOT, source.replace(/^\//, ''));
+    if (!existsSync(path)) throw new Error(`Không có tệp ${path}`);
+    sources.set(clip.id, path);
   }
 }
 
@@ -225,7 +237,9 @@ console.log(
 );
 
 const manifest = {
-  generated_from: usePlaceholder ? 'placeholder' : 'field_recordings',
+  generated_from: usePlaceholder || dataset.synthetic ? 'placeholder' : 'field_recordings',
+  synthetic: usePlaceholder || dataset.synthetic === true,
+  dataset_version: dataset.dataset_version,
   stimulus_duration_s: STIMULUS_DURATION_S,
   loudness_target_lufs: LOUDNESS_TARGET_LUFS,
   stimuli: rendered,

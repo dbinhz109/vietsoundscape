@@ -453,3 +453,58 @@ describe('nguồn, giấy phép và trích dẫn trong phòng nghe (FR-25, FR-27
     expect(container.querySelectorAll('details.clip-details').length).toBe(3);
   });
 });
+
+describe('hồi quy hủy phiên và điều khiển lúc đang tải', () => {
+  test('dừng trong lúc nền đang tải không gắn vào engine đã hủy', async () => {
+    let release;
+    vi.stubGlobal('fetch', vi.fn(() => new Promise((resolve) => {
+      release = () => resolve({ ok: true, arrayBuffer: async () => new ArrayBuffer(8) });
+    })));
+    const room = createListeningRoom({ container });
+    const opening = open(room, recipeB);
+    await vi.waitFor(() => expect(release).toBeTypeOf('function'));
+    room.close(); release();
+    await expect(opening).resolves.toMatchObject({ cancelled: true });
+    expect(room.isOpen).toBe(false);
+    expect(room.audioBytes()).toBe(0);
+  });
+
+  test('nền của phiên cũ về sau không ghi đè phiên mới', async () => {
+    let release;
+    vi.stubGlobal('fetch', vi.fn((url) => url === '/audio/a1.wav'
+      ? new Promise((resolve) => { release = () => resolve({ ok: true, arrayBuffer: async () => new ArrayBuffer(8) }); })
+      : Promise.resolve({ ok: true, arrayBuffer: async () => new ArrayBuffer(8) })));
+    const room = createListeningRoom({ container });
+    const old = open(room, recipeA);
+    await vi.waitFor(() => expect(release).toBeTypeOf('function'));
+    await (await open(room, recipeB)).ready;
+    release();
+    await expect(old).resolves.toMatchObject({ cancelled: true });
+    expect(container.querySelector('h2').textContent).toBe('Bản trộn B');
+    expect(container.querySelector('#layer-A-01')).toBeNull();
+  });
+
+  test('master và bus giữ giá trị khi lớp phụ tải xong', async () => {
+    const pending = [];
+    vi.stubGlobal('fetch', vi.fn((url) => url === '/audio/a1.wav'
+      ? Promise.resolve({ ok: true, arrayBuffer: async () => new ArrayBuffer(8) })
+      : new Promise((resolve) => pending.push(() => resolve({ ok: true, arrayBuffer: async () => new ArrayBuffer(8) })))));
+    const room = createListeningRoom({ container });
+    const result = await open(room, recipeA);
+    for (const id of ['master-slider', 'bus-geophony']) {
+      const input = container.querySelector('#' + id); input.value = '0.2'; input.dispatchEvent(new Event('input'));
+    }
+    pending.forEach((release) => release()); await result.ready;
+    expect(container.querySelector('#master-slider').value).toBe('0.2');
+    expect(container.querySelector('#bus-geophony').value).toBe('0.2');
+  });
+
+  test('master bên ngoài giữ giá trị khi đổi bản trộn', async () => {
+    const onMasterChange = vi.fn();
+    const room = createListeningRoom({ container, externalMaster: true, onMasterChange });
+    await (await open(room, recipeA)).ready;
+    room.setMasterSlider(0.2);
+    await open(room, { ...recipeB, master_slider: 0.4 });
+    expect(onMasterChange).toHaveBeenLastCalledWith(0.2);
+  });
+});

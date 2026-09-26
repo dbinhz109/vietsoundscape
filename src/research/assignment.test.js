@@ -45,22 +45,16 @@ describe('assignParticipant — mỗi người nghe gì', () => {
     expect(assignParticipant(0, LOCATIONS)).not.toEqual(assignParticipant(1, LOCATIONS));
   });
 
-  test('chiều chuyển điều kiện đảo giữa người chẵn và người lẻ', () => {
-    // Chống hiệu ứng lan truyền một chiều: nếu mọi người đều đi qua các điều
-    // kiện theo cùng một chiều thì "điều kiện B sau điều kiện A" là hằng số của
-    // cả đợt, và ảnh hưởng của thứ tự không tách được khỏi ảnh hưởng của điều kiện.
-    const m = EXPERIMENT_CONDITIONS.length;
-    const steps = (p) => {
-      const idx = conditionsOf(assignParticipant(p, LOCATIONS)).map((c) =>
-        EXPERIMENT_CONDITIONS.indexOf(c),
-      );
-      return idx.slice(1).map((v, i) => (v - idx[i] + m) % m);
-    };
-
-    for (let p = 0; p < 12; p += 2) {
-      expect(steps(p)).toEqual(steps(p).map(() => 1)); // chẵn: đi xuôi
-      expect(steps(p + 1)).toEqual(steps(p + 1).map(() => m - 1)); // lẻ: đi ngược
+  test('một vòng cân bằng cả địa điểm × vị trí nghe', () => {
+    const counts = {};
+    for (const trials of assignCohort(12, LOCATIONS)) {
+      for (const trial of trials) {
+        const key = `${trial.location_id}|${trial.order}`;
+        counts[key] = (counts[key] ?? 0) + 1;
+      }
     }
+    expect(Object.keys(counts)).toHaveLength(LOCATIONS.length ** 2);
+    expect(new Set(Object.values(counts))).toEqual(new Set([3]));
   });
 
   test('từ chối số thứ tự không phải số nguyên không âm', () => {

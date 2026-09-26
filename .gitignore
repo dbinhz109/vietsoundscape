@@ -20,3 +20,8 @@ build/
 
 # Danh sách chờ người tham gia — có cách liên hệ, KHÔNG đưa vào git (mẫu cột: mau-danh-sach-cho.csv)
 nghien-cuu/danh-sach-cho*.csv
+
+# Bản thu và metadata thực địa do người dùng cung cấp
+input/audio/
+input/logs/
+scripts/__pycache__/

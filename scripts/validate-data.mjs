@@ -15,7 +15,8 @@ import { composeAnswerOptions } from '../src/research/answer-options.js';
 
 // Neo vào thư mục gốc của dự án, không phụ thuộc cwd lúc gọi.
 const ROOT = join(import.meta.dirname, '..');
-const read = (name) => JSON.parse(readFileSync(join(ROOT, 'data', name), 'utf-8'));
+const dataDir = process.env.SOUNDSCAPE_DATA || 'data';
+const read = (name) => JSON.parse(readFileSync(join(ROOT, dataDir, name), 'utf-8'));
 
 const { dataset_version: version, clips } = read('clips.json');
 const locations = read('locations.geojson');
@@ -111,7 +112,7 @@ if (sensitive.length > 0) {
 
 // Bản trộn: kiểm hợp đồng dữ liệu và cờ dùng được cho thực nghiệm.
 const clipsById = indexClipsById(clips);
-const recipeFiles = readdirSync(join(ROOT, 'data', 'recipes')).filter(
+const recipeFiles = readdirSync(join(ROOT, dataDir, 'recipes')).filter(
   (name) => name.endsWith('.json') && name !== 'index.json',
 );
 
@@ -119,7 +120,7 @@ console.log(`\nBản trộn (${recipeFiles.length}):`);
 let recipesFailed = false;
 const loadedRecipes = [];
 for (const name of recipeFiles) {
-  const recipe = JSON.parse(readFileSync(join(ROOT, 'data', 'recipes', name), 'utf-8'));
+  const recipe = JSON.parse(readFileSync(join(ROOT, dataDir, 'recipes', name), 'utf-8'));
   loadedRecipes.push(recipe);
   const check = validateRecipe(recipe, clipsById);
   if (!check.valid) recipesFailed = true;

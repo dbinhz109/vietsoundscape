@@ -16,7 +16,8 @@
  */
 
 /** Đổi số này khi đổi luật: cache cũ bị dọn ở `activate`. */
-export const CACHE_NAME = 'vietsoundscape-v1';
+export const CACHE_PREFIX = 'vietsoundscape-';
+export const CACHE_NAME = `${CACHE_PREFIX}v3`;
 
 const AUDIO_PATTERN = /\.(wav|opus|mp3|ogg|flac|m4a|webm)$/i;
 const IMAGE_PATTERN = /\.(png|svg|webp|ico)$/i;
@@ -75,7 +76,8 @@ export async function respond({ kind, url, request, cache, fetchFn, base }) {
     const hit = await cache.match(url);
     if (hit) return hit;
     const fresh = await fetchFn(request);
-    if (fresh.ok) await cache.put(url, fresh.clone());
+    // Cache API từ chối 206: audio dùng Range khi tải/seek.
+    if (fresh.status === 200) await cache.put(url, fresh.clone());
     return fresh;
   }
 
@@ -84,7 +86,8 @@ export async function respond({ kind, url, request, cache, fetchFn, base }) {
   const cacheKey = kind === 'navigation' ? shellFor(url, base) : url;
   try {
     const fresh = await fetchFn(request);
-    if (fresh.ok) await cache.put(cacheKey, fresh.clone());
+    // Cache API từ chối 206: audio dùng Range khi tải/seek.
+    if (fresh.status === 200) await cache.put(cacheKey, fresh.clone());
     return fresh;
   } catch {
     const hit = (await cache.match(cacheKey)) ?? (kind === 'navigation' ? await cache.match(url) : undefined);

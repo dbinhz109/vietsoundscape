@@ -1,6 +1,6 @@
 // @vitest-environment happy-dom
 import { beforeEach, describe, expect, test, vi } from 'vitest';
-import { createExperimentView } from './experiment-view.js';
+import { createExperimentView, listenedFraction } from './experiment-view.js';
 import { REQUIRED_CONSENT_PURPOSES, createExperimentSession } from './session.js';
 import { ISO_ATTRIBUTES, ISO_ATTRIBUTE_KEYS } from '../../research/soundscape-scale.js';
 
@@ -55,6 +55,11 @@ const $$ = (root, selector) => [...root.querySelectorAll(selector)];
 /** Giả lập người tham gia nghe hết đoạn âm. */
 const listenFully = (root) => {
   const audio = $(root, 'audio');
+  Object.defineProperty(audio, 'duration', { configurable: true, value: 60 });
+  Object.defineProperty(audio, 'played', {
+    configurable: true,
+    value: { length: 1, start: () => 0, end: () => 60 },
+  });
   audio.dispatchEvent(new Event('ended'));
 };
 
@@ -153,6 +158,15 @@ describe('màn hình lượt nghe', () => {
   };
 
   beforeEach(() => document.body.replaceChildren());
+
+  test('gộp khoảng đã phát, không tính đoạn bị tua qua', () => {
+    const ranges = {
+      length: 3,
+      start: (index) => [0, 5, 59.8][index],
+      end: (index) => [4, 8, 60][index],
+    };
+    expect(listenedFraction(ranges, 60)).toBeCloseTo(7.2 / 60, 6);
+  });
 
   test('phát đúng tệp kích thích đã kết xuất', () => {
     const { root, session } = started();
@@ -271,6 +285,23 @@ describe('màn hình lượt nghe', () => {
 
     listenFully(root);
     expect(submit.disabled).toBe(false);
+  });
+
+  test('tua đến cuối rồi phát 0,2 giây vẫn không được nộp', () => {
+    const { root } = started();
+    const audio = $(root, 'audio');
+    Object.defineProperty(audio, 'duration', { configurable: true, value: 60 });
+    Object.defineProperty(audio, 'played', {
+      configurable: true,
+      value: { length: 1, start: () => 59.8, end: () => 60 },
+    });
+    const guess = $$(root, 'input[name="guess"]')[0];
+    guess.checked = true;
+    guess.dispatchEvent(new Event('change', { bubbles: true }));
+    rateAll(root);
+    audio.dispatchEvent(new Event('ended'));
+    expect($(root, 'button[data-action="submit"]').disabled).toBe(true);
+    expect(root.textContent).toMatch(/Đã nghe 0%|Đã nghe 1%/);
   });
 
   test('nghe hết rồi nhưng chưa chọn đủ thì vẫn khoá', () => {

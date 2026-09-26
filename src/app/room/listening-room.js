@@ -13,6 +13,7 @@ import { findLoopPoints } from '../../audio/loop.js';
 import { KRAUSE_CLASSES, LOOPING_ROLES } from '../../domain/taxonomy.js';
 import { createLayerSlider } from '../ui/layer-slider.js';
 import { createClipDetails, createMixLicenseNote } from '../ui/clip-details.js';
+import { SCHAFER_LABEL } from '../../domain/labels.js';
 import { createLayerStack } from '../ui/layer-stack.js';
 
 const KRAUSE_LABEL = {
@@ -41,12 +42,21 @@ const defaultCitationContext = () => ({
  * @param {{ datasetVersion: string, siteUrl: string, accessed: string }} [options.citationContext]
  *   cho trích dẫn FR-27 trong thẻ chi tiết mỗi lớp
  */
-export function createListeningRoom({ container, onMixChange, citationContext }) {
+export function createListeningRoom({
+  container,
+  onMixChange,
+  citationContext,
+  externalMaster = false,
+  onMasterChange,
+}) {
   const citation = citationContext ?? defaultCitationContext();
   let context = null;
   let engine = null;
   const buffers = new Map();
   let current = null;
+  let masterValue = null;
+  let busValues = {};
+  let activePrepared = [];
   /** Phiên mở hiện tại — dùng để bỏ kết quả tải về muộn của phiên cũ. */
   let openSession = null;
   /** URL mà phiên hiện tại cần giữ trong bộ đệm. */
@@ -74,7 +84,7 @@ export function createListeningRoom({ container, onMixChange, citationContext })
       const response = await fetch(url);
       if (!response.ok) throw new Error(`Không tải được ${url} (${response.status})`);
       const buffer = await context.decodeAudioData(await response.arrayBuffer());
-      buffers.set(url, buffer);
+      if (keepUrls.has(url)) buffers.set(url, buffer);
       return buffer;
     })().finally(() => inFlight.delete(url));
 
@@ -146,22 +156,21 @@ export function createListeningRoom({ container, onMixChange, citationContext })
    * @param {Record<string, number>} [args.sliderOverrides] từ URL
    */
   async function open({ recipe, location, clipsById, sliderOverrides = {} }) {
-    // AudioContext phải khởi tạo trong một hành động của người dùng, nếu không
-    // trình duyệt chặn (NFR-21). iOS Safari khắt khe hơn nên còn phải resume().
-    context ??= new (window.AudioContext || window.webkitAudioContext)();
-    if (context.state === 'suspended') await context.resume();
-
     teardown();
-
-    keepUrls = new Set(recipe.layers.map(urlOf));
-    evictUnused(keepUrls);
-
-    engine = createSoundscapeEngine(context, { masterSlider: recipe.master_slider ?? 0.85 });
-
-    const sliders = {};
-    const prepared = [];
     const session = {};
     openSession = session;
+    const cancelled = () => ({ cancelled: true, ready: Promise.resolve({ cancelled: true }) });
+    await unlock();
+    if (openSession !== session) return cancelled();
+    keepUrls = new Set(recipe.layers.map(urlOf));
+    evictUnused(keepUrls);
+    masterValue ??= recipe.master_slider ?? 0.85;
+    onMasterChange?.(masterValue);
+    busValues = Object.fromEntries(KRAUSE_CLASSES.map((key) => [key, 1]));
+    engine = createSoundscapeEngine(context, { masterSlider: masterValue });
+    const sessionEngine = engine;
+    const sliders = {};
+    const prepared = [];
 
     /** Dựng một lớp từ bộ đệm đã giải mã và nối vào bộ máy. */
     function attach(layer, buffer) {
@@ -180,7 +189,7 @@ export function createListeningRoom({ container, onMixChange, citationContext })
       const slider = sliderOverrides[layer.clip_id] ?? layer.slider ?? 0.7;
       sliders[layer.clip_id] = slider;
 
-      engine.addLayer({
+      sessionEngine.addLayer({
         id: layer.clip_id,
         krauseClass: clip.krause_class,
         schaferRole: clip.schafer_role,
@@ -216,10 +225,23 @@ export function createListeningRoom({ container, onMixChange, citationContext })
     //
     // Tổng thời gian tải không đổi — nhưng tổng chưa bao giờ là ràng buộc của
     // B2.4; thời gian tới tiếng đầu tiên mới là.
-    const bedBuffers = await decodeAll(beds.map(urlOf));
+    let bedBuffers;
+    try {
+      bedBuffers = await decodeAll(beds.map(urlOf));
+    } catch (error) {
+      if (openSession !== session) return cancelled();
+      teardown();
+      keepUrls = new Set();
+      evictUnused(keepUrls);
+      throw error;
+    }
+    if (openSession !== session) {
+      evictUnused(keepUrls);
+      return cancelled();
+    }
     beds.forEach((layer, index) => attach(layer, bedBuffers[index]));
 
-    engine.start();
+    sessionEngine.start();
     current = { recipe, location, clipsById, sliders };
     render(prepared);
 
@@ -284,13 +306,21 @@ export function createListeningRoom({ container, onMixChange, citationContext })
   }
 
   function render(prepared) {
+    activePrepared = prepared;
+    const focused = container.contains(document.activeElement) ? document.activeElement.id : null;
+    const expanded = new Set(
+      [...container.querySelectorAll('details[open]')]
+        .map((node) => node.dataset.key)
+        .filter(Boolean),
+    );
     const heading = document.createElement('h2');
+    heading.id = 'room-heading';
     heading.textContent = current.recipe.title_vi;
 
     const meta = document.createElement('p');
     meta.className = 'room-meta';
     meta.textContent = current.recipe.placeholder
-      ? 'Đang dùng âm giả lập tổng hợp — cấu trúc phân lớp là thật, vật liệu thì chưa.'
+      ? 'Bản nghe mô phỏng · Âm tổng hợp để khám phá cách phối lớp.'
       : `${prepared.length} lớp âm`;
 
     // Giấy phép hiệu lực của cả bản trộn — `phap-ly/09` đòi hiện cùng giấy
@@ -309,10 +339,12 @@ export function createListeningRoom({ container, onMixChange, citationContext })
       })),
     });
 
-    const byBus = document.createElement('div');
+    const byBus = document.createElement('details');
+    byBus.dataset.key = 'buses';
+    byBus.open = expanded.has('buses');
     byBus.className = 'bus-group';
-    const busHeading = document.createElement('h3');
-    busHeading.textContent = 'Theo nhóm nguồn phát';
+    const busHeading = document.createElement('summary');
+    busHeading.textContent = 'Điều chỉnh theo nhóm âm';
     byBus.append(busHeading);
     for (const krauseClass of KRAUSE_CLASSES) {
       if (!prepared.some(({ clip }) => clip.krause_class === krauseClass)) continue;
@@ -320,8 +352,11 @@ export function createListeningRoom({ container, onMixChange, citationContext })
         createLayerSlider({
           id: `bus-${krauseClass}`,
           label: KRAUSE_LABEL[krauseClass],
-          value: 1,
-          onInput: (value) => engine.setBusSlider(krauseClass, value),
+          value: busValues[krauseClass],
+          onInput: (value) => {
+            busValues[krauseClass] = value;
+            engine.setBusSlider(krauseClass, value);
+          },
         }),
       );
     }
@@ -329,19 +364,20 @@ export function createListeningRoom({ container, onMixChange, citationContext })
     const byLayer = document.createElement('div');
     byLayer.className = 'layer-group';
     const layerHeading = document.createElement('h3');
-    layerHeading.textContent = 'Từng lớp âm';
+    layerHeading.textContent = 'Pha một không gian của riêng bạn';
     byLayer.append(layerHeading);
 
     for (const { clip } of prepared) {
       const row = createLayerSlider({
         id: `layer-${clip.id}`,
         label: clip.title_vi,
-        hint: `${clip.schafer_role} · ${clip.krause_class}`,
+        hint: SCHAFER_LABEL[clip.schafer_role],
         description: clip.cultural_note_vi,
         value: current.sliders[clip.id],
         onInput: (value) => setLayerSlider(clip.id, value),
       });
 
+      row.dataset.group = clip.krause_class;
       if (clip.schafer_role !== 'keynote') {
         const button = document.createElement('button');
         button.type = 'button';
@@ -359,27 +395,70 @@ export function createListeningRoom({ container, onMixChange, citationContext })
       }
       // FR-25: mọi trường bắt buộc hiển thị hoặc ghi rõ "chưa có"; FR-27:
       // trích dẫn sao chép được. Gập lại để phòng nghe vẫn gọn.
-      row.append(createClipDetails(clip, citation));
+      const detail = createClipDetails(clip, citation);
+      detail.dataset.key = clip.id; detail.open = expanded.has(clip.id);
+      row.append(detail);
       byLayer.append(row);
     }
 
     const master = createLayerSlider({
       id: 'master-slider',
       label: 'Âm lượng tổng',
-      value: current.recipe.master_slider ?? 0.85,
-      onInput: (value) => engine.setMasterSlider(value),
+      value: masterValue,
+      onInput: setMasterSlider,
     });
 
-    container.replaceChildren(
-      ...[heading, meta, mixLicense, layerStack, byBus, byLayer, master].filter(Boolean),
-    );
+    const sourceInfo = document.createElement('details');
+    sourceInfo.className = 'mix-source';
+    sourceInfo.dataset.key = 'sources';
+    sourceInfo.open = expanded.has('sources');
+    const sourceHeading = document.createElement('summary');
+    sourceHeading.textContent = 'Nguồn và giấy phép của bản trộn';
+    sourceInfo.append(sourceHeading, mixLicense);
+    container.replaceChildren(...[heading, meta, layerStack, byLayer, byBus,
+      externalMaster ? null : master, sourceInfo].filter(Boolean));
+    if (focused) {
+      container
+        .querySelector(`[id="${CSS.escape(focused)}"]`)
+        ?.focus({ preventScroll: true });
+    }
+  }
+
+  function unlock() {
+    context ??= new (window.AudioContext || window.webkitAudioContext)();
+    return context.state === 'suspended' ? context.resume() : Promise.resolve();
+  }
+
+  function setMasterSlider(value) {
+    masterValue = value;
+    engine?.setMasterSlider(value);
+    onMasterChange?.(value);
   }
 
   return {
     open,
+    unlock,
+    setMasterSlider,
+    async pause() {
+      if (engine) await context.suspend();
+    },
+    async resume() {
+      if (engine) await context.resume();
+    },
+    resetMix() {
+      if (!current) return;
+      for (const { layer } of activePrepared) setLayerSlider(layer.clip_id, layer.slider ?? 0.7);
+      for (const key of KRAUSE_CLASSES) {
+        busValues[key] = 1;
+        engine.setBusSlider(key, 1);
+      }
+      setMasterSlider(current.recipe.master_slider ?? 0.85);
+      render(activePrepared);
+    },
     close() {
       teardown();
-      evictUnused(new Set());
+      keepUrls = new Set();
+      evictUnused(keepUrls);
     },
     get isOpen() {
       return engine !== null;

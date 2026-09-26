@@ -80,7 +80,7 @@ export function createExperimentSession({
   const trials = assignParticipant(participantIndex, locations, EXPERIMENT_CONDITIONS).map(
     (trial) => ({
       ...trial,
-      recipe_id: pickRecipe(trial.location_id),
+      recipe_id: pickRecipe(trial.location_id, trial.order),
     }),
   );
 
@@ -92,12 +92,17 @@ export function createExperimentSession({
    * nghe đúng một bản thì kết quả có thể chỉ phản ánh bản trộn đó chứ không phản
    * ánh vùng miền — và công sức dựng 12 bản trộn thành bỏ phí.
    */
-  function pickRecipe(locationId) {
+  function pickRecipe(locationId, order) {
     const forLocation = recipes.filter((recipe) => recipe.location_id === locationId);
     if (forLocation.length === 0) {
       throw new Error(`Không có bản trộn nào cho địa điểm "${locationId}".`);
     }
-    return forLocation[participantIndex % forLocation.length].id;
+    // Trong mỗi vòng 12 người, vị trí lượt đã cân bằng địa điểm × điều kiện.
+    // Dịch biến thể theo vòng và theo vị trí cho mỗi ô nhận 10–11 lượt ở n=96,
+    // thay vì chênh 8–16 lượt như công thức chỉ lấy participantIndex % 3.
+    const cohortCycle = locations.length * EXPERIMENT_CONDITIONS.length;
+    const variant = (Math.floor(participantIndex / cohortCycle) + order - 1) % forLocation.length;
+    return forLocation[variant].id;
   }
 
   /** @type {Record<string, boolean> | null} */

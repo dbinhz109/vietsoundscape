@@ -29,6 +29,7 @@ const ROOT = join(import.meta.dirname, '..');
 
 /** Bậc chất lượng khi xuất bản (NFR-13). */
 const ENCODINGS = [
+  { name: 'research', ext: 'wav', args: ['-c:a', 'pcm_s24le', '-ar', '48000'] },
   { name: 'standard', ext: 'webm', args: ['-c:a', 'libopus', '-b:a', '72k'] },
   { name: 'high', ext: 'webm', args: ['-c:a', 'libopus', '-b:a', '144k'] },
   { name: 'fallback', ext: 'm4a', args: ['-c:a', 'aac', '-b:a', '128k'] },
@@ -238,3 +239,6 @@ if (clipId) {
   if (shouldWrite) mergeIntoClips(clipId, reports[0]);
   else console.log(`\n(chạy thử) thêm --write để cập nhật ${clipId} trong data/clips.json`);
 }
+
+const reportPath = args.find((a) => a.startsWith('--report='))?.slice(9);
+if (reportPath) writeFileSync(reportPath, `${JSON.stringify(reports, null, 2)}\n`);

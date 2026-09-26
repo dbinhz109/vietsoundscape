@@ -1,8 +1,9 @@
-import { cpSync, existsSync, readdirSync, statSync } from 'node:fs';
-import { join, resolve } from 'node:path';
+import { cpSync, existsSync, readdirSync, statSync, writeFileSync } from 'node:fs';
+import { join, relative, resolve } from 'node:path';
 import { defineConfig } from 'vite';
 
 const ROOT = import.meta.dirname;
+const DATA_DIR = process.env.SOUNDSCAPE_DATA || (existsSync(resolve(ROOT, 'build/runtime/data/clips.json')) ? 'build/runtime/data' : 'data');
 
 /**
  * Dữ liệu của dự án nằm ở `data/` và âm thanh ở `spike/audio/`. Máy chủ phát
@@ -19,7 +20,7 @@ function copyProjectData({ directories }) {
     closeBundle() {
       const outDir = resolve(ROOT, 'dist');
       for (const directory of directories) {
-        const from = resolve(ROOT, directory);
+        const from = resolve(ROOT, directory === 'data' ? DATA_DIR : directory);
         if (!existsSync(from)) {
           this.warn(`Bỏ qua "${directory}" — không tồn tại. Chạy \`npm run gen:audio\` trước?`);
           continue;
@@ -32,6 +33,32 @@ function copyProjectData({ directories }) {
         );
         this.info(`${directory} → dist/${directory} (${files.length} tệp)`);
       }
+    },
+  };
+}
+
+/** Danh sách tài nguyên nhỏ cần để trang chính mở lại sau lần truy cập đầu. */
+function offlineManifest() {
+  return {
+    name: 'offline-manifest',
+    apply: 'build',
+    closeBundle() {
+      const outDir = resolve(ROOT, 'dist');
+      const files = readdirSync(outDir, { recursive: true })
+        .map((name) => join(outDir, String(name)))
+        .filter((path) => statSync(path).isFile())
+        .map((path) => relative(outDir, path).replaceAll('\\', '/'))
+        .filter(
+          (name) =>
+            name === 'index.html' ||
+            name === 'thuc-nghiem.html' ||
+            name === 'manifest.webmanifest' ||
+            name.startsWith('assets/') ||
+            name.startsWith('data/') ||
+            name.startsWith('icons/'),
+        )
+        .sort();
+      writeFileSync(join(outDir, 'offline-assets.json'), `${JSON.stringify(files)}\n`);
     },
   };
 }
@@ -49,6 +76,9 @@ function prettyRoutes({ routes }) {
     configureServer(server) {
       server.middlewares.use((req, _res, next) => {
         const path = req.url.split('?')[0].replace(/\/$/, '');
+        if (DATA_DIR !== 'data' && path.startsWith('/data/')) {
+          req.url = '/' + DATA_DIR + req.url.slice('/data'.length);
+        }
         if (routes[path]) req.url = routes[path] + (req.url.slice(path.length) || '');
         next();
       });
@@ -61,7 +91,8 @@ export default defineConfig({
   // từ gốc. Mã đọc base qua `src/app/asset-url.js`, dữ liệu vẫn viết từ gốc.
   base: process.env.PUBLIC_BASE || '/',
   plugins: [
-    copyProjectData({ directories: ['data', 'spike/audio'] }),
+    copyProjectData({ directories: ['data', 'spike/audio', 'build/runtime/audio', 'build/stimuli'] }),
+    offlineManifest(),
     prettyRoutes({ routes: { '/thuc-nghiem': '/thuc-nghiem.html' } }),
   ],
   server: {

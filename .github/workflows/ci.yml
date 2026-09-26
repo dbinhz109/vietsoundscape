@@ -23,8 +23,13 @@ jobs:
       # cách — xem `eslint.config.js` và sổ quyết định Q-31.
       - run: npm run lint
 
-      # 632 test đơn vị + tích hợp (vitest, happy-dom). Không cần âm thanh thật.
+      # Test đơn vị + tích hợp (vitest, happy-dom). Không cần âm thanh thật.
       - run: npm test
+
+      - run: sudo apt-get update && sudo apt-get install -y ffmpeg
+
+      # Thử nhập WAV/metadata trong thư mục tạm, không thay bộ dữ liệu đang dùng.
+      - run: npm run test:workflow
 
       # Luật dữ liệu: clips.json, recipes/*.json, liên kết địa điểm, FR-59.
       - run: npm run validate

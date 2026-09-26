@@ -120,6 +120,22 @@ describe('trình tự lượt nghe', () => {
     expect(used.size).toBeGreaterThan(1);
   });
 
+  test('96 người được cân bằng bản trộn × điều kiện trong từng địa điểm', () => {
+    const cells = {};
+    for (let participantIndex = 0; participantIndex < 96; participantIndex += 1) {
+      const session = running({ participantIndex });
+      for (let order = 0; order < LOCATIONS.length; order += 1) {
+        const trial = session.current();
+        const key = `${trial.location_id}|${trial.recipe_id}|${trial.condition}`;
+        cells[key] = (cells[key] ?? 0) + 1;
+        answer(session);
+      }
+    }
+    const counts = Object.values(cells);
+    expect(counts).toHaveLength(LOCATIONS.length * 3 * 3);
+    expect(Math.max(...counts) - Math.min(...counts)).toBeLessThanOrEqual(1);
+  });
+
   test('không lộ đúng sai sau mỗi lượt', () => {
     // Báo đúng/sai là dạy người tham gia giữa chừng: các lượt sau không còn đo
     // cùng một thứ với lượt đầu.

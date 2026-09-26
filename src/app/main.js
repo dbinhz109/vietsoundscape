@@ -18,13 +18,14 @@ import { createLocationFilter, filterLocations } from './ui/location-filter.js';
 import { createRecipeChooser } from './ui/recipe-chooser.js';
 import { registerOfflineSupport } from './offline/register.js';
 import { indexClipsById, validateRecipe } from '../data/recipe-schema.js';
+import { REGION_LABEL } from '../domain/labels.js';
 
 const el = (id) => document.getElementById(id);
 
 const state = { locationId: null, recipeId: null, layerSliders: {}, filter: {} };
 
-const json = async (url) => {
-  const response = await fetch(url);
+const json = async (url, options) => {
+  const response = await fetch(url, options);
   if (!response.ok) throw new Error(`Không tải được ${url} (${response.status})`);
   return response.json();
 };
@@ -65,11 +66,24 @@ async function main() {
   const fromUrl = parseUrlState(location.search);
   state.filter = fromUrl.filter;
 
+  const player = el('player');
+  const playerTitle = el('player-title');
+  const playerMaster = el('player-master');
+  const playPause = el('play-pause');
+  let selectionVersion = 0;
+  let activeController = null;
+  let paused = false;
+
   const room = createListeningRoom({
     container: el('room'),
+    externalMaster: true,
     onMixChange: (sliders) => {
       state.layerSliders = sliders;
       syncUrl();
+    },
+    onMasterChange: (value) => {
+      playerMaster.value = String(value);
+      playerMaster.setAttribute('aria-valuetext', `${Math.round(value * 100)} phần trăm`);
     },
     citationContext: {
       datasetVersion: clipsFile.dataset_version ?? 'chưa có',
@@ -78,6 +92,15 @@ async function main() {
     },
   });
 
+  function showEmptyRoom() {
+    const heading = document.createElement('h2');
+    heading.id = 'room-heading';
+    heading.textContent = 'Chưa mở cảnh âm nào';
+    const hint = document.createElement('p');
+    hint.textContent = 'Chọn một địa điểm ở trên để bước vào không gian nghe.';
+    el('room').replaceChildren(heading, hint);
+  }
+
   const soundMap = createSoundMap({ element: el('map'), onSelect: (id) => select(id) });
   soundMap.addOutline(outline);
   soundMap.addLocations(locations);
@@ -85,14 +108,28 @@ async function main() {
   // FR-04: danh sách văn bản tương đương chức năng với bản đồ. Đây là đường vào
   // dùng được bằng bàn phím và trình đọc màn hình.
   const list = el('location-list');
-  for (const feature of locations.features) {
-    const { location_id: id, name_vi: name, region, signature_vi: signature } = feature.properties;
+  locations.features.forEach((feature, index) => {
+    const {
+      location_id: id,
+      name_vi: name,
+      region,
+      detail_vi: detail,
+      signature_vi: signature,
+    } = feature.properties;
     const item = document.createElement('li');
     const button = document.createElement('button');
     button.type = 'button';
     button.className = 'location-button';
     button.dataset.locationId = id;
 
+    const number = document.createElement('span');
+    number.className = 'location-number';
+    number.textContent = String(index + 1).padStart(2, '0');
+    const copy = document.createElement('span');
+    copy.className = 'location-copy';
+    const overline = document.createElement('span');
+    overline.className = 'location-overline';
+    overline.textContent = `${REGION_LABEL[region]} · ${detail}`;
     const title = document.createElement('span');
     title.className = 'location-name';
     title.textContent = name;
@@ -100,13 +137,17 @@ async function main() {
     meta.className = 'location-signature';
     meta.textContent = signature;
 
-    button.append(title, meta);
+    copy.append(overline, title, meta);
+    const arrow = document.createElement('span');
+    arrow.className = 'location-arrow';
+    arrow.textContent = 'Nghe →';
+    button.append(number, copy, arrow);
     button.addEventListener('click', () => select(id));
     item.append(button);
     item.dataset.region = region;
     item.dataset.locationId = id;
     list.append(item);
-  }
+  });
 
   // FR-03: lọc và tìm. Danh sách và bản đồ cùng nghe một bộ lọc, trạng thái
   // lọc nằm trên URL để chia sẻ được một góc nhìn ("chỉ dấu ấn đã mất").
@@ -135,6 +176,9 @@ async function main() {
   applyFilter();
 
   async function select(locationId) {
+    const version = ++selectionVersion;
+    activeController?.abort();
+    activeController = new AbortController();
     const location = byLocation.get(locationId);
     const recipes = recipesByLocation.get(locationId) ?? [];
     if (!location || recipes.length === 0) {
@@ -148,14 +192,17 @@ async function main() {
       recipes.find((r) => r.id === state.recipeId) ??
       recipes.find((r) => state.filter.timeOfDay && r.time_of_day === state.filter.timeOfDay) ??
       recipes[0];
-    setStatus(`Đang tải "${wanted.title_vi}"…`);
+    setStatus(`Đang mở cảnh âm “${wanted.title_vi}”…`);
 
     for (const button of list.querySelectorAll('.location-button')) {
       button.setAttribute('aria-current', String(button.dataset.locationId === locationId));
     }
 
     try {
-      const recipe = await json(assetUrl(`/data/recipes/${wanted.id}.json`));
+      const recipe = await json(assetUrl(`/data/recipes/${wanted.id}.json`), {
+        signal: activeController.signal,
+      });
+      if (version !== selectionVersion) return;
       const check = validateRecipe(recipe, clipsById);
       if (!check.valid) {
         setStatus(`Bản trộn "${recipe.id}" không hợp lệ: ${check.errors[0].message}`, 'error');
@@ -173,9 +220,16 @@ async function main() {
         clipsById,
         sliderOverrides: state.layerSliders,
       });
+      if (version !== selectionVersion || result.cancelled) return;
 
       soundMap.focus(locationId);
       syncUrl();
+      player.hidden = false;
+      document.body.classList.add('has-player');
+      playerTitle.textContent = recipe.title_vi;
+      paused = false;
+      playPause.textContent = 'Tạm dừng';
+      player.classList.remove('is-paused');
 
       // FR-59: một nơi có nhiều bản trộn theo thời điểm — cho chọn ngay trên đầu
       // phòng nghe. Đổi bản trộn giữ nguyên địa điểm nên giữ vị trí thanh trượt.
@@ -190,9 +244,8 @@ async function main() {
       el('recipe-chooser').replaceChildren(...(chooser ? [chooser] : []));
 
       const summary = (state) =>
-        `${location.name_vi} — ${state} · RAM âm thanh ` +
-        `${(room.audioBytes() / 1e6).toFixed(1)} MB · ` +
-        (check.experimentReady ? 'dùng được cho H1' : 'chưa dùng được cho H1 (chưa có mẫu xác minh)');
+        `${location.name_vi} · ${state}` +
+        (recipe.placeholder ? ' · bản nghe mô phỏng' : '');
 
       // Có tiếng rồi thì báo ngay, đừng đợi lớp phụ: cả điểm của việc phát dần
       // là người nghe không phải chờ (B2.4).
@@ -200,19 +253,58 @@ async function main() {
 
       result.ready.then(
         (full) => {
-          if (!full.cancelled) setStatus(summary(`${full.layerCount} lớp đang phát`));
+          if (!full.cancelled && version === selectionVersion) {
+            setStatus(summary(`${full.layerCount} lớp âm đang phát`));
+          }
         },
         // Lớp phụ hỏng thì nhạc vẫn chạy — báo cho biết, đừng đánh sập phiên.
-        (error) => setStatus(`${location.name_vi} — đang phát, nhưng ${error.message}`, 'warn'),
+        (error) => {
+          if (version === selectionVersion) {
+            setStatus(`${location.name_vi} — đang phát, nhưng ${error.message}`, 'warn');
+          }
+        },
       );
+
+      if (matchMedia('(max-width: 60rem)').matches) {
+        const heading = el('room-heading');
+        heading.tabIndex = -1;
+        heading.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        heading.focus({ preventScroll: true });
+      }
     } catch (error) {
-      setStatus(`Không mở được phòng nghe: ${error.message}`, 'error');
+      if (version !== selectionVersion || error.name === 'AbortError') return;
+      setStatus(`Không mở được cảnh âm: ${error.message}`, 'error');
     }
   }
 
   el('stop').addEventListener('click', () => {
+    selectionVersion += 1;
+    activeController?.abort();
     room.close();
-    setStatus('Đã dừng và ngắt kết nối để giải phóng bộ nhớ.');
+    showEmptyRoom();
+    player.hidden = true;
+    document.body.classList.remove('has-player');
+    el('recipe-chooser').replaceChildren();
+    setStatus('Đã dừng. Chọn một địa điểm để nghe tiếp.');
+  });
+
+  playerMaster.addEventListener('input', () => room.setMasterSlider(Number(playerMaster.value)));
+  playPause.addEventListener('click', async () => {
+    if (paused) await room.resume();
+    else await room.pause();
+    paused = !paused;
+    playPause.textContent = paused ? 'Phát tiếp' : 'Tạm dừng';
+    player.classList.toggle('is-paused', paused);
+  });
+  el('reset-mix').addEventListener('click', () => room.resetMix());
+  el('share-mix').addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(location.href);
+      el('share-mix').textContent = 'Đã chép';
+      setTimeout(() => { el('share-mix').textContent = 'Chép liên kết'; }, 1600);
+    } catch {
+      setStatus('Không thể chép tự động — hãy sao chép địa chỉ trên trình duyệt.', 'warn');
+    }
   });
 
   // Trạng thái từ URL: chỉ ghi nhận, không tự phát — trình duyệt chặn phát âm

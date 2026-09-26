@@ -32,6 +32,34 @@ const CONSENT_LABELS = Object.freeze({
 /** Câu dẫn của Phương pháp A, ISO 12913-2 Phụ lục C. */
 const LIKERT_LEGEND =
   'Với khung cảnh âm thanh vừa nghe, bạn đồng ý ở mức nào rằng nó…';
+const MIN_LISTENED_FRACTION = 0.9;
+
+/** Gộp các khoảng đã phát để thao tác tua không được tính là thời gian đã nghe. */
+export function listenedFraction(ranges, duration) {
+  if (!(duration > 0) || !ranges) return 0;
+  const intervals = [];
+  for (let index = 0; index < ranges.length; index += 1) {
+    intervals.push([ranges.start(index), ranges.end(index)]);
+  }
+  intervals.sort((a, b) => a[0] - b[0]);
+  let covered = 0;
+  let start = null;
+  let end = null;
+  for (const [nextStart, nextEnd] of intervals) {
+    if (start === null) {
+      start = nextStart;
+      end = nextEnd;
+    } else if (nextStart <= end) {
+      end = Math.max(end, nextEnd);
+    } else {
+      covered += end - start;
+      start = nextStart;
+      end = nextEnd;
+    }
+  }
+  if (start !== null) covered += end - start;
+  return Math.min(1, covered / duration);
+}
 
 const el = (tag, props = {}, children = []) => {
   const node = document.createElement(tag);
@@ -173,6 +201,11 @@ export function createExperimentView(root, {
     }
 
     const audio = el('audio', { src: source, controls: 'controls', preload: 'auto' });
+    const listenStatus = el('p', {
+      class: 'listen-status',
+      'aria-live': 'polite',
+      text: 'Nghe ít nhất 90% đoạn âm để mở câu trả lời.',
+    });
 
     const submit = el('button', {
       type: 'button',
@@ -243,12 +276,18 @@ export function createExperimentView(root, {
       else submit.setAttribute('disabled', 'disabled');
     };
 
-    // Nghe hết mới nộp được. Bấm bừa qua nhanh cho ra một lượt trông hợp lệ mà
-    // không đo được gì — tệ hơn là thiếu dữ liệu, vì nó lọt qua mọi phép kiểm.
-    audio.addEventListener('ended', () => {
-      listened = true;
+    // `ended` không chứng minh đã nghe: người dùng có thể tua đến 59,8 giây rồi
+    // chỉ phát 0,2 giây cuối. TimeRanges chỉ tính phần media thực sự đã phát.
+    const updateListening = () => {
+      const fraction = listenedFraction(audio.played, audio.duration);
+      listened = fraction >= MIN_LISTENED_FRACTION;
+      listenStatus.textContent = listened
+        ? 'Đã nghe đủ đoạn âm — bạn có thể gửi khi trả lời đủ các câu.'
+        : `Đã nghe ${Math.round(fraction * 100)}% · cần ít nhất 90%.`;
       refresh();
-    });
+    };
+    audio.addEventListener('timeupdate', updateListening);
+    audio.addEventListener('ended', updateListening);
     guessFieldset.addEventListener('change', refresh);
     likertFieldset.addEventListener('change', refresh);
 
@@ -265,7 +304,7 @@ export function createExperimentView(root, {
       render();
     });
 
-    root.replaceChildren(progress, audio, guessFieldset, likertFieldset, submit);
+    root.replaceChildren(progress, audio, listenStatus, guessFieldset, likertFieldset, submit);
   }
 
   function renderComplete() {

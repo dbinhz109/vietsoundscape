@@ -132,3 +132,14 @@ describe('respond — navigation', () => {
     expect(cache.store.has(`${ORIGIN}/vietsoundscape/index.html`)).toBe(true);
   });
 });
+
+test('audio Range 206 phát được qua service worker, không đưa partial response vào cache', async () => {
+  const cache = fakeCache();
+  cache.put.mockImplementation(async () => { throw new TypeError('Partial response cannot be cached'); });
+  const response = await respond({ kind: 'cache-first', url: `${ORIGIN}/vietsoundscape/build/stimuli/test.wav`,
+    request: {}, cache, base: BASE,
+    fetchFn: async () => new Response('audio-part', { status: 206, headers: { 'Content-Range': 'bytes 0-9/20' } }) });
+  expect(response.status).toBe(206);
+  expect(await response.text()).toBe('audio-part');
+  expect(cache.put).not.toHaveBeenCalled();
+});

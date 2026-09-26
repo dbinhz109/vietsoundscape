@@ -185,6 +185,8 @@ if (demo) {
   }
 }
 
+if (data.synthetic && !demo) console.log('\nDỮ LIỆU GIẢ LẬP — chỉ kiểm đường ống, không phải kết quả nghiên cứu.\n');
+
 const trials = data.trials ?? [];
 if (trials.length === 0) {
   console.error('Log không có lượt nghe nào.');

@@ -72,12 +72,17 @@ async function main() {
   // Chặn trước khi nạp gì: thiếu số thứ tự thì cả phiên vô nghĩa.
   const participantIndex = resolveParticipantIndex(location.search);
 
-  const [locations, recipes, manifest, { distractors }] = await Promise.all([
+  const [locations, recipes, manifest, { distractors }, dataset] = await Promise.all([
     json(assetUrl('/data/locations.geojson')),
     json(assetUrl('/data/recipes/index.json')),
     json(assetUrl(`${STIMULUS_BASE}manifest.json`)),
     json(assetUrl('/data/distractors.json')),
+    json(assetUrl('/data/clips.json')),
   ]);
+
+  if (manifest.dataset_version !== dataset.dataset_version) {
+    throw new Error('Bộ kích thích chưa khớp dữ liệu. Chạy lại npm run render:stimuli rồi build.');
+  }
 
   const locationIds = locations.features.map((feature) => feature.properties.location_id);
 
@@ -100,6 +105,13 @@ async function main() {
   // người thứ mười hai thì mười một người trước đã nghe xong rồi.
   assertStimuliAvailable(manifest, recipes, EXPERIMENT_CONDITIONS);
 
+  const synthetic = manifest.synthetic === true || manifest.generated_from === 'placeholder';
+  if (synthetic) {
+    const notice = document.createElement('p');
+    notice.textContent = 'CHẾ ĐỘ DEMO — âm tổng hợp, câu trả lời chỉ dùng chạy thử.';
+    document.querySelector('.experiment-masthead').append(notice);
+  }
+
   const session = createExperimentSession({
     participantIndex,
     locations: locationIds,
@@ -119,7 +131,8 @@ async function main() {
     stimulusUrl: createStimulusUrl(manifest, { base: assetUrl(STIMULUS_BASE) }),
     onComplete: (log) => {
       releaseGuard();
-      downloadLog(log);
+      downloadLog({ ...log, synthetic, dataset_version: manifest.dataset_version,
+        stimulus_hashes: Object.fromEntries(manifest.stimuli.map((item) => [item.id, item.sha256])) });
     },
   });
 }

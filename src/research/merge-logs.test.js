@@ -66,3 +66,20 @@ describe('mergeParticipantLogs', () => {
     expect(() => mergeParticipantLogs([])).toThrow(/không có tệp/i);
   });
 });
+
+describe('nguồn gốc dữ liệu demo và thật', () => {
+  test('giữ nhãn giả lập khi gộp và đọc lại tệp đã gộp', () => {
+    const merged = mergeParticipantLogs([log(1, { synthetic: true, dataset_version: 'demo-a' }),
+      log(2, { synthetic: true, dataset_version: 'demo-a' })]);
+    expect(merged.synthetic).toBe(true);
+    expect(mergeParticipantLogs([merged]).synthetic).toBe(true);
+    expect(merged.dataset_version).toBe('demo-a');
+  });
+  test('chặn gộp demo với phiên thật kể cả mã người khác nhau', () => {
+    expect(() => mergeParticipantLogs([log(1, { synthetic: true }), log(2)])).toThrow(/giả lập với log thật/);
+  });
+  test('chặn gộp hai đợt âm thanh khác phiên bản', () => {
+    expect(() => mergeParticipantLogs([log(1, { dataset_version: 'real-a' }),
+      log(2, { dataset_version: 'real-b' })])).toThrow(/phiên bản/);
+  });
+});

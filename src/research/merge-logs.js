@@ -31,6 +31,11 @@ export function mergeParticipantLogs(logs) {
     throw new Error('Không có tệp log nào để gộp.');
   }
 
+  const modes = new Set(logs.map((log) => log.synthetic === true));
+  if (modes.size > 1) throw new Error('Không gộp log giả lập với log thật. Hãy chọn riêng thư mục.');
+  const versions = new Set(logs.map((log) => log.dataset_version ?? 'legacy'));
+  if (versions.size > 1) throw new Error('Không gộp log của các phiên bản bộ dữ liệu khác nhau.');
+
   const excluded = [];
   const trials = [];
   const seen = new Map();
@@ -94,6 +99,8 @@ export function mergeParticipantLogs(logs) {
     likert_fields: likertFields ?? [],
     trials,
     sources: logs.length,
+    synthetic: logs[0].synthetic === true,
+    dataset_version: logs[0].dataset_version,
     excluded,
   };
 }

@@ -13,29 +13,67 @@
     />
   </head>
   <body>
+    <a class="skip-link" href="#locations-heading">Bỏ qua giới thiệu</a>
     <div class="shell">
       <main class="panel">
         <header class="masthead">
-          <h1>Bản đồ âm thanh Việt Nam</h1>
-          <p>Nghe một vùng đất — thu thập, phân loại và mô phỏng không gian âm thanh</p>
+          <p class="eyebrow">VietSoundscape · một kho lưu trữ đang lớn lên</p>
+          <h1>Nghe Việt Nam<br />bằng những<br />lớp âm</h1>
+          <p class="masthead-lede">
+            Chọn một vùng đất, rồi tự pha tiếng nước, sinh vật và đời sống con người.
+          </p>
+          <nav class="hero-actions" aria-label="Lối vào chính">
+            <a href="#locations-heading">Khám phá bản đồ</a>
+            <a href="./thuc-nghiem.html">Tham gia thí nghiệm →</a>
+          </nav>
+          <div class="sound-ribbon" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span>
+          </div>
         </header>
 
         <p id="status" role="status" aria-live="polite">Đang tải…</p>
 
         <section aria-labelledby="locations-heading">
-          <h2 id="locations-heading" class="sr-heading">Địa điểm</h2>
+          <div class="section-intro">
+            <p class="section-kicker">01 · Bắt đầu nghe</p>
+            <h2 id="locations-heading">Bốn cảnh âm, bốn nhịp sống</h2>
+            <p>Chọn một thẻ hoặc một điểm trên bản đồ. Âm thanh chỉ bắt đầu sau cú chạm của bạn.</p>
+          </div>
           <div id="filter"></div>
           <ul id="location-list" class="location-list"></ul>
         </section>
 
-        <div id="recipe-chooser"></div>
-        <section id="room" aria-labelledby="room-heading" aria-live="polite"></section>
-
-        <button id="stop" type="button" class="stop-button">Dừng và ngắt kết nối</button>
+        <section class="listening-section" aria-labelledby="room-heading">
+          <p class="section-kicker">02 · Bàn phối âm</p>
+          <div id="recipe-chooser"></div>
+          <div id="room" aria-live="polite">
+            <h2 id="room-heading">Chưa mở cảnh âm nào</h2>
+            <p>Chọn một địa điểm ở trên để bước vào không gian nghe.</p>
+          </div>
+        </section>
       </main>
 
       <div id="map" role="application" aria-label="Bản đồ các điểm âm thanh trên lãnh thổ Việt Nam"></div>
     </div>
+
+    <aside id="player" class="player" aria-label="Điều khiển phát âm thanh" hidden>
+      <div class="player-now">
+        <span class="player-pulse" aria-hidden="true"></span>
+        <div>
+          <span class="player-label">Đang nghe</span>
+          <strong id="player-title">Cảnh âm Việt Nam</strong>
+        </div>
+      </div>
+      <button id="play-pause" type="button" class="player-button">Tạm dừng</button>
+      <label class="player-volume">
+        <span>Âm lượng</span>
+        <input id="player-master" type="range" min="0" max="1" step="0.01" value="0.85" />
+      </label>
+      <button id="share-mix" type="button" class="player-button">Chép liên kết</button>
+      <button id="reset-mix" type="button" class="player-button">Đặt lại</button>
+      <button id="stop" type="button" class="player-button player-stop">Dừng</button>
+    </aside>
 
     <script type="module" src="/src/app/main.js"></script>
   </body>

@@ -11,8 +11,10 @@ nhận khác biệt (H2) so với nghe âm rời rạc.
 **Web công khai:** https://dbinhz109.github.io/vietsoundscape/ — bản dựng của `main`, âm thanh
 hiện là **tổng hợp giữ chỗ** (`recipes` đang `placeholder: true`) cho tới khi có vật liệu thật.
 
-**Đang ở đâu:** phần máy làm được đã đóng; còn 6 việc cần người và 1 đợt thu dữ liệu người
-tham gia — bảng đầy đủ kèm bằng chứng ở [`NGHIEM-THU.md`](NGHIEM-THU.md).
+**Chạy demo đầy đủ và thay dữ liệu thật:** xem [HUONG-DAN-DU-LIEU.md](HUONG-DAN-DU-LIEU.md).
+`npm run setup:demo` sinh 32 mẫu âm, 36 kích thích và 96 log mô phỏng; `npm run setup:real`
+nhận WAV và metadata cùng mã mẫu, không cần sửa mã nguồn. Cả hai dùng chung pipeline.
+Dữ liệu mô phỏng không đóng các mốc thu âm/thực nghiệm thật trong `NGHIEM-THU.md`.
 
 ## Chạy lần đầu
 
@@ -21,8 +23,8 @@ thanh; `python3` + `numpy` chỉ cần để sinh âm thử.
 
 ```bash
 npm ci                # cài đúng phiên bản trong package-lock.json
-npm test              # 618 test — phải xanh trước khi làm gì khác
-npm run gen:audio     # sinh âm thử tổng hợp vào spike/audio/ (không có trong repo)
+npm test              # kiểm thử trước khi thay đổi
+npm run setup:demo    # sinh bộ demo đầy đủ; cần ffmpeg, ffprobe, python3 + numpy
 npm run dev           # http://localhost:5174
 ```
 
@@ -35,15 +37,14 @@ Phòng nghe có hình **xếp chồng dạng sóng** từng lớp theo nhóm Kra
 Mỗi lớp âm có thẻ gập "Nguồn, giấy phép và trích dẫn" — mọi trường bắt buộc của
 BA §8.2 hiện ra hoặc ghi "chưa có" (FR-25), kèm trích dẫn văn bản và BibTeX có
 SHA-256 (FR-27); bản trộn hiện giấy phép hiệu lực theo `phap-ly/09`.
-Trang `/thuc-nghiem?nguoi=N` là phiên nghe của người tham gia thứ N — cần
-kết xuất kích thích trước (`npm run render:stimuli -- --placeholder`, cần ffmpeg).
+Trang `/thuc-nghiem.html?nguoi=N` là phiên nghe của người tham gia thứ N — sẵn sàng sau `npm run setup:demo` hoặc `npm run setup:real`.
 
 ## Lệnh
 
 | Lệnh | Làm gì |
 |---|---|
 | `npm run dev` | Máy chủ phát triển Vite, cổng 5174 |
-| `npm run build` | Dựng bản tĩnh vào `dist/`, chép kèm `data/` và `spike/audio/` |
+| `npm run build` | Dựng bản tĩnh vào `dist/`, chép dữ liệu runtime, âm phòng nghe và kích thích đã kết xuất |
 | `npm run preview` | Xem bản đã dựng |
 | `npm run demo` | Dựng với base của Pages rồi phục vụ tại máy — **demo ngoại tuyến** (xem dưới) |
 | `npm test` | Toàn bộ kiểm thử, chạy một lần (vitest + happy-dom) |
